@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Treron Development</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 10px;
+            background: #111;
+            cursor: pointer;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        .logo {
+            height: 50px;
+            margin-right: 10px;
+        }
+        .logo-text {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .login-container {
+            background: #111;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            text-align: center;
+            margin-top: 50px;
+            width: 300px;
+        }
+        input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #555;
+            background: #222;
+            color: #fff;
+            border-radius: 5px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        button {
+            background: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        #errorMessage {
+            color: #FF4C4C;
+            margin-top: 10px;
+        }
+        .go-back {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="header" onclick="window.location.href='https://trerondevelopment.xyz/'">
+        <div class="logo-container">
+            <img src="https://raw.githubusercontent.com/darkresident55/TreronDevelopmentLLC./main/TreronIcons/Treron%20Logo.png" alt="Treron Logo" class="logo">
+            <span class="logo-text">Treron LLC</span>
+        </div>
+    </div>
+    <div class="login-container">
+        <h1>Login</h1>
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button id="loginBtn">Log In</button>
+            <p id="errorMessage"></p>
+        </form>
+        <button class="go-back" onclick="window.history.back()">Go Back</button>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const loginBtn = document.getElementById("loginBtn");
+            const errorMessage = document.getElementById("errorMessage");
+    
+            loginBtn.addEventListener("click", function (event) {
+                event.preventDefault();
+                
+                const username = document.getElementById("username").value.trim();
+                const password = document.getElementById("password").value.trim();
+                
+                if (username === "" || password === "") {
+                    errorMessage.textContent = "Please fill in both fields.";
+                    return;
+                }
+    
+                if (username === "admin" && password === "password123") {
+                    errorMessage.style.color = "#4CAF50";
+                    errorMessage.textContent = "Login successful!";
+                    setTimeout(() => {
+                        window.location.href = "https://trerondevelopment.xyz/";
+                    }, 1000);
+                } else {
+                    errorMessage.style.color = "#FF4C4C";
+                    errorMessage.textContent = "Invalid username or password.";
+                }
+            });
+        });
+    </script>
+</body>
+</html>

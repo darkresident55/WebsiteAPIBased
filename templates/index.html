@@ -1,0 +1,2798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Website Outage Notice</title>
+<link rel="icon" href="https://raw.githubusercontent.com/darkresident55/TreronDevelopmentLLC./main/TreronIcons/Treron%20Logo.png" type="image/png">
+<style>
+    :root {
+        --background: 0, 0%, 0%;
+        --foreground: 0, 0%, 100%;
+        --muted-foreground: 0, 0%, 70%;
+        --border: 0, 0%, 33%;
+        --card: 0, 0%, 10%;
+        --card-foreground: 0, 0%, 100%;
+        --primary: 214, 100%, 60%;
+        --primary-foreground: 0, 0%, 100%;
+        --input: 0, 0%, 20%;
+    }
+
+    .dark {
+        --background: 0, 0%, 0%;
+        --foreground: 0, 0%, 100%;
+        --muted-foreground: 0, 0%, 70%;
+        --border: 0, 0%, 33%;
+        --card: 0, 0%, 10%;
+        --card-foreground: 0, 0%, 100%;
+        --primary: 214, 100%, 60%;
+        --primary-foreground: 0, 0%, 100%;
+        --input: 0, 0%, 20%;
+    }
+
+    .light {
+        --background: 0, 0%, 100%;
+        --foreground: 0, 0%, 0%;
+        --muted-foreground: 0, 0%, 45%;
+        --border: 0, 0%, 85%;
+        --card: 0, 0%, 95%;
+        --card-foreground: 0, 0%, 0%;
+        --primary: 214, 100%, 50%;
+        --primary-foreground: 0, 0%, 100%;
+        --input: 0, 0%, 90%;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        background-color: hsl(var(--background));
+        color: hsl(var(--foreground));
+        text-align: center;
+        position: relative;
+        min-height: 100vh;
+        overflow-x: hidden;
+        transition: background-color 0.5s ease, color 0.5s ease;
+    }
+
+    .header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 20px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .logo-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .logo {
+        width: 50px;
+        height: auto;
+        margin-right: 10px;
+    }
+
+    .logo-text {
+        font-size: 1.5em;
+        font-weight: bold;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 85vh;
+        padding-top: 60px;
+        padding-bottom: 80px; /* Make room for the menu bar at bottom */
+    }
+
+    .button-container {
+        margin-top: 15px;
+    }
+
+    .privacy-button {
+        display: inline-block;
+        padding: 12px 20px;
+        background-color: #555;
+        color: hsl(var(--foreground));
+        font-size: 1em;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: transform 0.2s ease, background-color 0.2s ease;
+        text-decoration: none;
+    }
+
+    .privacy-button:hover {
+        transform: scale(1.1);
+        background-color: #777;
+    }
+
+    .privacy-button:active {
+        transform: scale(0.95);
+    }
+
+    footer {
+        position: absolute;
+        bottom: 10px;
+        width: 100%;
+        font-size: 0.9em;
+        opacity: 0.8;
+    }
+
+    /* Animated Menu Styles */
+    .menu-bar-container {
+        position: fixed;
+        bottom: 20px;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        z-index: 100;
+    }
+
+    .menu-bar {
+        padding: 8px;
+        border-radius: 16px;
+        background: linear-gradient(to bottom, hsla(var(--background), 0.8), hsla(var(--background), 0.4));
+        backdrop-filter: blur(10px);
+        border: 1px solid hsla(var(--border), 0.4);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .menu-list {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        position: relative;
+        z-index: 10;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .menu-item {
+        position: relative;
+    }
+
+    .menu-link-wrapper {
+        display: block;
+        border-radius: 12px;
+        overflow: visible;
+        position: relative;
+        perspective: 600px;
+    }
+
+    .menu-item-glow {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        border-radius: 16px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .menu-link-front, .menu-link-back {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        position: relative;
+        z-index: 10;
+        background-color: transparent;
+        color: hsl(var(--muted-foreground));
+        transition: color 0.3s ease;
+        border-radius: 12px;
+        text-decoration: none;
+    }
+
+    .menu-link-front {
+        transform-style: preserve-3d;
+        transform-origin: center bottom;
+        transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .menu-link-back {
+        position: absolute;
+        inset: 0;
+        transform-style: preserve-3d;
+        transform-origin: center top;
+        transform: rotateX(90deg);
+        opacity: 0;
+        transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .menu-link-wrapper:hover .menu-link-front {
+        transform: rotateX(-90deg);
+        opacity: 0;
+    }
+
+    .menu-link-wrapper:hover .menu-link-back {
+        transform: rotateX(0);
+        opacity: 1;
+    }
+
+    .menu-icon {
+        transition: color 0.3s ease;
+    }
+
+    .menu-link-wrapper:hover .menu-icon {
+        color: var(--icon-color);
+    }
+
+    /* Theme Toggle Styles */
+    .theme-toggle {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+        margin-top: 5px;
+    }
+
+    .theme-icon {
+        width: 1.2rem;
+        height: 1.2rem;
+        transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .sun-icon {
+        color: hsl(var(--foreground));
+        transform: scale(1) rotate(0);
+    }
+
+    .moon-icon {
+        color: hsl(var(--foreground));
+        transform: scale(1) rotate(0);
+    }
+
+    body.light .sun-icon {
+        color: hsl(var(--foreground));
+        transform: scale(1) rotate(0);
+    }
+
+    body.light .moon-icon {
+        color: #A1A1AA;
+        transform: scale(0.75) rotate(12deg);
+    }
+
+    body.dark .sun-icon {
+        color: #A1A1AA;
+        transform: scale(0.75) rotate(12deg);
+    }
+
+    body.dark .moon-icon {
+        color: hsl(var(--foreground));
+        transform: scale(1) rotate(0);
+    }
+
+    .theme-switch {
+        position: relative;
+        display: inline-block;
+        width: 40px;
+        height: 20px;
+        transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .theme-switch:hover {
+        transform: scale(1.1);
+    }
+
+    .theme-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 34px;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 16px;
+        width: 16px;
+        left: 2px;
+        bottom: 2px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+    }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:checked + .slider:before {
+        transform: translateX(20px);
+    }
+
+    /* SVG Icons */
+    .icon-svg {
+        width: 20px;
+        height: 20px;
+        stroke-width: 2;
+        stroke: currentColor;
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    /* Menu bar glow effect */
+    .menu-bar-highlight {
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+        transform: translate(-50%, -50%);
+    }
+
+    /* Custom highlight colors for each menu item */
+    .highlight-home {
+        background: radial-gradient(circle, 
+            rgba(59, 130, 246, 0.4) 0%, 
+            rgba(37, 99, 235, 0.2) 40%, 
+            rgba(29, 78, 216, 0.05) 70%, 
+            transparent 90%);
+        box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+    }
+
+    .highlight-notifications {
+        background: radial-gradient(circle, 
+            rgba(249, 115, 22, 0.4) 0%, 
+            rgba(234, 88, 12, 0.2) 40%, 
+            rgba(194, 65, 12, 0.05) 70%, 
+            transparent 90%);
+        box-shadow: 0 0 15px rgba(249, 115, 22, 0.5);
+    }
+
+    .highlight-settings {
+        background: radial-gradient(circle, 
+            rgba(34, 197, 94, 0.4) 0%, 
+            rgba(22, 163, 74, 0.2) 40%, 
+            rgba(21, 128, 61, 0.05) 70%, 
+            transparent 90%);
+        box-shadow: 0 0 15px rgba(34, 197, 94, 0.5);
+    }
+
+    .highlight-profile {
+        background: radial-gradient(circle, 
+            rgba(239, 68, 68, 0.4) 0%, 
+            rgba(220, 38, 38, 0.2) 40%, 
+            rgba(185, 28, 28, 0.05) 70%, 
+            transparent 90%);
+        box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+    }
+
+    /* Login Modal Styles */
+    .login-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(8px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .login-modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .login-modal {
+        background-color: hsl(var(--card));
+        color: hsl(var(--card-foreground));
+        border-radius: 16px;
+        padding: 24px;
+        width: 90%;
+        max-width: 400px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        transform: translateY(50px) scale(0.95);
+        opacity: 0;
+        transform-origin: bottom center;
+        transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease;
+    }
+
+    .login-modal-overlay.active .login-modal {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+
+    .login-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .login-modal-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin: 0;
+    }
+
+    .login-modal-close {
+        background: none;
+        border: none;
+        color: hsl(var(--muted-foreground));
+        cursor: pointer;
+        padding: 5px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .login-modal-close:hover {
+        background-color: hsla(var(--foreground), 0.1);
+        color: hsl(var(--foreground));
+    }
+
+    .login-form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        gap: 6px;
+    }
+
+    .form-group label {
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    .form-group input {
+        padding: 10px 12px;
+        border-radius: 8px;
+        border: 1px solid hsla(var(--border), 0.5);
+        background-color: hsl(var(--input));
+        color: hsl(var(--foreground));
+        font-size: 1rem;
+        transition: border-color 0.2s ease;
+    }
+
+    .form-group input:focus {
+        outline: none;
+        border-color: hsl(var(--primary));
+        box-shadow: 0 0 0 2px hsla(var(--primary), 0.2);
+    }
+
+    .login-button {
+        background-color: hsl(var(--primary));
+        color: hsl(var(--primary-foreground));
+        border: none;
+        border-radius: 8px;
+        padding: 12px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .login-button:hover {
+        background-color: hsl(var(--primary), 0.9);
+        transform: translateY(-2px);
+    }
+
+    .login-button:active {
+        transform: translateY(0);
+    }
+
+    .login-footer {
+        margin-top: 16px;
+        font-size: 0.9rem;
+        color: hsl(var(--muted-foreground));
+    }
+
+    .login-footer a {
+        color: hsl(var(--primary));
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+    .login-footer a:hover {
+        text-decoration: underline;
+    }
+
+    /* Notifications Popup Styles */
+    .notifications-popup {
+        position: fixed;
+        bottom: 90px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px) scale(0.95);
+        width: 90%;
+        max-width: 350px;
+        background-color: hsl(var(--card));
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        z-index: 200;
+        opacity: 0;
+        visibility: hidden;
+        transform-origin: bottom center;
+        transition: opacity 0.3s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0.3s ease, max-width 0.5s ease, max-height 0.5s ease;
+        max-height: 400px;
+    }
+
+    .notifications-popup.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(0) scale(1);
+    }
+
+    .notifications-popup.expanded {
+        max-width: 600px;
+        max-height: 80vh;
+    }
+
+    .notifications-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px;
+        border-bottom: 1px solid hsla(var(--border), 0.5);
+    }
+
+    .notifications-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .notifications-close {
+        background: none;
+        border: none;
+        color: hsl(var(--muted-foreground));
+        cursor: pointer;
+        padding: 5px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .notifications-close:hover {
+        background-color: hsla(var(--foreground), 0.1);
+        color: hsl(var(--foreground));
+    }
+
+    .notifications-list {
+        max-height: 300px;
+        overflow-y: auto;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        transition: max-height 0.5s ease;
+    }
+
+    .notifications-popup.expanded .notifications-list {
+        max-height: calc(80vh - 120px);
+    }
+
+    .notification-item {
+        padding: 12px 16px;
+        border-bottom: 1px solid hsla(var(--border), 0.2);
+        text-align: left;
+        transition: background-color 0.2s ease;
+    }
+
+    .notification-item:last-child {
+        border-bottom: none;
+    }
+
+    .notification-item:hover {
+        background-color: hsla(var(--foreground), 0.05);
+    }
+
+    .notification-content {
+        display: flex;
+        gap: 12px;
+    }
+
+    .notification-icon {
+        flex-shrink: 0;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-color: hsla(var(--primary), 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: hsl(var(--primary));
+    }
+
+    .notification-text {
+        flex-grow: 1;
+    }
+
+    .notification-title {
+        font-weight: 500;
+        margin: 0 0 4px 0;
+    }
+
+    .notification-message {
+        color: hsl(var(--muted-foreground));
+        font-size: 0.9rem;
+        margin: 0;
+        white-space: pre-line;
+    }
+
+    .notification-time {
+        font-size: 0.8rem;
+        color: hsl(var(--muted-foreground));
+        margin-top: 4px;
+    }
+
+    .notifications-footer {
+        padding: 12px 16px;
+        text-align: center;
+        border-top: 1px solid hsla(var(--border), 0.5);
+    }
+
+    .view-all-button {
+        background: none;
+        border: none;
+        color: hsl(var(--primary));
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: color 0.2s ease;
+    }
+
+    .view-all-button:hover {
+        text-decoration: underline;
+    }
+
+    .empty-notifications {
+        padding: 24px 16px;
+        text-align: center;
+        color: hsl(var(--muted-foreground));
+    }
+
+    .empty-notifications-icon {
+        margin-bottom: 12px;
+        opacity: 0.5;
+    }
+
+    /* Additional Styles for Login Modal */
+    .login-modal-logo-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .login-modal-logo {
+        width: 60px;
+        height: auto;
+        margin-bottom: 10px;
+    }
+
+    .login-modal-company {
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: hsl(var(--muted-foreground));
+    }
+
+    .login-error {
+        color: #ef4444;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    .login-message {
+        color: hsl(var(--primary));
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    /* Updated Login Modal Styles */
+    .login-modal-logo-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .login-modal-logo {
+        width: 80px;
+        height: auto;
+        margin-bottom: 10px;
+    }
+
+    .login-modal-company {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: hsl(var(--foreground));
+    }
+
+    .login-error {
+        color: #e53e3e;
+        background-color: rgba(229, 62, 62, 0.1);
+        border-radius: 6px;
+        padding: 10px;
+        margin-bottom: 15px;
+        text-align: center;
+        display: none;
+    }
+
+    .login-message {
+        color: #38a169;
+        background-color: rgba(56, 161, 105, 0.1);
+        border-radius: 6px;
+        padding: 10px;
+        margin-bottom: 15px;
+        text-align: center;
+        display: none;
+    }
+
+    .login-modal {
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    /* Keyframes for loading animation */
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .reset-modal-close {
+        background: none;
+        border: none;
+        color: hsl(var(--muted-foreground));
+        cursor: pointer;
+        padding: 5px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .reset-modal-close:hover {
+        background-color: hsla(var(--foreground), 0.1);
+        color: hsl(var(--foreground));
+    }
+
+/* New Login Modal Styles */
+.login-modal {
+    background-color: #121212;
+    border-radius: 16px;
+    overflow: hidden;
+    width: 90%;
+    max-width: 420px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    transform: translateY(20px) scale(0.95);
+    opacity: 0;
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease;
+}
+
+.login-modal-overlay.active .login-modal {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+.login-modal-logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.login-modal-logo {
+    width: 70px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.login-modal-company {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: hsl(var(--foreground));
+}
+
+.login-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
+    margin-bottom: 10px;
+}
+
+.login-modal-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin: 0;
+    color: white;
+}
+
+.login-subtitle {
+    color: hsl(var(--muted-foreground));
+    padding: 0 24px;
+    margin: 0 0 5px 0;
+}
+
+.login-create-account {
+    color: #6366f1;
+    padding: 0 24px;
+    margin: 0 0 20px 0;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.login-create-account:hover {
+    text-decoration: underline;
+}
+
+.login-form {
+    padding: 0 24px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: hsl(var(--muted-foreground));
+    font-size: 0.9rem;
+}
+
+.input-with-icon {
+    position: relative;
+}
+
+.input-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    color: hsl(var(--muted-foreground));
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.input-with-icon input {
+    width: 100%;
+    padding: 12px 12px 12px 40px;
+    background-color: #1c1c1c;
+    border: 1px solid #6366f1;
+    border-radius: 8px;
+    color: white;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-with-icon input:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: hsl(var(--muted-foreground));
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.password-toggle:hover {
+    color: white;
+}
+
+.login-buttons {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.use-phone-button {
+    flex: 1;
+    padding: 12px;
+    background-color: #2a2a2a;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.use-phone-button:hover {
+    background-color: #3a3a3a;
+}
+
+.continue-button {
+    flex: 1;
+    padding: 12px;
+    background-color: #6366f1;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.continue-button:hover {
+    background-color: #4f46e5;
+}
+
+.button-text {
+    transition: opacity 0.3s;
+}
+
+.button-loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.continue-button.loading .button-text {
+    opacity: 0;
+}
+
+.continue-button.loading .button-loader {
+    opacity: 1;
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+    width: 20px;
+    height: 20px;
+}
+
+.login-footer {
+    padding: 0 24px 24px;
+    color: #666;
+    font-size: 0.8rem;
+}
+
+.login-footer a {
+    color: #6366f1;
+    text-decoration: none;
+}
+
+.login-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Profile View Styles */
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+.profile-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+    color: white;
+}
+
+.profile-content {
+    padding: 20px 24px;
+}
+
+.profile-user {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.profile-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #6366f1;
+    color: white;
+    font-size: 1.8rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16px;
+}
+
+.profile-info {
+    flex: 1;
+}
+
+.profile-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0 0 4px 0;
+    color: white;
+}
+
+.profile-email {
+    color: hsl(var(--muted-foreground));
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.profile-section {
+    margin-bottom: 24px;
+    background-color: #1c1c1c;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.section-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 0 0 16px 0;
+    color: white;
+}
+
+.empty-maps {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.empty-maps p {
+    color: hsl(var(--muted-foreground));
+    margin-bottom: 16px;
+}
+
+.upload-button {
+    background-color: #6366f1;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.upload-button svg {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+}
+
+.upload-button:hover {
+    background-color: #4f46e5;
+}
+
+.contribution-graph {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 4px;
+    margin-top: 10px;
+}
+
+.contribution-day {
+    aspect-ratio: 1;
+    border-radius: 2px;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.contribution-day:hover {
+    transform: scale(1.2);
+}
+
+.profile-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.logout-button {
+    flex: 1;
+    padding: 12px;
+    background-color: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.logout-button:hover {
+    background-color: #dc2626;
+}
+
+.close-button {
+    flex: 1;
+    padding: 12px;
+    background-color: #2a2a2a;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.close-button:hover {
+    background-color: #3a3a3a;
+}
+
+/* Animation for modal transitions */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(20px); }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.fade-out {
+    animation: fadeOut 0.3s ease forwards;
+}
+</style>
+</head>
+<body class="dark">
+<!-- Login Modal -->
+<div class="login-modal-overlay" id="login-modal">
+  <div class="login-modal">
+    <div id="login-view">
+      <div class="login-modal-logo-container">
+        <img src="https://raw.githubusercontent.com/darkresident55/TreronDevelopmentLLC./main/TreronIcons/Treron%20Logo.png" alt="Treron Logo" class="login-modal-logo">
+        <span class="login-modal-company">Treron Development LLC</span>
+      </div>
+      <div class="login-modal-header">
+        <h2 class="login-modal-title">Log in</h2>
+        <button class="login-modal-close" id="login-modal-close">
+          <svg class="icon-svg" viewBox="0 0 24 24">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div id="login-error" class="login-error"></div>
+      <p class="login-subtitle">Enter your email and password to continue</p>
+      <p class="login-create-account" id="show-signup">Create account</p>
+      <form class="login-form" id="login-form">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <div class="input-with-icon">
+            <svg class="input-icon" viewBox="0 0 24 24">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            <input type="email" id="email" placeholder="Your email address" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-with-icon">
+            <svg class="input-icon" viewBox="0 0 24 24">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            <input type="password" id="password" placeholder="Your password" required>
+            <button type="button" class="password-toggle" id="password-toggle">
+              <svg class="icon-svg" viewBox="0 0 24 24">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="login-buttons">
+          <button type="button" class="use-phone-button">Use phone</button>
+          <button type="submit" class="continue-button" id="login-button">
+            <span class="button-text">Continue</span>
+            <div class="button-loader">
+              <svg class="spinner" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none" stroke-dasharray="30 30"></circle>
+              </svg>
+            </div>
+          </button>
+        </div>
+      </form>
+      <div class="login-footer">
+        <p>By entering and clicking Continue, you agree to the <a href="#">Terms</a>, <a href="#">Privacy Policy</a>.</p>
+        <p><a href="#" id="forgot-password">Forgot password?</a></p>
+      </div>
+    </div>
+    
+    <div id="profile-view" style="display: none;">
+      <div class="profile-header">
+        <h2 class="profile-title">Your Profile</h2>
+        <button class="login-modal-close" id="profile-close">
+          <svg class="icon-svg" viewBox="0 0 24 24">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      
+      <div class="profile-content">
+        <div class="profile-user">
+          <div class="profile-avatar" id="profile-avatar">T</div>
+          <div class="profile-info">
+            <h3 class="profile-name" id="profile-name">Username</h3>
+            <p class="profile-email" id="profile-email">user@example.com</p>
+          </div>
+        </div>
+        
+        <div class="profile-section">
+          <h3 class="section-title">Custom Maps</h3>
+          <div class="empty-maps">
+            <p>You don't currently have any Maps or Mods Uploaded</p>
+            <button class="upload-button">
+              <svg class="icon-svg" viewBox="0 0 24 24">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+              Upload Map or Mod
+            </button>
+          </div>
+        </div>
+        
+        <div class="profile-section">
+          <h3 class="section-title">Contribution activity</h3>
+          <div class="contribution-graph" id="contribution-graph"></div>
+        </div>
+        
+        <div class="profile-actions">
+          <button class="logout-button" id="logout-button">Log out</button>
+          <button class="close-button" id="close-profile-button">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add signup modal -->
+<div class="login-modal-overlay" id="signup-modal">
+  <div class="login-modal">
+    <div class="login-modal-logo-container">
+      <img src="https://raw.githubusercontent.com/darkresident55/TreronDevelopmentLLC./main/TreronIcons/Treron%20Logo.png" alt="Treron Logo" class="login-modal-logo">
+      <span class="login-modal-company">Treron Development LLC</span>
+    </div>
+    <div class="login-modal-header">
+      <h2 class="login-modal-title">Create an Account</h2>
+      <button class="login-modal-close" id="signup-modal-close">
+        <svg class="icon-svg" viewBox="0 0 24 24">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    <div id="signup-error" class="login-error"></div>
+    <p class="login-subtitle">Sign up to upload and manage custom maps</p>
+    <p class="login-create-account" id="show-login">Already have an account?</p>
+    <form class="login-form" id="signup-form">
+      <div class="form-group">
+        <label for="signup-email">Email</label>
+        <div class="input-with-icon">
+          <svg class="input-icon" viewBox="0 0 24 24">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+          <input type="email" id="signup-email" placeholder="Your email address" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="signup-password">Password</label>
+        <div class="input-with-icon">
+          <svg class="input-icon" viewBox="0 0 24 24">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          <input type="password" id="signup-password" placeholder="Enter your password (min 6 characters)" required minlength="6">
+          <button type="button" class="password-toggle" id="signup-password-toggle">
+            <svg class="icon-svg" viewBox="0 0 24 24">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="confirm-password">Confirm Password</label>
+        <div class="input-with-icon">
+          <svg class="input-icon" viewBox="0 0 24 24">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          <input type="password" id="confirm-password" placeholder="Confirm your password" required minlength="6">
+        </div>
+      </div>
+      <div class="login-buttons">
+        <button type="button" class="use-phone-button">Use phone</button>
+        <button type="submit" class="continue-button" id="signup-button">
+          <span class="button-text">Sign up</span>
+          <div class="button-loader">
+            <svg class="spinner" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none" stroke-dasharray="30 30"></circle>
+            </svg>
+          </div>
+        </button>
+      </div>
+    </form>
+    <div class="login-footer">
+      <p>By signing up, you agree to the <a href="#">Terms</a>, <a href="#">Privacy Policy</a>.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Add password reset modal -->
+<div class="login-modal-overlay" id="reset-modal">
+    <div class="login-modal">
+        <div class="login-modal-logo-container">
+            <img src="https://raw.githubusercontent.com/darkresident55/TreronDevelopmentLLC./main/TreronIcons/Treron%20Logo.png" alt="Treron Logo" class="login-modal-logo">
+            <span class="login-modal-company">Treron Development LLC</span>
+        </div>
+        <div class="login-modal-header">
+            <h2 class="login-modal-title">Reset Password</h2>
+            <button class="reset-modal-close" id="reset-modal-close">
+                <svg class="icon-svg" viewBox="0 0 24 24">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <div id="reset-message" class="login-message"></div>
+        <form class="login-form" id="reset-form">
+            <div class="form-group">
+                <label for="reset-email">Email</label>
+                <input type="email" id="reset-email" placeholder="Enter your email" required>
+            </div>
+            <button type="submit" class="login-button" id="reset-button" onmousedown="playSound('ClickIn.wav')" onmouseup="playSound('ClickOut.wav')">Send Reset Link</button>
+        </form>
+        <div class="login-footer">
+            <p><a href="#" id="back-to-login">Back to login</a></p>
+        </div>
+    </div>
+</div>
+
+<!-- Notifications Popup -->
+<div class="notifications-popup" id="notifications-popup">
+    <div class="notifications-header">
+        <h3 class="notifications-title">
+            <svg class="icon-svg" style="color: #f97316;" viewBox="0 0 24 24">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            Notifications
+        </h3>
+        <button class="notifications-close" id="notifications-close">
+            <svg class="icon-svg" viewBox="0 0 24 24">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+    </div>
+    <ul class="notifications-list">
+        <li class="notification-item" style="text-align: center;">
+            <div style="padding: 20px;">
+                <svg class="icon-svg" style="width: 24px; height: 24px; animation: spin 1s linear infinite;" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" stroke-width="4" stroke="currentColor" stroke-dasharray="30 30" fill="none" />
+                </svg>
+                <p>Loading notifications...</p>
+            </div>
+        </li>
+    </ul>
+    <div class="notifications-footer">
+        <button class="view-all-button">View all notifications</button>
+    </div>
+</div>
+
+<div class="header">
+    <div class="logo-container">
+        <img src="https://raw.githubusercontent.com/darkresident55/TreronDevelopmentLLC./main/TreronIcons/Treron%20Logo.png" alt="Treron Logo" class="logo">
+        <span class="logo-text">Treron LLC</span>
+    </div>
+    <div class="theme-toggle">
+        <svg class="theme-icon sun-icon icon-svg" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <label class="theme-switch">
+            <input type="checkbox" id="theme-toggle-checkbox" checked>
+            <span class="slider"></span>
+        </label>
+        <svg class="theme-icon moon-icon icon-svg" viewBox="0 0 24 24">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+    </div>
+</div>
+
+<div class="container">
+    <h1>Website Under Construction</h1>
+    <p><strong>Effective Date:</strong> February 6th, 2025</p>
+    <p>We are currently working on improving our website to provide a better experience. If you plan to create a Treron account, we recommend waiting until the site is fully operational.</p>
+    <p>Please refer to our Privacy and Safety:</p>
+    <div class="button-container">
+        <a href="https://trerondevelopment.xyz/Privacy-and-Safety-Finished" target="_blank" class="privacy-button" 
+           onmousedown="playSound('ClickIn.wav')" onmouseup="playSound('ClickOut.wav')">Privacy and Safety</a>
+    </div>
+</div>
+
+<div class="menu-bar-container">
+    <nav class="menu-bar">
+        <!-- Highlight element that follows cursor within menu bar -->
+        <div class="menu-bar-highlight"></div>
+        
+        <ul class="menu-list">
+            <li class="menu-item" data-highlight="highlight-home">
+                <div class="menu-link-wrapper">
+                    <div class="menu-item-glow" style="background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, rgba(37,99,235,0.06) 50%, rgba(29,78,216,0) 100%);"></div>
+                        <a href="#" class="menu-link-front" onmousedown="playSound('ClickIn.wav')" onmouseup="playSound('ClickOut.wav')">
+                            <svg class="menu-icon icon-svg" style="--icon-color: #3b82f6;" viewBox="0 0 24 24">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                            </svg>
+                            <span>Home</span>
+                        </a>
+                        <a href="#" class="menu-link-back" onmousedown="playSound('ClickIn.wav')" onmouseup="playSound('ClickOut.wav')">
+                            <svg class="menu-icon icon-svg" style="--icon-color: #3b82f6;" viewBox="0 0 24 24">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                            </svg>
+                            <span>Home</span>
+                        </a>
+                    </div>
+                </li>
+                <li class="menu-item" data-highlight="highlight-notifications">
+                    <div class="menu-link-wrapper">
+                        <div class="menu-item-glow" style="background: radial-gradient(circle, rgba(249,115,22,0.15) 0%, rgba(234,88,12,0.06) 50%, rgba(194,65,12,0) 100%);"></div>
+                        <a href="#" class="menu-link-front" id="notifications-button-front" onmousedown="playSound('ClickIn.wav')" onmouseup="playSound('ClickOut.wav')">
+                            <svg class="menu-icon icon-svg" style="--icon-color: #f97316;" viewBox="0 0 24 24">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                            </svg>
+                            <span>Notifications</span>
+                        </a>
+                        <a href="#" class="menu-link-back" id="notifications-button-back" onmousedown="playSound('ClickIn.wav')" onmouseup="playSound('ClickOut.wav')">
+                            <svg class="menu-icon icon-svg" style="--icon-color: #f97316;" viewBox="0 0 24 24">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                            </svg>
+                            <span>Notifications</span>
+                        </a>
+                    </div>
+                </li>
+                <li class="menu-item" data-highlight="highlight-settings">
+                    <div class="menu-link-wrapper">
+                        <div class="menu-item-glow" style="background: radial-gradient(circle, rgba(34,197,94,0.15) 0%, rgba(22,163,74,0.06) 50%, rgba(21,128,61,0) 100%);"></div>
+                        <a href="#" class="menu-link-front" onmousedown="playSound('ClickIn.wav')" onmouseup="playSound('ClickOut.wav')">
+                            <svg class="menu-icon icon-svg" style="--icon-color: #22c55e;" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                            </svg>
+                            <span>Settings</span>
+                        </a>
+                        <a href="#" class="menu-link-back" onmousedown="playSound('ClickIn.wav')" onmouseup="playSound('ClickOut.wav')">
+                            <svg class="menu-icon icon-svg" style="--icon-color: #22c55e;" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                            </svg>
+                            <span>Settings</span>
+                        </a>
+                    </div>
+                </li>
+                <li class="menu-item" data-highlight="highlight-profile">
+                    <div class="menu-link-wrapper">
+                        <div class="menu-item-glow" style="background: radial-gradient(circle, rgba(239,68,68,0.15) 0%, rgba(220,38,38,0.06) 50%, rgba(185,28,28,0) 100%);"></div>
+                        <a href="#" class="menu-link-front" id="login-button-front" onmousedown="playSound('ClickIn.wav')" onmouseup="playSound('ClickOut.wav')">
+                            <svg class="menu-icon icon-svg" style="--icon-color: #ef4444;" viewBox="0 0 24 24">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span>Log in</span>
+                        </a>
+                        <a href="#" class="menu-link-back" id="login-button-back" onmousedown="playSound('ClickIn.wav')" onmouseup="playSound('ClickOut.wav')">
+                            <svg class="menu-icon icon-svg" style="--icon-color: #ef4444;" viewBox="0 0 24 24">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span>Log in</span>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <footer>
+        Copyright &copy; 2023-2025 | Treron Development LLC™
+    </footer>
+
+    <script>
+        // Sound effects
+        function playSound(soundFile) {
+            try {
+                let audio = new Audio(soundFile);
+                audio.play().catch(e => console.log("Sound play error:", e));
+            } catch (e) {
+                console.log("Sound error:", e);
+            }
+        }
+
+        // Theme toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("DOM loaded");
+            
+            const themeToggle = document.getElementById('theme-toggle-checkbox');
+            const body = document.body;
+            const menuBarHighlight = document.querySelector('.menu-bar-highlight');
+            const loginModal = document.getElementById('login-modal');
+            const loginButtonFront = document.getElementById('login-button-front');
+            const loginButtonBack = document.getElementById('login-button-back');
+            const loginModalClose = document.getElementById('login-modal-close');
+            const notificationsPopup = document.getElementById('notifications-popup');
+            const notificationsButtonFront = document.getElementById('notifications-button-front');
+            const notificationsButtonBack = document.getElementById('notifications-button-back');
+            const notificationsClose = document.getElementById('notifications-close');
+
+            console.log("Login buttons:", loginButtonFront, loginButtonBack);
+            console.log("Notifications buttons:", notificationsButtonFront, notificationsButtonBack);
+
+            // Initialize theme based on checkbox state
+            if (themeToggle.checked) {
+                body.classList.add('dark');
+                body.classList.remove('light');
+            } else {
+                body.classList.add('light');
+                body.classList.remove('dark');
+            }
+
+            // Toggle theme when checkbox changes
+            themeToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    body.classList.add('dark');
+                    body.classList.remove('light');
+                } else {
+                    body.classList.add('light');
+                    body.classList.remove('dark');
+                }
+                
+                // Play sound effect
+                playSound('ClickIn.wav');
+            });
+
+            // Menu bar cursor following effect
+            const menuBar = document.querySelector('.menu-bar');
+            const menuItems = document.querySelectorAll('.menu-item');
+            
+            // Add mousemove event to the menu bar
+            menuBar.addEventListener('mousemove', (e) => {
+                // Get position relative to the menu bar
+                const rect = menuBar.getBoundingClientRect();
+                const x = e.clientX;
+                const y = e.clientY;
+                
+                // Position the highlight element at the cursor
+                menuBarHighlight.style.left = `${x}px`;
+                menuBarHighlight.style.top = `${y}px`;
+                
+                // Show the highlight
+                menuBarHighlight.style.opacity = '1';
+                
+                // Check which menu item the cursor is over
+                let activeItem = null;
+                menuItems.forEach(item => {
+                    const itemRect = item.getBoundingClientRect();
+                    if (
+                        x >= itemRect.left &&
+                        x <= itemRect.right &&
+                        y >= itemRect.top &&
+                        y <= itemRect.bottom
+                    ) {
+                        activeItem = item;
+                    }
+                });
+                
+                // Apply the appropriate highlight class
+                if (activeItem) {
+                    const highlightClass = activeItem.getAttribute('data-highlight');
+                    menuBarHighlight.className = 'menu-bar-highlight ' + highlightClass;
+                } else {
+                    menuBarHighlight.className = 'menu-bar-highlight';
+                    menuBarHighlight.style.opacity = '0';
+                }
+            });
+            
+            menuBar.addEventListener('mouseleave', () => {
+                // Hide the highlight when mouse leaves
+                menuBarHighlight.style.opacity = '0';
+            });
+            
+            // Login Modal Functionality - attach to both front and back buttons
+            if (loginButtonFront) {
+                loginButtonFront.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log("Login front button clicked");
+                    loginModal.classList.add('active');
+                    playSound('ClickIn.wav');
+                });
+            }
+            
+            if (loginButtonBack) {
+                loginButtonBack.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log("Login back button clicked");
+                    loginModal.classList.add('active');
+                    playSound('ClickIn.wav');
+                });
+            }
+            
+            if (loginModalClose) {
+                loginModalClose.addEventListener('click', function() {
+                    loginModal.classList.remove('active');
+                    playSound('ClickOut.wav');
+                });
+            }
+            
+            // Close modal when clicking outside
+            loginModal.addEventListener('click', function(e) {
+                if (e.target === loginModal) {
+                    loginModal.classList.remove('active');
+                }
+            });
+            
+            // Notifications Popup Functionality - attach to both front and back buttons
+            if (notificationsButtonFront) {
+                notificationsButtonFront.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log("Notifications front button clicked");
+                    notificationsPopup.classList.add('active');
+                    fetchNotifications(3); // Load notifications when popup is opened
+                    playSound('ClickIn.wav');
+                });
+            }
+            
+            if (notificationsButtonBack) {
+                notificationsButtonBack.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log("Notifications back button clicked");
+                    notificationsPopup.classList.add('active');
+                    fetchNotifications(3); // Load notifications when popup is opened
+                    playSound('ClickIn.wav');
+                });
+            }
+            
+            if (notificationsClose) {
+                notificationsClose.addEventListener('click', function() {
+                    notificationsPopup.classList.remove('active');
+                    notificationsPopup.classList.remove('expanded');
+                    playSound('ClickOut.wav');
+                });
+            }
+            
+            // Close notifications when clicking outside
+            document.addEventListener('click', function(e) {
+                if (notificationsPopup.classList.contains('active') && 
+                    !notificationsPopup.contains(e.target) && 
+                    e.target !== notificationsButtonFront && 
+                    !notificationsButtonFront.contains(e.target) &&
+                    e.target !== notificationsButtonBack && 
+                    !notificationsButtonBack.contains(e.target)) {
+                    notificationsPopup.classList.remove('active');
+                    notificationsPopup.classList.remove('expanded');
+                }
+            });
+            
+            // Update copyright year dynamically
+            const footerYear = document.querySelector('footer');
+            const currentYear = new Date().getFullYear();
+            footerYear.innerHTML = `Copyright &copy; 2023-${currentYear} | Treron Development LLC™`;
+            
+            // View all notifications button
+            const viewAllButton = document.querySelector('.view-all-button');
+            if (viewAllButton) {
+                viewAllButton.addEventListener('click', function() {
+                    // Expand the notifications popup
+                    notificationsPopup.classList.add('expanded');
+                    // Fetch all notifications
+                    fetchNotifications(null); // null means no limit
+                    playSound('ClickIn.wav');
+                });
+            }
+            
+
+        });
+
+        // Firebase authentication functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get DOM elements
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            const resetForm = document.getElementById('reset-form');
+            const loginError = document.getElementById('login-error');
+            const signupError = document.getElementById('signup-error');
+            const resetMessage = document.getElementById('reset-message');
+            const showSignupLink = document.getElementById('show-signup');
+            const showLoginLink = document.getElementById('show-login');
+            const forgotPasswordLink = document.getElementById('forgot-password');
+            const backToLoginLink = document.getElementById('back-to-login');
+            const loginModal = document.getElementById('login-modal');
+            const signupModal = document.getElementById('signup-modal');
+            const resetModal = document.getElementById('reset-modal');
+            const signupModalClose = document.getElementById('signup-modal-close');
+            const resetModalClose = document.getElementById('reset-modal-close');
+            
+            // Mock user state for demo purposes
+            let currentUser = null;
+            
+            // Function to update UI based on user state
+            function updateUIForUser() {
+                if (currentUser) {
+                    // User is signed in
+                    console.log('User is signed in:', currentUser.email);
+                    
+                    // Update login button to show logged in state
+                    const loginButtonFront = document.getElementById('login-button-front');
+                    const loginButtonBack = document.getElementById('login-button-back');
+                    
+                    if (loginButtonFront) {
+                        loginButtonFront.innerHTML = `
+                            <svg class="menu-icon icon-svg" style="--icon-color: #ef4444;" viewBox="0 0 24 24">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span>Account</span>
+                        `;
+                    }
+                    
+                    if (loginButtonBack) {
+                        loginButtonBack.innerHTML = `
+                            <svg class="menu-icon icon-svg" style="--icon-color: #ef4444;" viewBox="0 0 24 24">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span>Account</span>
+                        `;
+                    }
+                    
+                    // Update login modal to show logged in state
+                    if (loginForm) {
+                        loginForm.style.display = 'none';
+                        
+                        // Create logged in content if it doesn't exist
+                        let loggedInContent = document.getElementById('logged-in-content');
+                        if (!loggedInContent) {
+                            loggedInContent = document.createElement('div');
+                            loggedInContent.id = 'logged-in-content';
+                            loggedInContent.innerHTML = `
+                                <div style="text-align: center; margin-bottom: 20px;">
+                                    <p>You are logged in as:</p>
+                                    <p style="font-weight: bold; font-size: 1.1rem; margin: 10px 0;">${currentUser.email}</p>
+                                </div>
+                                <button type="button" id="logout-button" class="login-button" onmousedown="playSound('ClickIn.wav')" onmouseup="playSound('ClickOut.wav')">Log out</button>
+                            `;
+                            loginForm.parentNode.insertBefore(loggedInContent, loginForm);
+                            
+                            // Add logout functionality
+                            document.getElementById('logout-button').addEventListener('click', function() {
+                                currentUser = null;
+                                updateUIForUser();
+                                console.log('User signed out');
+                                playSound('ClickOut.wav');
+                                loginModal.classList.remove('active');
+                            });
+                        }
+                    }
+                } else {
+                    // User is signed out
+                    console.log('User is signed out');
+                    
+                    // Update login button to show logged out state
+                    const loginButtonFront = document.getElementById('login-button-front');
+                    const loginButtonBack = document.getElementById('login-button-back');
+                    
+                    if (loginButtonFront) {
+                        loginButtonFront.innerHTML = `
+                            <svg class="menu-icon icon-svg" style="--icon-color: #ef4444;" viewBox="0 0 24 24">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span>Log in</span>
+                        `;
+                    }
+                    
+                    if (loginButtonBack) {
+                        loginButtonBack.innerHTML = `
+                            <svg class="menu-icon icon-svg" style="--icon-color: #ef4444;" viewBox="0 0 24 24">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span>Log in</span>
+                        `;
+                    }
+                    
+                    // Update login modal to show login form
+                    if (loginForm) {
+                        loginForm.style.display = 'flex';
+                        
+                        // Remove logged in content if it exists
+                        const loggedInContent = document.getElementById('logged-in-content');
+                        if (loggedInContent) {
+                            loggedInContent.remove();
+                        }
+                    }
+                }
+            }
+            
+            // Login form submission
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const email = document.getElementById('email').value;
+                    const password = document.getElementById('password').value;
+                    
+                    // Show loading state
+                    const loginButton = document.getElementById('login-button');
+                    loginButton.textContent = 'Logging in...';
+                    loginButton.disabled = true;
+                    
+                    // Clear previous errors
+                    loginError.style.display = 'none';
+                    loginError.textContent = '';
+                    
+                    // Mock login (in a real app, this would be Firebase auth)
+                    setTimeout(() => {
+                        if (email && password) {
+                            // Successful login
+                            currentUser = { email: email };
+                            updateUIForUser();
+                            console.log('Login successful');
+                            playSound('ClickOut.wav');
+                            
+                            // Reset form
+                            loginForm.reset();
+                        } else {
+                            // Failed login
+                            loginError.textContent = 'Invalid email or password';
+                            loginError.style.display = 'block';
+                            playSound('ClickOut.wav');
+                        }
+                        
+                        // Reset button state
+                        loginButton.textContent = 'Log in';
+                        loginButton.disabled = false;
+                    }, 1000);
+                });
+            }
+            
+            // Signup form submission
+            if (signupForm) {
+                signupForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const email = document.getElementById('signup-email').value;
+                    const password = document.getElementById('signup-password').value;
+                    const confirmPassword = document.getElementById('confirm-password').value;
+                    
+                    // Show loading state
+                    const signupButton = document.getElementById('signup-button');
+                    signupButton.textContent = 'Creating account...';
+                    signupButton.disabled = true;
+                    
+                    // Clear previous errors
+                    signupError.style.display = 'none';
+                    signupError.textContent = '';
+                    
+                    // Check if passwords match
+                    if (password !== confirmPassword) {
+                        signupError.textContent = 'Passwords do not match';
+                        signupError.style.display = 'block';
+                        signupButton.textContent = 'Sign up';
+                        signupButton.disabled = false;
+                        playSound('ClickOut.wav');
+                        return;
+                    }
+                    
+                    // Mock signup (in a real app, this would be Firebase auth)
+                    setTimeout(() => {
+                        if (email && password) {
+                            // Successful signup
+                            currentUser = { email: email };
+                            updateUIForUser();
+                            console.log('Signup successful');
+                            playSound('ClickOut.wav');
+                            
+                            // Reset form
+                            signupForm.reset();
+                            
+                            // Switch to login modal
+                            signupModal.classList.remove('active');
+                            loginModal.classList.add('active');
+                        } else {
+                            // Failed signup
+                            signupError.textContent = 'Invalid email or password';
+                            signupError.style.display = 'block';
+                            playSound('ClickOut.wav');
+                        }
+                        
+                        // Reset button state
+                        signupButton.textContent = 'Sign up';
+                        signupButton.disabled = false;
+                    }, 1000);
+                });
+            }
+            
+            // Password reset form submission
+            if (resetForm) {
+                resetForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const email = document.getElementById('reset-email').value;
+                    
+                    // Show loading state
+                    const resetButton = document.getElementById('reset-button');
+                    resetButton.textContent = 'Sending...';
+                    resetButton.disabled = true;
+                    
+                    // Clear previous messages
+                    resetMessage.style.display = 'none';
+                    resetMessage.textContent = '';
+                    
+                    // Mock password reset (in a real app, this would be Firebase auth)
+                    setTimeout(() => {
+                        if (email) {
+                            // Email sent
+                            console.log('Password reset email sent');
+                            resetMessage.textContent = 'Password reset email sent. Check your inbox.';
+                            resetMessage.style.display = 'block';
+                            playSound('ClickOut.wav');
+                            
+                            // Reset form
+                            resetForm.reset();
+                        } else {
+                            // Failed to send email
+                            resetMessage.textContent = 'Please enter a valid email address';
+                            resetMessage.style.display = 'block';
+                            resetMessage.style.color = '#e53e3e';
+                            playSound('ClickOut.wav');
+                        }
+                        
+                        // Reset button state
+                        resetButton.textContent = 'Send Reset Link';
+                        resetButton.disabled = false;
+                    }, 1000);
+                });
+            }
+            
+            // Show signup modal
+            if (showSignupLink) {
+                showSignupLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    loginModal.classList.remove('active');
+                    signupModal.classList.add('active');
+                    playSound('ClickIn.wav');
+                });
+            }
+            
+            // Show login modal
+            if (showLoginLink) {
+                showLoginLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    signupModal.classList.remove('active');
+                    loginModal.classList.add('active');
+                    playSound('ClickIn.wav');
+                });
+            }
+            
+            // Show password reset modal
+            if (forgotPasswordLink) {
+                forgotPasswordLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    loginModal.classList.remove('active');
+                    resetModal.classList.add('active');
+                    playSound('ClickIn.wav');
+                });
+            }
+            
+            // Back to login from password reset
+            if (backToLoginLink) {
+                backToLoginLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    resetModal.classList.remove('active');
+                    loginModal.classList.add('active');
+                    playSound('ClickIn.wav');
+                });
+            }
+            
+            // Close signup modal
+            if (signupModalClose) {
+                signupModalClose.addEventListener('click', function() {
+                    signupModal.classList.remove('active');
+                    playSound('ClickOut.wav');
+                });
+            }
+            
+            // Close reset modal
+            if (resetModalClose) {
+                resetModalClose.addEventListener('click', function() {
+                    resetModal.classList.remove('active');
+                    playSound('ClickOut.wav');
+                });
+            }
+            
+            // Close modals when clicking outside
+            loginModal.addEventListener('click', function(e) {
+                if (e.target === loginModal) {
+                    loginModal.classList.remove('active');
+                }
+            });
+            
+            signupModal.addEventListener('click', function(e) {
+                if (e.target === signupModal) {
+                    signupModal.classList.remove('active');
+                }
+            });
+            
+            resetModal.addEventListener('click', function(e) {
+                if (e.target === resetModal) {
+                    resetModal.classList.remove('active');
+                }
+            });
+            
+            // Initialize UI
+            updateUIForUser();
+        });
+    
+// Authentication and profile functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Get DOM elements
+    const loginForm = document.getElementById('login-form');
+    const signupForm = document.getElementById('signup-form');
+    const resetForm = document.getElementById('reset-form');
+    const loginError = document.getElementById('login-error');
+    const signupError = document.getElementById('signup-error');
+    const resetMessage = document.getElementById('reset-message');
+    const showSignupLink = document.getElementById('show-signup');
+    const showLoginLink = document.getElementById('show-login');
+    const forgotPasswordLink = document.getElementById('forgot-password');
+    const backToLoginLink = document.getElementById('back-to-login');
+    const loginModal = document.getElementById('login-modal');
+    const signupModal = document.getElementById('signup-modal');
+    const resetModal = document.getElementById('reset-modal');
+    const signupModalClose = document.getElementById('signup-modal-close');
+    const resetModalClose = document.getElementById('reset-modal-close');
+    const loginView = document.getElementById('login-view');
+    const profileView = document.getElementById('profile-view');
+    const profileClose = document.getElementById('profile-close');
+    const closeProfileButton = document.getElementById('close-profile-button');
+    const logoutButton = document.getElementById('logout-button');
+    const passwordToggle = document.getElementById('password-toggle');
+    const signupPasswordToggle = document.getElementById('signup-password-toggle');
+    const loginButtonFront = document.getElementById('login-button-front');
+    const loginButtonBack = document.getElementById('login-button-back');
+    
+    // Password toggle functionality
+    if (passwordToggle) {
+        passwordToggle.addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                this.innerHTML = `
+                    <svg class="icon-svg" viewBox="0 0 24 24">
+                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                        <line x1="1" y1="1" x2="23" y2="23"></line>
+                    </svg>
+                `;
+            } else {
+                passwordInput.type = 'password';
+                this.innerHTML = `
+                    <svg class="icon-svg" viewBox="0 0 24 24">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                `;
+            }
+        });
+    }
+    
+    if (signupPasswordToggle) {
+        signupPasswordToggle.addEventListener('click', function() {
+            const passwordInput = document.getElementById('signup-password');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                this.innerHTML = `
+                    <svg class="icon-svg" viewBox="0 0 24 24">
+                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                        <line x1="1" y1="1" x2="23" y2="23"></line>
+                    </svg>
+                `;
+            } else {
+                passwordInput.type = 'password';
+                this.innerHTML = `
+                    <svg class="icon-svg" viewBox="0 0 24 24">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                `;
+            }
+        });
+    }
+    
+    // Mock user state for demo purposes
+    let currentUser = null;
+    
+    // Check if user is already logged in from localStorage
+    const savedUser = localStorage.getItem("user");
+    if (savedUser) {
+        currentUser = JSON.parse(savedUser);
+        updateUIForUser();
+    }
+    
+    // Function to update UI based on user state
+    function updateUIForUser() {
+        if (currentUser) {
+            // User is signed in
+            console.log('User is signed in:', currentUser.email);
+            
+            // Update login button to show logged in state
+            if (loginButtonFront) {
+                loginButtonFront.innerHTML = `
+                    <svg class="menu-icon icon-svg" style="--icon-color: #ef4444;" viewBox="0 0 24 24">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span>Profile</span>
+                `;
+            }
+            
+            if (loginButtonBack) {
+                loginButtonBack.innerHTML = `
+                    <svg class="menu-icon icon-svg" style="--icon-color: #ef4444;" viewBox="0 0 24 24">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span>Profile</span>
+                `;
+            }
+            
+            // Update profile view with user info
+            if (profileView) {
+                const profileName = document.getElementById('profile-name');
+                const profileEmail = document.getElementById('profile-email');
+                const profileAvatar = document.getElementById('profile-avatar');
+                
+                if (profileName) profileName.textContent = currentUser.email.split('@')[0];
+                if (profileEmail) profileEmail.textContent = currentUser.email;
+                if (profileAvatar) profileAvatar.textContent = currentUser.email.charAt(0).toUpperCase();
+                
+                // Generate contribution graph
+                generateContributionGraph();
+            }
+            
+            // Show profile view instead of login view
+            if (loginView && profileView) {
+                loginView.style.display = 'none';
+                profileView.style.display = 'block';
+            }
+        } else {
+            // User is signed out
+            console.log('User is signed out');
+            
+            // Update login button to show logged out state
+            if (loginButtonFront) {
+                loginButtonFront.innerHTML = `
+                    <svg class="menu-icon icon-svg" style="--icon-color: #ef4444;" viewBox="0 0 24 24">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span>Log in</span>
+                `;
+            }
+            
+            if (loginButtonBack) {
+                loginButtonBack.innerHTML = `
+                    <svg class="menu-icon icon-svg" style="--icon-color: #ef4444;" viewBox="0 0 24 24">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span>Log in</span>
+                `;
+            }
+            
+            // Show login view instead of profile view
+            if (loginView && profileView) {
+                loginView.style.display = 'block';
+                profileView.style.display = 'none';
+            }
+        }
+    }
+    
+    // Generate contribution graph with random activity
+    function generateContributionGraph() {
+        const graphContainer = document.getElementById('contribution-graph');
+        if (!graphContainer) return;
+        
+        graphContainer.innerHTML = '';
+        
+        // Generate 60 days of random contributions
+        for (let i = 0; i < 60; i++) {
+            const day = document.createElement('div');
+            day.className = 'contribution-day';
+            
+            // Random contribution level (0-4)
+            const level = Math.floor(Math.random() * 5);
+            
+            // Set color based on level
+            if (level === 0) {
+                day.style.backgroundColor = '#1c1c1c';
+            } else if (level === 1) {
+                day.style.backgroundColor = 'rgba(99, 102, 241, 0.2)';
+            } else if (level === 2) {
+                day.style.backgroundColor = 'rgba(99, 102, 241, 0.4)';
+            } else if (level === 3) {
+                day.style.backgroundColor = 'rgba(99, 102, 241, 0.7)';
+            } else {
+                day.style.backgroundColor = '#6366f1';
+            }
+            
+            graphContainer.appendChild(day);
+        }
+    }
+    
+    // Login form submission
+    if (loginForm) {
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Show loading state
+            const loginButton = document.getElementById('login-button');
+            loginButton.classList.add('loading');
+            
+            // Clear previous errors
+            if (loginError) {
+                loginError.style.display = 'none';
+                loginError.textContent = '';
+            }
+            
+            // Mock login (in a real app, this would be Firebase auth)
+            setTimeout(() => {
+                if (email && password) {
+                    // Successful login
+                    currentUser = { email: email };
+                    localStorage.setItem("user", JSON.stringify(currentUser));
+                    updateUIForUser();
+                    console.log('Login successful');
+                    playSound('ClickOut.wav');
+                    
+                    // Reset form
+                    loginForm.reset();
+                } else {
+                    // Failed login
+                    if (loginError) {
+                        loginError.textContent = 'Invalid email or password';
+                        loginError.style.display = 'block';
+                    }
+                    playSound('ClickOut.wav');
+                }
+                
+                // Reset button state
+                loginButton.classList.remove('loading');
+            }, 1500);
+        });
+    }
+    
+    // Signup form submission
+    if (signupForm) {
+        signupForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            // Show loading state
+            const signupButton = document.getElementById('signup-button');
+            signupButton.classList.add('loading');
+            
+            // Clear previous errors
+            if (signupError) {
+                signupError.style.display = 'none';
+                signupError.textContent = '';
+            }
+            
+            // Check if passwords match
+            if (password !== confirmPassword) {
+                if (signupError) {
+                    signupError.textContent = 'Passwords do not match';
+                    signupError.style.display = 'block';
+                }
+                signupButton.classList.remove('loading');
+                playSound('ClickOut.wav');
+                return;
+            }
+            
+            // Mock signup (in a real app, this would be Firebase auth)
+            setTimeout(() => {
+                if (email && password) {
+                    // Successful signup
+                    currentUser = { email: email };
+                    localStorage.setItem("user", JSON.stringify(currentUser));
+                    updateUIForUser();
+                    console.log('Signup successful');
+                    playSound('ClickOut.wav');
+                    
+                    // Reset form
+                    signupForm.reset();
+                    
+                    // Switch to login modal
+                    signupModal.classList.remove('active');
+                    loginModal.classList.add('active');
+                } else {
+                    // Failed signup
+                    if (signupError) {
+                        signupError.textContent = 'Invalid email or password';
+                        signupError.style.display = 'block';
+                    }
+                    playSound('ClickOut.wav');
+                }
+                
+                // Reset button state
+                signupButton.classList.remove('loading');
+            }, 1500);
+        });
+    }
+    
+    // Logout functionality
+    if (logoutButton) {
+        logoutButton.addEventListener('click', function() {
+            currentUser = null;
+            localStorage.removeItem("user");
+            updateUIForUser();
+            playSound('ClickOut.wav');
+        });
+    }
+    
+    // Close profile view
+    if (profileClose) {
+        profileClose.addEventListener('click', function() {
+            loginModal.classList.remove('active');
+            playSound('ClickOut.wav');
+        });
+    }
+    
+    if (closeProfileButton) {
+        closeProfileButton.addEventListener('click', function() {
+            loginModal.classList.remove('active');
+            playSound('ClickOut.wav');
+        });
+    }
+    
+    // Show signup modal
+    if (showSignupLink) {
+        showSignupLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            loginModal.classList.remove('active');
+            signupModal.classList.add('active');
+            playSound('ClickIn.wav');
+        });
+    }
+    
+    // Show login modal
+    if (showLoginLink) {
+        showLoginLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            signupModal.classList.remove('active');
+            loginModal.classList.add('active');
+            playSound('ClickIn.wav');
+        });
+    }
+    
+    // Show password reset modal
+    if (forgotPasswordLink) {
+        forgotPasswordLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            loginModal.classList.remove('active');
+            resetModal.classList.add('active');
+            playSound('ClickIn.wav');
+        });
+    }
+    
+    // Back to login from password reset
+    if (backToLoginLink) {
+        backToLoginLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            resetModal.classList.remove('active');
+            loginModal.classList.add('active');
+            playSound('ClickIn.wav');
+        });
+    }
+    
+    // Close signup modal
+    if (signupModalClose) {
+        signupModalClose.addEventListener('click', function() {
+            signupModal.classList.remove('active');
+            playSound('ClickOut.wav');
+        });
+    }
+    
+    // Close reset modal
+    if (resetModalClose) {
+        resetModalClose.addEventListener('click', function() {
+            resetModal.classList.remove('active');
+            playSound('ClickOut.wav');
+        });
+    }
+    
+    // Close modals when clicking outside
+    loginModal.addEventListener('click', function(e) {
+        if (e.target === loginModal) {
+            loginModal.classList.remove('active');
+        }
+    });
+    
+    signupModal.addEventListener('click', function(e) {
+        if (e.target === signupModal) {
+            signupModal.classList.remove('active');
+        }
+    });
+    
+    resetModal.addEventListener('click', function(e) {
+        if (e.target === resetModal) {
+            resetModal.classList.remove('active');
+        }
+    });
+    
+    // Initialize UI
+    updateUIForUser();
+});
+    
+// Function to fetch notifications from local files
+function fetchNotifications(limit = null) {
+    console.log("Fetching notifications...");
+    
+    const notificationsList = document.querySelector('.notifications-list');
+    
+    // Show loading indicator
+    notificationsList.innerHTML = `
+        <li class="notification-item" style="text-align: center;">
+            <div style="padding: 20px;">
+                <svg class="icon-svg" style="width: 24px; height: 24px; animation: spin 1s linear infinite;" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" stroke-width="4" stroke="currentColor" stroke-dasharray="30 30" fill="none" />
+                </svg>
+                <p>Loading notifications...</p>
+            </div>
+        </li>
+    `;
+    
+    // First, fetch the list of files from GitHub API
+    const repoOwner = 'darkresident55';
+    const repoName = 'TreronDevelopmentLLC.';
+    const path = 'Notification';
+    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${path}`;
+    
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`GitHub API error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Filter for .txt files only
+            const txtFiles = data.filter(file => file.name.endsWith('.txt'));
+            
+            // Sort by commit date (newest first) - we'll get this in the next step
+            // For now, just use the files we have
+            
+            // Limit the files if needed
+            const filesToFetch = limit ? txtFiles.slice(0, limit) : txtFiles;
+            
+            // Clear loading indicator if we have no files to fetch
+            if (filesToFetch.length === 0) {
+                notificationsList.innerHTML = `
+                    <li class="notification-item">
+                        <div class="empty-notifications">
+                            <svg class="icon-svg empty-notifications-icon" style="width: 48px; height: 48px;" viewBox="0 0 24 24">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                            </svg>
+                            <p>No notifications found</p>
+                        </div>
+                    </li>
+                `;
+                return;
+            }
+            
+            // Clear the notifications list
+            notificationsList.innerHTML = '';
+            
+            // Counter for processed files
+            let processedCount = 0;
+            
+            // Process each notification file
+            filesToFetch.forEach((file) => {
+                // Get file details to get the commit date
+                fetch(file.url)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`GitHub API error! status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(fileData => {
+                        // Get the raw content URL
+                        const rawUrl = fileData.download_url;
+                        
+                        // Get the file's commit history to find creation date
+                        fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/commits?path=${fileData.path}`)
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error(`GitHub API error! status: ${response.status}`);
+                                }
+                                return response.json();
+                            })
+                            .then(commits => {
+                                // Get the earliest commit date (creation date)
+                                const creationDate = commits.length > 0 ? 
+                                    new Date(commits[commits.length - 1].commit.author.date) : 
+                                    new Date();
+                                
+                                // Now fetch the actual content
+                                fetch(rawUrl)
+                                    .then(response => {
+                                        if (!response.ok) {
+                                            throw new Error(`HTTP error! status: ${response.status}`);
+                                        }
+                                        return response.text();
+                                    })
+                                    .then(content => {
+                                        console.log(`Got content for ${file.name}`, content.substring(0, 50) + "...");
+                                        
+                                        // Parse notification content based on the specified format
+                                        const lines = content.split('\n');
+                                        let title = 'Notification';
+                                        let description = '';
+                                        
+                                        // Extract title (format: "Title: Your Title")
+                                        if (lines.length > 0) {
+                                            const titleLine = lines[0].trim();
+                                            if (titleLine.startsWith('Title:')) {
+                                                title = titleLine.substring(6).trim();
+                                            }
+                                        }
+                                        
+                                        // Extract description (format: "Description: Your description")
+                                        // Description can span multiple lines after the "Description:" line
+                                        const descIndex = lines.findIndex(line => line.trim().startsWith('Description:'));
+                                        if (descIndex !== -1) {
+                                            // Get all lines after "Description:"
+                                            const descriptionLines = lines.slice(descIndex + 1);
+                                            description = descriptionLines.join('\n').trim();
+                                        }
+                                        
+                                        // Create notification element
+                                        const notificationItem = document.createElement('li');
+                                        notificationItem.className = 'notification-item';
+                                        
+                                        // Format the description text (replace newlines with <br>)
+                                        const formattedDescription = description.replace(/\n/g, '<br>');
+                                        
+                                        // Generate a random time for demo purposes
+                                        const randomHours = Math.floor(Math.random() * 48);
+                                        const timeText = randomHours === 0 ? 'Just now' : 
+                                            randomHours === 1 ? '1 hour ago' : 
+                                            randomHours < 24 ? `${randomHours} hours ago` : 
+                                            randomHours === 24 ? '1 day ago' : 
+                                            `${Math.floor(randomHours / 24)} days ago`;
+                                        
+                                        notificationItem.innerHTML = `
+                                            <div class="notification-content">
+                                                <div class="notification-icon">
+                                                    <svg class="icon-svg" viewBox="0 0 24 24">
+                                                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="notification-text">
+                                                    <h4 class="notification-title">${title}</h4>
+                                                    <p class="notification-message">${formattedDescription}</p>
+                                                    <div class="notification-time">${timeText}</div>
+                                                </div>
+                                            </div>
+                                        `;
+                                        
+                                        notificationsList.appendChild(notificationItem);
+                                        
+                                        // Update processed count
+                                        processedCount++;
+                                        
+                                        // Update view all button when all files are processed
+                                        if (processedCount === filesToFetch.length) {
+                                            updateViewAllButton();
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error(`Error fetching notification: ${error}`);
+                                        processedCount++;
+                                        
+                                        // Update view all button when all files are processed
+                                        if (processedCount === filesToFetch.length) {
+                                            updateViewAllButton();
+                                        }
+                                    });
+                            })
+                            .catch(error => {
+                                console.error(`Error fetching commit history: ${error}`);
+                                processedCount++;
+                                
+                                // Update view all button when all files are processed
+                                if (processedCount === filesToFetch.length) {
+                                    updateViewAllButton();
+                                }
+                            });
+                    })
+                    .catch(error => {
+                        console.error(`Error fetching file details: ${error}`);
+                        processedCount++;
+                        
+                        // Update view all button when all files are processed
+                        if (processedCount === filesToFetch.length) {
+                            updateViewAllButton();
+                        }
+                    });
+            });
+        })
+        .catch(error => {
+            console.error(`Error fetching repository contents: ${error}`);
+            notificationsList.innerHTML = `
+                <li class="notification-item">
+                    <div class="empty-notifications">
+                        <svg class="icon-svg empty-notifications-icon" style="width: 48px; height: 48px;" viewBox="0 0 24 24">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                        <p>Error loading notifications</p>
+                    </div>
+                </li>
+            `;
+        });
+    
+    // Update the view all button
+    function updateViewAllButton() {
+        if (viewAllButton) {
+            viewAllButton.textContent = limit && notificationFiles.length > limit ? 
+                `View all notifications (${notificationFiles.length})` : 
+                'Refresh notifications';
+        }
+        
+        // If no notifications were loaded, show empty state
+        if (notificationsList.children.length === 0) {
+            notificationsList.innerHTML = `
+                <li class="notification-item">
+                    <div class="empty-notifications">
+                        <svg class="icon-svg empty-notifications-icon" style="width: 48px; height: 48px;" viewBox="0 0 24 24">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                        <p>No notifications found</p>
+                    </div>
+                </li>
+            `;
+        }
+    }
+}
+
+// Add this helper function to format dates
+function getTimeAgo(date) {
+    const now = new Date();
+    const diffMs = now - date;
+    const diffSec = Math.floor(diffMs / 1000);
+    const diffMin = Math.floor(diffSec / 60);
+    const diffHour = Math.floor(diffMin / 60);
+    const diffDay = Math.floor(diffHour / 24);
+    const diffMonth = Math.floor(diffDay / 30);
+    const diffYear = Math.floor(diffMonth / 12);
+    
+    if (diffSec < 60) {
+        return 'Just now';
+    } else if (diffMin < 60) {
+        return diffMin === 1 ? '1 minute ago' : `${diffMin} minutes ago`;
+    } else if (diffHour < 24) {
+        return diffHour === 1 ? '1 hour ago' : `${diffHour} hours ago`;
+    } else if (diffDay < 30) {
+        return diffDay === 1 ? '1 day ago' : `${diffDay} days ago`;
+    } else if (diffMonth < 12) {
+        return diffMonth === 1 ? '1 month ago' : `${diffMonth} months ago`;
+    } else {
+        return diffYear === 1 ? '1 year ago' : `${diffYear} years ago`;
+    }
+}
+    </script>
+</body>
+</html>
+
