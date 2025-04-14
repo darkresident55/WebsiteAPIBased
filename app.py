@@ -5,6 +5,10 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     return render_template('index.html')
+@app.route('/privacyandsafety')
+def home():
+    return render_template('Privacy-and-Safety-Finished.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
+
