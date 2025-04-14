@@ -1187,6 +1187,101 @@
     background-color: #3a3a3a;
 }
 
+.back-button-container {
+    display: flex;
+    justify-content: center;
+    margin: 50px 0 30px;
+}
+
+.back-button {
+    padding: 5px;
+    background: linear-gradient(to bottom, hsla(var(--background), 0.8), hsla(var(--background), 0.4));
+    backdrop-filter: blur(10px);
+    border: 1px solid hsla(var(--border), 0.4);
+    border-radius: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.back-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+}
+
+.menu-link-wrapper {
+    display: block;
+    border-radius: 12px;
+    overflow: visible;
+    position: relative;
+    perspective: 600px;
+}
+
+.menu-item-glow {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    border-radius: 16px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.menu-link-wrapper:hover .menu-item-glow {
+    opacity: 1;
+}
+
+.menu-link-front, .menu-link-back {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    position: relative;
+    z-index: 10;
+    background-color: transparent;
+    color: hsl(var(--muted-foreground));
+    transition: color 0.3s ease;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.menu-link-front {
+    transform-style: preserve-3d;
+    transform-origin: center bottom;
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.menu-link-back {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    transform-origin: center top;
+    transform: rotateX(90deg);
+    opacity: 0;
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.menu-link-wrapper:hover .menu-link-front {
+    transform: rotateX(-90deg);
+    opacity: 0;
+}
+
+.menu-link-wrapper:hover .menu-link-back {
+    transform: rotateX(0);
+    opacity: 1;
+}
+
+.menu-icon {
+    transition: color 0.3s ease;
+    width: 20px;
+    height: 20px;
+}
+
+.menu-link-wrapper:hover .menu-icon {
+    color: #3b82f6;
+}
+
+
 /* Animation for modal transitions */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
@@ -1490,9 +1585,31 @@
     <p><strong>Effective Date:</strong> February 6th, 2025</p>
     <p>We are currently working on improving our website to provide a better experience. If you plan to create a Treron account, we recommend waiting until the site is fully operational.</p>
     <p>Please refer to our Privacy and Safety:</p>
-    <div class="button-container">
-        <a href="https://trerondevelopment.xyz/privacyandsafety" target="_blank" class="privacy-button" 
-           onmousedown="playSound('https://github.com/darkresident55/Public-Assets/raw/refs/heads/main/ClickIn.wav')" onmouseup="playSound('https://github.com/darkresident55/Public-Assets/raw/refs/heads/main/ClickOut.wav')">Privacy and Safety</a>
+    <div class="back-button-container">
+        <div class="menu-link-wrapper back-button">
+            <div class="menu-item-glow" style="background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, rgba(37,99,235,0.06) 50%, rgba(29,78,216,0) 100%);"></div>
+            <a href="https://trerondevelopment.xyz/privacyandsafety" target="_blank" class="menu-link-front"
+                onmousedown="playSound('https://github.com/darkresident55/Public-Assets/raw/refs/heads/main/ClickIn.wav')"
+                onmouseup="playSound('https://github.com/darkresident55/Public-Assets/raw/refs/heads/main/ClickOut.wav')">
+                <svg class="menu-icon icon-svg" style="--icon-color: #3b82f6;" viewBox="0 0 24 24">
+                    <path d="M12 20h9"></path>
+                    <path d="M3 9l9-7 9 7"></path>
+                    <path d="M9 22V12h6v10"></path>
+                    <path d="M5 12h14"></path>
+                </svg>
+                <span>Privacy and Safety</span>
+            </a>
+            <a href="https://trerondevelopment.xyz/privacyandsafety" target="_blank" class="menu-link-back"
+                onmousedown="playSound('https://github.com/darkresident55/Public-Assets/raw/refs/heads/main/ClickIn.wav')"
+                onmouseup="playSound('https://github.com/darkresident55/Public-Assets/raw/refs/heads/main/ClickOut.wav')">
+                <svg class="menu-icon icon-svg" style="--icon-color: #3b82f6;" viewBox="0 0 24 24">
+                    <path d="M12 20h9"></path>
+                    <path d="M3 9l9-7 9 7"></path>
+                    <path d="M9 22V12h6v10"></path>
+                    <path d="M5 12h14"></path>
+                </svg>
+                <span>Privacy and Safety</span>
+            </a>
     </div>
 </div>
 
