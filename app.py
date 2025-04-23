@@ -8,6 +8,9 @@ def home():
 @app.route('/privacyandsafety')
 def safetyscreen():
     return render_template('Privacy-and-Safety-Finished.html')
+@app.route('/.well-known/discord')
+def safetyscreen():
+    return render_template('discord.txt')
 
 if __name__ == '__main__':
     app.run(debug=True)
