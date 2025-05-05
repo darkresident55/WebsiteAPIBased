@@ -5,6 +5,50 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Treron - Website Under Construction</title>
 <link rel="icon" href="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/Treron%20Logo.png" type="image/png">
+
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+
+<script>
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAC01DxmHUGxXUzZvwodxyyIXa9X-JCIJI",
+  authDomain: "recharge-api-data-get.firebaseapp.com",
+  projectId: "recharge-api-data-get",
+  storageBucket: "recharge-api-data-get.appspot.com",
+  messagingSenderId: "714113841994", 
+  appId: "1:714113841994:web:0297ad94dc14cb04b7c02a"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+
+// Add this to your script
+auth.onAuthStateChanged((user) => {
+    if (user) {
+        // User is signed in
+        if (document.getElementById('profile-name')) {
+            document.getElementById('profile-name').textContent = user.displayName || user.email.split('@')[0];
+        }
+        if (document.getElementById('profile-email')) {
+            document.getElementById('profile-email').textContent = user.email;
+        }
+        if (document.getElementById('profile-avatar')) {
+            document.getElementById('profile-avatar').textContent = (user.displayName || user.email)[0].toUpperCase();
+        }
+        
+        // Switch to profile view if login modal is showing
+        if (loginView) loginView.style.display = 'none';
+        if (profileView) profileView.style.display = 'block';
+    } else {
+        // User is signed out
+        if (loginView) loginView.style.display = 'block';
+        if (profileView) profileView.style.display = 'none';
+    }
+});
+</script>
+
 <style>
     :root {
         --background: 0, 0%, 0%;
@@ -2845,9 +2889,13 @@
         }
 
         if (logoutButton) {
-            logoutButton.addEventListener('click', () => {
-                if (profileView) profileView.style.display = 'none';
-                if (loginView) loginView.style.display = 'block';
+            logoutButton.addEventListener('click', async () => {
+                try {
+                    await auth.signOut();
+                    loginModal.classList.remove('active');
+                } catch (error) {
+                    console.error('Logout error:', error);
+                }
             });
         }
     }
@@ -3042,68 +3090,89 @@
     const resetForm = document.getElementById('reset-form');
 
     if (loginForm) {
-        loginForm.addEventListener('submit', function(e) {
+        loginForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            // Simple login simulation
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            const loginError = document.getElementById('login-error');
+            const loginButton = document.getElementById('login-button');
             
-            // Dummy validation
-            if (email && password) {
-                // Set user info
-                if (document.getElementById('profile-name')) document.getElementById('profile-name').textContent = email.split('@')[0];
-                if (document.getElementById('profile-email')) document.getElementById('profile-email').textContent = email;
-                if (document.getElementById('profile-avatar')) document.getElementById('profile-avatar').textContent = email[0].toUpperCase();
+            try {
+                loginButton.classList.add('loading');
+                // Attempt Firebase login
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                
+                // Update UI with user info
+                if (document.getElementById('profile-name')) {
+                    document.getElementById('profile-name').textContent = user.displayName || email.split('@')[0];
+                }
+                if (document.getElementById('profile-email')) {
+                    document.getElementById('profile-email').textContent = user.email;
+                }
+                if (document.getElementById('profile-avatar')) {
+                    document.getElementById('profile-avatar').textContent = (user.displayName || email)[0].toUpperCase();
+                }
                 
                 // Switch to profile view
                 if (loginView) loginView.style.display = 'none';
                 if (profileView) profileView.style.display = 'block';
-            } else {
-                const loginError = document.getElementById('login-error');
-                if (loginError) {
-                    loginError.textContent = 'Please enter both email and password';
-                    loginError.style.display = 'block';
-                }
+                
+                loginError.style.display = 'none';
+            } catch (error) {
+                console.error('Login error:', error);
+                loginError.textContent = error.message;
+                loginError.style.display = 'block';
+            } finally {
+                loginButton.classList.remove('loading');
             }
         });
     }
 
     if (signupForm) {
-        signupForm.addEventListener('submit', function(e) {
+        signupForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const email = document.getElementById('signup-email').value;
             const password = document.getElementById('signup-password').value;
             const confirmPassword = document.getElementById('confirm-password').value;
+            const signupError = document.getElementById('signup-error');
             
-            // Simple validation
             if (password !== confirmPassword) {
-                const signupError = document.getElementById('signup-error');
-                if (signupError) {
-                    signupError.textContent = 'Passwords do not match';
-                    signupError.style.display = 'block';
-                }
+                signupError.textContent = 'Passwords do not match';
+                signupError.style.display = 'block';
                 return;
             }
             
-            // Switch back to login
-            if (signupModal) signupModal.classList.remove('active');
-            if (loginModal) loginModal.classList.add('active');
-            
-            // Show success message
-            const loginMessage = document.createElement('div');
-            loginMessage.className = 'login-message';
-            loginMessage.textContent = 'Account created successfully! Please log in.';
-            loginMessage.style.display = 'block';
-            
-            const loginError = document.getElementById('login-error');
-            if (loginView && loginError) {
-                loginView.insertBefore(loginMessage, loginError);
+            try {
+                // Create user with Firebase
+                await auth.createUserWithEmailAndPassword(email, password);
+                
+                // Switch back to login
+                if (signupModal) signupModal.classList.remove('active');
+                if (loginModal) loginModal.classList.add('active');
+                
+                // Show success message
+                const loginMessage = document.createElement('div');
+                loginMessage.className = 'login-message';
+                loginMessage.textContent = 'Account created successfully! Please log in.';
+                loginMessage.style.display = 'block';
+                
+                const loginError = document.getElementById('login-error');
+                if (loginView && loginError) {
+                    loginView.insertBefore(loginMessage, loginError);
+                }
+                
+                // Auto-fill email
+                if (document.getElementById('email')) {
+                    document.getElementById('email').value = email;
+                }
+            } catch (error) {
+                console.error('Signup error:', error);
+                signupError.textContent = error.message;
+                signupError.style.display = 'block';
             }
-            
-            // Auto-fill email
-            if (document.getElementById('email')) document.getElementById('email').value = email;
         });
     }
 
