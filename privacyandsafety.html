@@ -3,23 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Notice - Treron Development LLC</title>
+    <title>Privacy Policy - Treron Development LLC</title>
     <link rel="icon" href="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/Treron%20Logo.png" type="image/png">
+
     <style>
         :root {
+            /* Base theme colors - dark mode default */
             --background: 0, 0%, 0%;
             --foreground: 0, 0%, 100%;
             --muted-foreground: 0, 0%, 70%;
             --border: 0, 0%, 33%;
             --card: 0, 0%, 10%;
             --card-foreground: 0, 0%, 100%;
-            --primary: 214, 100%, 60%;
-            --primary-foreground: 0, 0%, 100%;
             --input: 0, 0%, 20%;
-            --section-bg: 0, 0%, 5%;
-            --table-header: 214, 60%, 20%;
-            --table-row-odd: 0, 0%, 8%;
-            --table-row-even: 0, 0%, 12%;
+            
+            /* Accent color - consistent with main site */
+            --primary-h: 250;
+            --primary-s: 95%;
+            --primary-l: 65%;
+            --primary: var(--primary-h), var(--primary-s), var(--primary-l);
+            --primary-foreground: 0, 0%, 100%;
+            
+            /* Secondary accent colors derived from primary */
+            --primary-light: var(--primary-h), var(--primary-s), calc(var(--primary-l) + 15%);
+            --primary-dark: var(--primary-h), var(--primary-s), calc(var(--primary-l) - 15%);
+            
+            /* Spacing system */
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 16px;
+            --space-4: 24px;
+            --space-5: 32px;
+            --space-6: 48px;
+            --space-7: 64px;
+            
+            /* Animation speeds */
+            --anim-fast: 0.2s;
+            --anim-normal: 0.3s;
+            --anim-slow: 0.5s;
+            
+            /* System colors */
+            --success: 142, 76%, 36%;
+            --warning: 38, 92%, 50%;
+            --error: 0, 84%, 60%;
         }
 
         .dark {
@@ -29,13 +55,7 @@
             --border: 0, 0%, 33%;
             --card: 0, 0%, 10%;
             --card-foreground: 0, 0%, 100%;
-            --primary: 214, 100%, 60%;
-            --primary-foreground: 0, 0%, 100%;
             --input: 0, 0%, 20%;
-            --section-bg: 0, 0%, 5%;
-            --table-header: 214, 60%, 20%;
-            --table-row-odd: 0, 0%, 8%;
-            --table-row-even: 0, 0%, 12%;
         }
 
         .light {
@@ -45,13 +65,7 @@
             --border: 0, 0%, 85%;
             --card: 0, 0%, 95%;
             --card-foreground: 0, 0%, 0%;
-            --primary: 214, 100%, 50%;
-            --primary-foreground: 0, 0%, 100%;
             --input: 0, 0%, 90%;
-            --section-bg: 0, 0%, 98%;
-            --table-header: 214, 60%, 90%;
-            --table-row-odd: 0, 0%, 96%;
-            --table-row-even: 0, 0%, 100%;
         }
 
         * {
@@ -65,39 +79,84 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
             line-height: 1.6;
             margin: 0;
             padding: 0;
             background-color: hsl(var(--background));
             color: hsl(var(--foreground));
-            transition: background-color 0.5s ease, color 0.5s ease;
+            position: relative;
+            min-height: 100vh;
             overflow-x: hidden;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+        
+        /* Texture overlays for personality - consistent with main site */
+        .texture-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.08;
+            background-image: 
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+        
+        body.dark .texture-overlay::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 15% 50%, hsla(var(--primary), 0.15) 0%, transparent 35%),
+                      radial-gradient(circle at 85% 30%, hsla(var(--primary), 0.1) 0%, transparent 40%);
+        }
+        
+        body.light .texture-overlay::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 15% 50%, hsla(var(--primary), 0.07) 0%, transparent 35%),
+                      radial-gradient(circle at 85% 30%, hsla(var(--primary), 0.05) 0%, transparent 40%);
         }
 
         .header {
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
             padding: 20px;
             position: sticky;
             top: 0;
-            background-color: hsla(var(--background), 0.95);
+            background: linear-gradient(to bottom, 
+                hsla(var(--background), 0.95), 
+                hsla(var(--background), 0.8)
+            );
             backdrop-filter: blur(10px);
-            z-index: 100;
             border-bottom: 1px solid hsla(var(--border), 0.4);
+            z-index: 100;
         }
 
         .logo-container {
             display: flex;
             align-items: center;
-            margin-bottom: 10px;
+            transition: transform var(--anim-normal) ease;
+        }
+        
+        .logo-container:hover {
+            transform: scale(1.05);
         }
 
         .logo {
             width: 50px;
             height: auto;
             margin-right: 10px;
+            filter: drop-shadow(0 2px 8px hsla(var(--primary), 0.5));
+            transition: filter var(--anim-normal) ease;
+        }
+        
+        .logo:hover {
+            filter: drop-shadow(0 4px 12px hsla(var(--primary), 0.8));
         }
 
         .logo-text {
@@ -105,14 +164,24 @@
             font-weight: bold;
             display: inline-block;
             vertical-align: middle;
+            background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-light)));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: all var(--anim-normal) ease;
         }
 
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Theme Toggle Styles - consistent with main site */
         .theme-toggle {
             display: flex;
             align-items: center;
             gap: 8px;
             transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
-            margin-top: 5px;
         }
 
         .theme-icon {
@@ -194,133 +263,350 @@
         }
 
         input:checked + .slider {
-            background-color: #2196F3;
+            background-color: hsl(var(--primary));
         }
 
         input:checked + .slider:before {
             transform: translateX(20px);
         }
 
+        /* Language selector styles - consistent with main site */
+        .language-selector {
+            position: relative;
+        }
+
+        .language-button {
+            background: none;
+            border: 1px solid hsla(var(--border), 0.5);
+            color: hsl(var(--foreground));
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .language-button:hover {
+            background-color: hsla(var(--foreground), 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .language-flag {
+            width: 20px;
+            height: 15px;
+            object-fit: cover;
+            border-radius: 2px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .language-options {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: linear-gradient(145deg, 
+                hsla(var(--card), 1) 0%, 
+                hsla(var(--card), 0.8) 100%
+            );
+            border: 1px solid hsla(var(--border), 0.5);
+            border-radius: 8px;
+            padding: 8px 0;
+            display: none;
+            min-width: 150px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1),
+                        0 0 0 1px hsla(var(--primary), 0.05);
+            animation: fadeIn 0.2s ease;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .language-options.active {
+            display: block;
+        }
+
+        .language-option {
+            padding: 8px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .language-option:hover {
+            background-color: hsla(var(--foreground), 0.1);
+            transform: translateX(3px);
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: var(--space-6);
+            position: relative;
+            z-index: 1;
         }
 
-        .title {
+        .page-title {
             text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid hsla(var(--primary), 0.5);
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: var(--space-6);
+            background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-light)));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--primary-light)));
+            border-radius: 4px;
         }
 
         .effective-date {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: var(--space-6);
             font-size: 1.1em;
             color: hsl(var(--muted-foreground));
+            padding: var(--space-3) var(--space-4);
+            background: linear-gradient(145deg, 
+                hsla(var(--card), 0.5) 0%, 
+                hsla(var(--card), 0.3) 100%
+            );
+            border-radius: 12px;
+            border: 1px solid hsla(var(--border), 0.3);
         }
 
-        .intro {
-            margin-bottom: 40px;
+        .intro-section {
+            margin-bottom: var(--space-7);
             text-align: center;
             max-width: 800px;
             margin-left: auto;
             margin-right: auto;
+            padding: var(--space-6);
+            background: linear-gradient(145deg, 
+                hsla(var(--card), 0.3) 0%, 
+                hsla(var(--card), 0.1) 100%
+            );
+            border-radius: 16px;
+            border: 1px solid hsla(var(--border), 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        .intro-section p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: var(--space-4);
+        }
+
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: var(--space-6);
+            align-items: start;
+        }
+
+        @media (max-width: 992px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+                gap: var(--space-4);
+            }
+        }
+
+        /* Table of Contents */
+        .toc {
+    position: sticky;
+    top: 120px;
+    max-height: calc(100vh - 140px);
+    overflow-y: auto;
+    padding: var(--space-5);
+    background: linear-gradient(145deg, 
+        hsla(var(--card), 0.8) 0%, 
+        hsla(var(--card), 0.4) 100%
+    );
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    border: 1px solid hsla(var(--border), 0.4);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    align-self: flex-start;
+}
+
+        /* Main Content */
+        .main-content {
+            min-width: 0; /* Prevents grid overflow */
         }
 
         .section {
-            margin-bottom: 40px;
-            padding: 25px;
-            background-color: hsla(var(--section-bg), 0.5);
+            margin-bottom: var(--space-7);
+            padding: var(--space-6);
+            background: linear-gradient(145deg, 
+                hsla(var(--card), 0.5) 0%, 
+                hsla(var(--card), 0.2) 100%
+            );
             border-radius: 16px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform var(--anim-normal) ease, box-shadow var(--anim-normal) ease;
+            border: 1px solid hsla(var(--border), 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, hsla(var(--primary), 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0.5;
+            pointer-events: none;
         }
 
         .section:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
 
         .section-title {
-            font-size: 1.5em;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid hsla(var(--border), 0.5);
-            color: hsl(var(--primary));
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: var(--space-5);
+            padding-bottom: var(--space-3);
+            border-bottom: 2px solid hsla(var(--primary), 0.3);
+            background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-light)));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
         }
 
         .section-subtitle {
-            font-size: 1.2em;
-            margin: 25px 0 15px;
-            color: hsl(var(--primary), 0.9);
+            font-size: 1.3em;
+            font-weight: 600;
+            margin: var(--space-5) 0 var(--space-3);
+            color: hsl(var(--primary));
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-subtitle::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--primary-light)));
+            border-radius: 2px;
         }
 
         p {
-            margin-bottom: 20px;
+            margin-bottom: var(--space-4);
             line-height: 1.8;
+            font-size: 1.05em;
         }
 
-        ul {
-            margin-bottom: 20px;
-            padding-left: 25px;
+        ul, ol {
+            margin-bottom: var(--space-4);
+            padding-left: var(--space-5);
         }
 
         li {
-            margin-bottom: 10px;
+            margin-bottom: var(--space-2);
+            line-height: 1.7;
         }
 
         strong {
             color: hsl(var(--primary));
+            font-weight: 600;
+        }
+
+        /* Table Styles */
+        .table-container {
+            overflow-x: auto;
+            margin: var(--space-5) 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         table {
             width: 100%;
             border-collapse: separate;
             border-spacing: 0;
-            margin: 25px 0;
+            background: linear-gradient(145deg, 
+                hsla(var(--card), 0.8) 0%, 
+                hsla(var(--card), 0.4) 100%
+            );
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         th {
-            background-color: hsl(var(--table-header));
-            color: hsl(var(--foreground));
-            padding: 15px;
+            background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-dark)));
+            color: hsl(var(--primary-foreground));
+            padding: var(--space-4);
             text-align: left;
             font-weight: bold;
+            font-size: 1.1em;
         }
 
         td {
-            padding: 12px 15px;
+            padding: var(--space-3) var(--space-4);
             border-bottom: 1px solid hsla(var(--border), 0.2);
+            transition: background-color var(--anim-fast) ease;
         }
 
-        tr:nth-child(odd) td {
-            background-color: hsl(var(--table-row-odd));
-        }
-
-        tr:nth-child(even) td {
-            background-color: hsl(var(--table-row-even));
+        tr:hover td {
+            background-color: hsla(var(--primary), 0.05);
         }
 
         tr:last-child td {
             border-bottom: none;
         }
 
+        /* Links */
         a {
             color: hsl(var(--primary));
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: color var(--anim-fast) ease;
+            position: relative;
+        }
+
+        a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--primary-light)));
+            transition: width var(--anim-normal) ease;
         }
 
         a:hover {
-            text-decoration: underline;
-            color: hsl(var(--primary), 0.8);
+            color: hsl(var(--primary-light));
         }
 
+        a:hover::after {
+            width: 100%;
+        }
+
+        /* Back to Top Button */
         .back-to-top {
             position: fixed;
             bottom: 30px;
@@ -328,7 +614,7 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background-color: hsl(var(--primary));
+            background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-dark)));
             color: hsl(var(--primary-foreground));
             display: flex;
             align-items: center;
@@ -336,8 +622,8 @@
             cursor: pointer;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: opacity var(--anim-normal) ease, visibility var(--anim-normal) ease, transform var(--anim-normal) ease;
+            box-shadow: 0 4px 15px hsla(var(--primary), 0.4);
             z-index: 99;
         }
 
@@ -348,8 +634,72 @@
 
         .back-to-top:hover {
             transform: translateY(-5px);
+            box-shadow: 0 8px 20px hsla(var(--primary), 0.6);
         }
 
+        /* Back Button */
+        .back-button-container {
+            display: flex;
+            justify-content: center;
+            margin: var(--space-7) 0 var(--space-6);
+        }
+
+        .back-button {
+            padding: var(--space-3) var(--space-5);
+            background: linear-gradient(135deg, hsla(var(--primary), 0.8), hsla(var(--primary-dark), 0.9));
+            color: hsl(var(--foreground));
+            font-size: 1em;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all var(--anim-normal) cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px hsla(var(--primary), 0.4);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+        
+        .back-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, hsla(var(--foreground), 0.2), transparent);
+            transition: left 0.7s ease;
+        }
+
+        .back-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 20px hsla(var(--primary), 0.6);
+        }
+        
+        .back-button:hover::before {
+            left: 100%;
+        }
+
+        .back-button:active {
+            transform: scale(0.95);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: var(--space-6) 0;
+            margin-top: var(--space-7);
+            border-top: 1px solid hsla(var(--border), 0.5);
+            color: hsl(var(--muted-foreground));
+            background: linear-gradient(145deg, 
+                hsla(var(--card), 0.3) 0%, 
+                hsla(var(--card), 0.1) 100%
+            );
+        }
+
+        /* SVG Icons */
         .icon-svg {
             width: 20px;
             height: 20px;
@@ -360,37 +710,11 @@
             stroke-linejoin: round;
         }
 
-        footer {
-            text-align: center;
-            padding: 30px 0;
-            margin-top: 50px;
-            border-top: 1px solid hsla(var(--border), 0.5);
-            color: hsl(var(--muted-foreground));
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-            }
-            
-            .section {
-                padding: 20px;
-            }
-            
-            .back-to-top {
-                bottom: 20px;
-                right: 20px;
-                width: 40px;
-                height: 40px;
-            }
-        }
-
         /* Animation for sections */
-        @keyframes fadeIn {
+        @keyframes slideInUp {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -399,635 +723,478 @@
         }
 
         .fade-in {
-            animation: fadeIn 0.6s ease forwards;
+            animation: slideInUp 0.6s ease forwards;
             opacity: 0;
         }
 
-        /* Table of contents */
-        .toc {
-            position: sticky;
-            top: 100px;
-            max-height: calc(100vh - 120px);
-            overflow-y: auto;
-            padding: 20px;
-            background-color: hsla(var(--card), 0.8);
-            border-radius: 12px;
-            margin-bottom: 30px;
-            backdrop-filter: blur(5px);
-            border: 1px solid hsla(var(--border), 0.4);
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--space-4);
+            }
+            
+            .section {
+                padding: var(--space-4);
+            }
+            
+            .page-title {
+                font-size: 2.2em;
+            }
+            
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 40px;
+                height: 40px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: var(--space-3);
+            }
+
+            .header-controls {
+                gap: var(--space-3);
+            }
         }
 
-        .toc-title {
-            font-size: 1.2em;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid hsla(var(--border), 0.5);
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 1.8em;
+            }
+            
+            .section-title {
+                font-size: 1.4em;
+            }
+            
+            .toc {
+                position: static;
+                max-height: none;
+                align-self: auto;
+            }
         }
 
-        .toc-list {
-            list-style-type: none;
-            padding-left: 0;
+        /* Transition styles for text elements when language changes */
+        .transition-text {
+            transition: transform 0.3s ease, opacity 0.3s ease;
         }
 
-        .toc-item {
-            margin-bottom: 10px;
+        .language-changing .transition-text {
+            transform: translateY(5px);
+            opacity: 0;
         }
 
-        .toc-link {
-            display: block;
-            padding: 8px 10px;
+        /* Toast notification for language change */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            opacity: 0;
+            background: linear-gradient(145deg, 
+                hsla(var(--card), 1) 0%, 
+                hsla(var(--card), 0.8) 100%
+            );
+            backdrop-filter: blur(10px);
+            border: 1px solid hsla(var(--border), 0.5);
             border-radius: 8px;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            padding: 12px 20px;
+            color: hsl(var(--foreground));
+            font-size: 0.9rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15),
+                        0 0 0 1px hsla(var(--primary), 0.05);
+            z-index: 1000;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .toc-link:hover {
-            background-color: hsla(var(--primary), 0.1);
-            text-decoration: none;
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
         }
 
-        .toc-link.active {
-            background-color: hsla(var(--primary), 0.2);
-            color: hsl(var(--primary));
-            font-weight: bold;
+        .toast-icon {
+            color: #10b981;
         }
 
-        /* Layout for desktop */
-        @media (min-width: 992px) {
-            .content-wrapper {
-                display: flex;
-                gap: 30px;
-            }
-            
-            .toc-container {
-                width: 280px;
-                flex-shrink: 0;
-            }
-            
-            .main-content {
-                flex-grow: 1;
-            }
-        }
+/* Anti-Doxing Section Styles */
+.reporting-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-4);
+    margin: var(--space-5) 0;
+}
 
-    .back-button-container {
-        display: flex;
-        justify-content: center;
-        margin: 50px 0 30px;
-    }
+.reporting-card {
+    padding: var(--space-5);
+    background: linear-gradient(145deg, 
+        hsla(var(--card), 0.6) 0%, 
+        hsla(var(--card), 0.3) 100%
+    );
+    border-radius: 12px;
+    border: 1px solid hsla(var(--border), 0.3);
+    transition: transform var(--anim-normal) ease, box-shadow var(--anim-normal) ease;
+}
 
-    .back-button {
-        padding: 5px;
-        background: linear-gradient(to bottom, hsla(var(--background), 0.8), hsla(var(--background), 0.4));
-        backdrop-filter: blur(10px);
-        border: 1px solid hsla(var(--border), 0.4);
-        border-radius: 16px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+.reporting-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
 
-    .back-button:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
-    }
+.reporting-card h4 {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: var(--space-3);
+    color: hsl(var(--primary));
+}
 
-    .menu-link-wrapper {
-        display: block;
-        border-radius: 12px;
-        overflow: visible;
-        position: relative;
-        perspective: 600px;
-    }
+.reporting-card p {
+    margin-bottom: var(--space-4);
+    font-size: 0.95em;
+    line-height: 1.6;
+}
 
-    .menu-item-glow {
-        position: absolute;
-        inset: 0;
-        z-index: 0;
-        pointer-events: none;
-        border-radius: 16px;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
+.reporting-button {
+    display: inline-block;
+    padding: var(--space-2) var(--space-4);
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-dark)));
+    color: hsl(var(--primary-foreground));
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all var(--anim-normal) ease;
+    box-shadow: 0 2px 8px hsla(var(--primary), 0.3);
+}
 
-    .menu-link-wrapper:hover .menu-item-glow {
-        opacity: 1;
-    }
+.reporting-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px hsla(var(--primary), 0.4);
+    text-decoration: none;
+}
 
-    .menu-link-front, .menu-link-back {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 12px 24px;
-        position: relative;
-        z-index: 10;
-        background-color: transparent;
-        color: hsl(var(--muted-foreground));
-        transition: color 0.3s ease;
-        border-radius: 12px;
-        text-decoration: none;
-        font-weight: 500;
-    }
+.reporting-button::after {
+    display: none;
+}
 
-    .menu-link-front {
-        transform-style: preserve-3d;
-        transform-origin: center bottom;
-        transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
+.responsibility-notice {
+    display: flex;
+    align-items: flex-start;
+    padding: var(--space-4);
+    background: linear-gradient(145deg, 
+        hsla(38, 92%, 50%, 0.1) 0%, 
+        hsla(38, 92%, 50%, 0.05) 100%
+    );
+    border: 1px solid hsla(38, 92%, 50%, 0.3);
+    border-radius: 12px;
+    margin: var(--space-4) 0;
+}
 
-    .menu-link-back {
-        position: absolute;
-        inset: 0;
-        transform-style: preserve-3d;
-        transform-origin: center top;
-        transform: rotateX(90deg);
-        opacity: 0;
-        transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .menu-link-wrapper:hover .menu-link-front {
-        transform: rotateX(-90deg);
-        opacity: 0;
-    }
-
-    .menu-link-wrapper:hover .menu-link-back {
-        transform: rotateX(0);
-        opacity: 1;
-    }
-
-    .menu-icon {
-        transition: color 0.3s ease;
-        width: 20px;
-        height: 20px;
-    }
-
-    .menu-link-wrapper:hover .menu-icon {
-        color: #3b82f6;
-    }
-
-    .language-selector {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-top: 10px;
-        position: relative;
-        margin-left: 20px;
-    }
-
-    .language-button {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 12px;
-        background: none;
-        border: 1px solid hsla(var(--border), 0.5);
-        border-radius: 8px;
-        color: hsl(var(--foreground));
-        cursor: pointer;
-        transition: background-color 0.2s ease;
-    }
-
-    .language-button:hover {
-        background-color: hsla(var(--foreground), 0.1);
-    }
-
-    .language-flag {
-        width: 20px;
-        height: 15px;
-        object-fit: cover;
-        border-radius: 2px;
-    }
-
-    .language-options {
-        position: absolute;
-        top: 100%;
-        right: 0;
-        margin-top: 8px;
-        background-color: hsl(var(--card));
-        border: 1px solid hsla(var(--border), 0.5);
-        border-radius: 8px;
-        padding: 8px 0;
-        display: none;
-        min-width: 150px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        z-index: 1000;  /* Make sure it's above other elements */
-    }
-
-    .language-options.active {
-        display: block;
-    }
-
-    .language-option {
-        padding: 8px 16px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
-    }
-
-    .language-option:hover {
-        background-color: hsla(var(--foreground), 0.1);
-    }
+.responsibility-notice p {
+    margin: 0;
+    font-size: 1.05em;
+    line-height: 1.6;
+}
     </style>
 </head>
 <body class="dark">
+    <!-- Texture overlay for visual personality -->
+    <div class="texture-overlay"></div>
+
+    <!-- Toast notification for language change -->
+    <div class="toast" id="language-toast">
+        <svg class="icon-svg toast-icon" viewBox="0 0 24 24">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+        <span id="toast-message"></span>
+    </div>
+
     <div class="header">
         <div class="logo-container">
-            <img src="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/Treron%20Logo.png" alt="Treron Logo" class="logo">
-            <span class="logo-text">Treron Development LLC</span>
+            <img src="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/Treron%20Logo.png" alt="Treron Logo" class="logo" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2250%22 height=%2250%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22currentColor%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><path d=%22M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z%22></path></svg>'">
+            <span class="logo-text transition-text" data-i18n="company-name">Treron Development LLC</span>
         </div>
-        <div class="theme-toggle">
-            <svg class="theme-icon sun-icon icon-svg" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="5"></circle>
-                <line x1="12" y1="1" x2="12" y2="3"></line>
-                <line x1="12" y1="21" x2="12" y2="23"></line>
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                <line x1="1" y1="12" x2="3" y2="12"></line>
-                <line x1="21" y1="12" x2="23" y2="12"></line>
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-            </svg>
-            <label class="theme-switch">
-                <input type="checkbox" id="theme-toggle-checkbox" checked>
-                <span class="slider"></span>
-            </label>
-            <svg class="theme-icon moon-icon icon-svg" viewBox="0 0 24 24">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 A7 7 0 0 0 21 12.79z"></path>
-            </svg>
-        </div>
-        <div class="language-selector">
-            <button class="language-button" id="language-toggle">
-                <img src="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/flags/en.png" alt="English" class="language-flag" id="current-language-flag" onerror="this.onerror=null; this.style.display='none'">
-                <span id="current-language-name">English</span>
-            </button>
-            <div class="language-options" id="language-options">
-                <div class="language-option" data-lang="en">
-                    <img src="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/flags/en.png" alt="English" class="language-flag" onerror="this.onerror=null; this.style.display='none'">
-                    <span>English</span>
-                </div>
-                <div class="language-option" data-lang="ja">
-                    <img src="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/flags/jp.png" alt="日本語" class="language-flag" onerror="this.onerror=null; this.style.display='none'">
-                    <span>日本語</span>
-                </div>
-                <div class="language-option" data-lang="de">
-                    <img src="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/flags/de.png" alt="Deutsch" class="language-flag" onerror="this.onerror=null; this.style.display='none'">
-                    <span>Deutsch</span>
-                </div>
-                <div class="language-option" data-lang="es">
-                    <img src="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/flags/es.png" alt="Español" class="language-flag" onerror="this.onerror=null; this.style.display='none'">
-                    <span>Español</span>
+
+        <div class="header-controls">
+            <div class="theme-toggle">
+                <svg class="theme-icon sun-icon icon-svg" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <label class="theme-switch">
+                    <input type="checkbox" id="theme-toggle-checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+                <svg class="theme-icon moon-icon icon-svg" viewBox="0 0 24 24">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </div>
+
+            <div class="language-selector">
+                <button class="language-button" id="language-toggle">
+                    <img src="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/flags/en.png" alt="English" class="language-flag" id="current-language-flag" onerror="this.onerror=null; this.style.display='none'">
+                    <span id="current-language-name">English</span>
+                </button>
+                <div class="language-options" id="language-options">
+                    <div class="language-option" data-lang="en">
+                        <img src="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/flags/en.png" alt="English" class="language-flag" onerror="this.onerror=null; this.style.display='none'">
+                        <span>English</span>
+                    </div>
+                    <div class="language-option" data-lang="ja">
+                        <img src="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/flags/jp.png" alt="日本語" class="language-flag" onerror="this.onerror=null; this.style.display='none'">
+                        <span>日本語</span>
+                    </div>
+                    <div class="language-option" data-lang="de">
+                        <img src="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/flags/de.png" alt="Deutsch" class="language-flag" onerror="this.onerror=null; this.style.display='none'">
+                        <span>Deutsch</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="container">
-        <h1 class="title" data-i18n="privacy-notice">Privacy Notice</h1>
-        <p class="effective-date"><strong data-i18n="effective-date">Effective Date:</strong> April 25th, 2025</p>
+        <h1 class="page-title transition-text" data-i18n="privacy-policy-title">Privacy & Safety</h1>
         
-        <div class="intro">
-            <p data-i18n="intro-text">This Privacy Notice explains how Treron Development LLC collects, uses, and shares your personal information when you use our services.</p>
-            <p data-i18n="intro-scope">This applies to all games & services registered under Treron Development LLC. including: Recharge, Chimp Palace, The Waking Soul, Universal Water Hole, ETC.</p>
+        <div class="effective-date transition-text">
+            <strong data-i18n="effective-date">Effective Date:</strong> <span>February 6th, 2025</span>
+        </div>
+        
+        <div class="intro-section">
+            <p class="transition-text" data-i18n="intro-text">This Privacy Policy explains how Treron Development LLC collects, uses, and shares your personal information when you use our services.</p>
+            <p class="transition-text" data-i18n="intro-scope">This applies to all games & services registered under Treron Development LLC, including: Recharge, Chimp Palace, The Waking Soul, Universal Water Hole, and others.</p>
         </div>
 
         <div class="content-wrapper">
-            <div class="toc-container">
-                <div class="toc">
-                    <h2 class="toc-title" data-i18n="toc.title">Table of Contents</h2>
-                    <ul class="toc-list">
-                        <li class="toc-item"><a href="#information-collection" class="toc-link" data-i18n="toc.item1">1. Information Collection</a></li>
-                        <li class="toc-item"><a href="#information-use" class="toc-link" data-i18n="toc.item2">2. Information Use</a></li>
-                        <li class="toc-item"><a href="#information-sharing" class="toc-link" data-i18n="toc.item3">3. Information Sharing</a></li>
-                        <li class="toc-item"><a href="#cookies" class="toc-link" data-i18n="toc.item4">4. Cookies & Tracking</a></li>
-                        <li class="toc-item"><a href="#third-party" class="toc-link" data-i18n="toc.item5">5. Third-Party Websites</a></li>
-                        <li class="toc-item"><a href="#retention" class="toc-link" data-i18n="toc.item6">6. Data Retention</a></li>
-                        <li class="toc-item"><a href="#information-security" class="toc-link" data-i18n="toc.item7">7. Information Security</a></li>
-                        <li class="toc-item"><a href="#minors" class="toc-link" data-i18n="toc.item8">8. Minors</a></li>
-                        <li class="toc-item"><a href="#privacy-rights" class="toc-link" data-i18n="toc.item9">9. Privacy Rights</a></li>
-                        <li class="toc-item"><a href="#do-not-track" class="toc-link" data-i18n="toc.item10">10. Do-Not-Track</a></li>
-                        <li class="toc-item"><a href="#california-privacy" class="toc-link" data-i18n="toc.item11">11. California Privacy</a></li>
-                        <li class="toc-item"><a href="#data-sharing" class="toc-link" data-i18n="toc.item12">12. Data Sharing</a></li>
-                        <li class="toc-item"><a href="#your-rights" class="toc-link" data-i18n="toc.item13">13. Your Rights</a></li>
-                        <li class="toc-item"><a href="#rights-exercise" class="toc-link" data-i18n="toc.item14">14. Exercise Your Rights</a></li>
-                        <li class="toc-item"><a href="#request-verification" class="toc-link" data-i18n="toc.item15">15. Request Verification</a></li>
-                        <li class="toc-item"><a href="#appeals" class="toc-link" data-i18n="toc.item16">16. Appeals</a></li>
-                        <li class="toc-item"><a href="#changes" class="toc-link" data-i18n="toc.item17">17. Changes to Notice</a></li>
-                        <li class="toc-item"><a href="#contact" class="toc-link" data-i18n="toc.item18">18. Contact Us</a></li>
-                    </ul>
-                </div>
+            <div class="toc">
+                <h2 class="toc-title transition-text" data-i18n="toc-title">Table of Contents</h2>
+                <ul class="toc-list">
+                    <li class="toc-item"><a href="#data-collection" class="toc-link transition-text" data-i18n="toc-item-1">1. Data Collection</a></li>
+                    <li class="toc-item"><a href="#data-usage" class="toc-link transition-text" data-i18n="toc-item-2">2. Data Usage</a></li>
+                    <li class="toc-item"><a href="#data-protection" class="toc-link transition-text" data-i18n="toc-item-3">3. Data Protection</a></li>
+                    <li class="toc-item"><a href="#anti-doxing" class="toc-link transition-text" data-i18n="toc-item-4">4. Privacy & Anti-Doxing</a></li>
+                    <li class="toc-item"><a href="#cookies" class="toc-link transition-text" data-i18n="toc-item-5">5. Cookies</a></li>
+                    <li class="toc-item"><a href="#third-party-links" class="toc-link transition-text" data-i18n="toc-item-6">6. Third-Party Links</a></li>
+                    <li class="toc-item"><a href="#policy-changes" class="toc-link transition-text" data-i18n="toc-item-7">7. Policy Changes</a></li>
+                    <li class="toc-item"><a href="#contact-info" class="toc-link transition-text" data-i18n="toc-item-8">8. Contact Information</a></li>
+                </ul>
             </div>
 
             <div class="main-content">
-                <section id="information-collection" class="section fade-in">
-                    <h2 class="section-title" data-i18n="info-collection-title">Information Collection</h2>
-                    <p data-i18n="info-collection-short"><strong>In Short:</strong> We collect only the minimum required data to operate our services, and we do not share it with third-party developers.</p>
-                
-                    <h3 class="section-subtitle" data-i18n="info-we-collect-title">Information We Collect</h3>
+                <section id="data-collection" class="section fade-in">
+                    <h2 class="section-title transition-text" data-i18n="data-collection-title">1. Data Collection</h2>
+                    <p class="transition-text" data-i18n="data-collection-intro"><strong>In Short:</strong> We collect only the minimum required data to operate our services, and we do not share it with third-party developers.</p>
+                    
+                    <h3 class="section-subtitle transition-text" data-i18n="info-we-collect">Information We Collect</h3>
                     <ul>
-                        <li data-i18n="info-collect-email">Your email (if provided during account creation)</li>
-                        <li data-i18n="info-collect-ip">Your IP address and device ID while logged in</li>
-                        <li data-i18n="info-collect-ip-use">(As stated later in these policies, we use your IP address to verify your user, which helps with bot verification, thus keeping our services safer.)</li>
+                        <li class="transition-text" data-i18n="collect-email">Your email address (if provided during account creation)</li>
+                        <li class="transition-text" data-i18n="collect-ip">Your IP address and device ID while logged in</li>
+                        <li class="transition-text" data-i18n="collect-usage">Basic usage analytics to improve our services</li>
+                        <li class="transition-text" data-i18n="collect-preferences">User preferences and settings</li>
                     </ul>
-                
-                    <p data-i18n="info.internal_access_note">This information is only accessible by Anemunt, our internal team. We do not use external data processors for this data.</p>
-                
-                    <h3 class="section-subtitle" data-i18n="data-protection-title">Data Protection Compliance</h3>
-                    <p data-i18n="data-protection-text">We comply with the following data protection regulations:</p>
+                    
+                    <p class="transition-text" data-i18n="data-collection-note">We use your IP address to verify your identity, which helps with bot verification and keeps our services safer. This information is only accessible by our internal team and we do not use external data processors for this data.</p>
+                </section>
+
+                <section id="data-usage" class="section fade-in">
+                    <h2 class="section-title transition-text" data-i18n="data-usage-title">2. Data Usage</h2>
+                    <p class="transition-text" data-i18n="data-usage-intro">We use the information we collect to provide, improve, and personalize our services.</p>
+                    
+                    <h3 class="section-subtitle transition-text" data-i18n="how-we-use">How We Use Your Information</h3>
                     <ul>
-                        <li data-i18n="gdpr-text">GDPR (EU, including Germany)</li>
-                        <li data-i18n="appi-text">APPI (Japan)</li>
-                        <li data-i18n="us-privacy-text">Applicable US Privacy Standards</li>
+                        <li class="transition-text" data-i18n="use-provide">Provide and maintain our services</li>
+                        <li class="transition-text" data-i18n="use-improve">Improve and personalize your experience</li>
+                        <li class="transition-text" data-i18n="use-communicate">Communicate with you about updates and support</li>
+                        <li class="transition-text" data-i18n="use-security">Ensure security and prevent abuse</li>
+                        <li class="transition-text" data-i18n="use-analytics">Monitor usage and analyze trends</li>
+                    </ul>
+                    
+                    <h3 class="section-subtitle transition-text" data-i18n="data-retention">Data Retention</h3>
+                    <ul>
+                        <li class="transition-text" data-i18n="retention-ip">Your IP address is cleared after every logout</li>
+                        <li class="transition-text" data-i18n="retention-banned">If your account is banned, your IP and device ID are securely stored in a blacklist to prevent abuse</li>
+                        <li class="transition-text" data-i18n="retention-general">We retain personal information only as long as necessary to fulfill the purposes outlined in this policy</li>
                     </ul>
                 </section>
 
-                <section id="information-use" class="section fade-in">
-                    <h2 class="section-title" data-i18n="info.use.title">2. HOW DO WE USE & RETAIN YOUR INFORMATION?</h2>
-                    <p><strong>In Short:</strong> We use your information to provide, improve, and personalize our Services—and retain certain data only as long as necessary.</p>
-                
-                    <h3 class="section-subtitle">How We Use Your Information</h3>
-                    <p>We use the information we collect to:</p>
+                <section id="data-protection" class="section fade-in">
+                    <h2 class="section-title transition-text" data-i18n="data-protection-title">3. Data Protection</h2>
+                    <p class="transition-text" data-i18n="data-protection-intro">We implement appropriate technical and organizational security measures to protect your personal information.</p>
+                    
+                    <h3 class="section-subtitle transition-text" data-i18n="security-measures">Security Measures</h3>
                     <ul>
-                        <li>Provide and maintain our Services</li>
-                        <li>Improve and personalize your experience</li>
-                        <li>Communicate with you</li>
-                        <li>Process transactions and send related information</li>
-                        <li>Monitor and analyze usage and trends</li>
+                        <li class="transition-text" data-i18n="security-encryption">Data encryption in transit and at rest</li>
+                        <li class="transition-text" data-i18n="security-access">Limited access controls and authentication</li>
+                        <li class="transition-text" data-i18n="security-monitoring">Regular security monitoring and updates</li>
+                        <li class="transition-text" data-i18n="security-backup">Secure backup and recovery procedures</li>
                     </ul>
-                
-                    <h3 class="section-subtitle">Data Retention</h3>
+                    
+                    <h3 class="section-subtitle transition-text" data-i18n="compliance">Compliance</h3>
+                    <p class="transition-text" data-i18n="compliance-text">We comply with applicable data protection regulations including:</p>
                     <ul>
-                        <li>Your IP address is cleared after every logout.</li>
-                        <li>If your account is banned, your IP and device ID are securely stored in a blacklist to prevent abuse.</li>
+                        <li class="transition-text" data-i18n="compliance-gdpr">GDPR (European Union, including Germany)</li>
+                        <li class="transition-text" data-i18n="compliance-appi">APPI (Japan)</li>
+                        <li class="transition-text" data-i18n="compliance-ccpa">CCPA (California)</li>
+                        <li class="transition-text" data-i18n="compliance-us">Other applicable US privacy standards</li>
                     </ul>
                 </section>
 
-                <section id="information-sharing" class="section fade-in">
-                    <h2 class="section-title">3. HOW DO WE SHARE YOUR INFORMATION?</h2>
-                    <p><strong>In Short:</strong> We may share your information with service providers, partners, and as required by law.</p>
-                    <p>We may share your information:</p>
+                <section id="anti-doxing" class="section fade-in">
+                    <h2 class="section-title transition-text" data-i18n="anti-doxing-title">4. Privacy & Anti-Doxing Policy</h2>
+                    <p class="transition-text" data-i18n="anti-doxing-intro"><strong>In Short:</strong> Doxing or sharing private/personal information of any user is strictly forbidden and will result in immediate action.</p>
+                    
+                    <h3 class="section-subtitle transition-text" data-i18n="doxing-prohibition">Prohibition of Doxing</h3>
                     <ul>
-                        <li>With service providers who perform services on our behalf</li>
-                        <li>With partners to offer or improve our Services</li>
-                        <li>To comply with legal obligations or protect our rights</li>
+                        <li class="transition-text" data-i18n="doxing-forbidden">Doxing or sharing private/personal information of any user is strictly forbidden</li>
+                        <li class="transition-text" data-i18n="doxing-consequences">Anyone caught doing so will be banned and reported to appropriate authorities</li>
+                        <li class="transition-text" data-i18n="doxing-zero-tolerance">We maintain a zero-tolerance policy for privacy violations</li>
+                        <li class="transition-text" data-i18n="doxing-includes">This includes sharing real names, addresses, phone numbers, personal photos, or any identifying information without consent</li>
+                    </ul>
+                    
+                    <h3 class="section-subtitle transition-text" data-i18n="privacy-safety-policies">Privacy & Safety Policies</h3>
+                    <p class="transition-text" data-i18n="privacy-safety-apply">Treron Development's Privacy & Safety policies apply to all interactions within our services and community.</p>
+                    <p class="transition-text" data-i18n="privacy-safety-link">For complete details, please review our comprehensive Privacy & Safety documentation: <a href="https://trerondevelopment.xyz/privacyandsafety" target="_blank" data-i18n="privacy-safety-link-text">Privacy & Safety Policies</a></p>
+                    
+                    <h3 class="section-subtitle transition-text" data-i18n="reporting-crimes">Reporting Cybercrime & Doxing Attacks</h3>
+                    <p class="transition-text" data-i18n="reporting-intro">If you experience doxing attacks or other cybercrimes, you can report them to the appropriate government authorities:</p>
+                    
+                    <div class="reporting-links">
+                        <div class="reporting-card">
+                            <h4 class="transition-text" data-i18n="fbi-reporting">FBI Cybercrime Reporting</h4>
+                            <p class="transition-text" data-i18n="fbi-description">Report internet crimes, including doxing, harassment, and privacy violations to the FBI's Internet Crime Complaint Center.</p>
+                            <a href="https://www.ic3.gov" target="_blank" class="reporting-button" data-i18n="fbi-link">Report to FBI IC3</a>
+                        </div>
+                        
+                        <div class="reporting-card">
+                            <h4 class="transition-text" data-i18n="local-authorities">Local Law Enforcement</h4>
+                            <p class="transition-text" data-i18n="local-description">Contact your local police department or cybercrime unit for immediate assistance with serious threats.</p>
+                        </div>
+                    </div>
+                    
+                    <h3 class="section-subtitle transition-text" data-i18n="user-responsibility">User Responsibility</h3>
+                    <div class="responsibility-notice">
+                        <svg class="icon-svg" style="color: #f59e0b; margin-right: 10px;" viewBox="0 0 24 24">
+                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                            <line x1="12" y1="9" x2="12" y2="13"></line>
+                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                        </svg>
+                        <p class="transition-text" data-i18n="user-responsibility-text"><strong>Important:</strong> You are solely responsible for any crimes committed against members or staff. Treron Development LLC will cooperate fully with law enforcement investigations.</p>
+                    </div>
+                    
+                    <h3 class="section-subtitle transition-text" data-i18n="protection-measures">Our Protection Measures</h3>
+                    <ul>
+                        <li class="transition-text" data-i18n="protection-monitoring">Active monitoring of community interactions for privacy violations</li>
+                        <li class="transition-text" data-i18n="protection-reporting">Easy reporting mechanisms for users to report privacy breaches</li>
+                        <li class="transition-text" data-i18n="protection-investigation">Thorough investigation of all reported incidents</li>
+                        <li class="transition-text" data-i18n="protection-cooperation">Full cooperation with law enforcement when criminal activity is suspected</li>
+                        <li class="transition-text" data-i18n="protection-education">Educational resources about online privacy and safety</li>
                     </ul>
                 </section>
 
                 <section id="cookies" class="section fade-in">
-                    <h2 class="section-title">4. DO WE USE COOKIES AND OTHER TRACKING TECHNOLOGIES?</h2>
-                    <p><strong>In Short:</strong> Yes, we use cookies and similar technologies to enhance your experience.</p>
-                    <p>We use cookies and other tracking technologies to:</p>
+                    <h2 class="section-title transition-text" data-i18n="cookies-title">5. Cookies</h2>
+                    <p class="transition-text" data-i18n="cookies-intro">We use cookies and similar technologies to enhance your experience and analyze usage patterns.</p>
+                    
+                    <h3 class="section-subtitle transition-text" data-i18n="cookie-types">Types of Cookies We Use</h3>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="transition-text" data-i18n="table-cookie-type">Cookie Type</th>
+                                    <th class="transition-text" data-i18n="table-cookie-purpose">Purpose</th>
+                                    <th class="transition-text" data-i18n="table-cookie-duration">Duration</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="transition-text" data-i18n="cookie-essential">Essential</td>
+                                    <td class="transition-text" data-i18n="cookie-essential-desc">Required for basic site functionality</td>
+                                    <td class="transition-text" data-i18n="cookie-essential-time">Session</td>
+                                </tr>
+                                <tr>
+                                    <td class="transition-text" data-i18n="cookie-analytics">Analytics</td>
+                                    <td class="transition-text" data-i18n="cookie-analytics-desc">Help us understand how you use our services</td>
+                                    <td class="transition-text" data-i18n="cookie-analytics-time">30 days</td>
+                                </tr>
+                                <tr>
+                                    <td class="transition-text" data-i18n="cookie-preferences">Preferences</td>
+                                    <td class="transition-text" data-i18n="cookie-preferences-desc">Remember your settings and preferences</td>
+                                    <td class="transition-text" data-i18n="cookie-preferences-time">1 year</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <p class="transition-text" data-i18n="cookie-control">You can control cookies through your browser settings. However, disabling certain cookies may affect the functionality of our services.</p>
+                </section>
+
+                <section id="third-party-links" class="section fade-in">
+                    <h2 class="section-title transition-text" data-i18n="third-party-title">6. Third-Party Links</h2>
+                    <p class="transition-text" data-i18n="third-party-intro">Our services may contain links to third-party websites or services that are not operated by us.</p>
+                    
                     <ul>
-                        <li>Enhance your experience</li>
-                        <li>Analyze usage and trends</li>
-                        <li>Personalize content and advertisements</li>
+                        <li class="transition-text" data-i18n="third-party-responsibility">We are not responsible for the privacy practices of third-party websites</li>
+                        <li class="transition-text" data-i18n="third-party-review">We encourage you to review the privacy policies of any third-party sites you visit</li>
+                        <li class="transition-text" data-i18n="third-party-data">We do not share your personal data with third parties without your consent</li>
+                        <li class="transition-text" data-i18n="third-party-control">You have control over what information you share with third-party services</li>
                     </ul>
                 </section>
 
-                <section id="third-party" class="section fade-in">
-                    <h2 class="section-title">5. DO WE LINK TO THIRD-PARTY WEBSITES?</h2>
-                    <p><strong>In Short:</strong> We are not responsible for the security of any third-party website or service linked to our Services.</p>
-                    <p>Our Services may contain links to third-party websites, services, or applications. We are not responsible for the privacy practices or the content of these third parties. We do not endorse any third-party websites, services, or applications.</p>
-                    <p>If you have any questions or concerns regarding your data on third-party sites, please refer to their privacy policies.</p>
-                </section>
-
-                <section id="retention" class="section fade-in">
-                    <h2 class="section-title">6. HOW LONG DO WE KEEP YOUR INFORMATION?</h2>
-                    <p><strong>In Short:</strong> We keep your information for as long as necessary to fulfill the purposes outlined in this Privacy Notice unless otherwise required by law.</p>
-                    <p>We will only keep your personal information for as long as it is necessary for the purposes set out in this Privacy Notice, unless a longer retention period is required or permitted by law (such as tax, accounting, or other legal requirements).</p>
-                    <p>No purpose in this notice will require us keeping your personal information for longer than one (1) month past the start of the idle period of the user's account.</p>
-                    <p>When we have no ongoing legitimate business need to process your personal information, we will either delete or anonymize such information, or, if this is not possible (for example, because your personal information has been stored in backup archives), then we will securely store your personal information and isolate it from any further processing until deletion is possible.</p>
-                </section>
-
-                <section id="information-security" class="section fade-in">
-                    <h2 class="section-title">7. HOW DO WE KEEP YOUR INFORMATION SAFE?</h2>
-                    <p><strong>In Short:</strong> We aim to protect your personal information through a system of organizational and technical security measures.</p>
-                    <p>We have implemented appropriate and reasonable technical and organizational security measures designed to protect the security of any personal information we process.</p>
-                    <p>However, despite our safeguards and efforts to secure your information, no electronic transmission over the Internet or information storage technology can be guaranteed to be 100% secure, so we cannot promise or guarantee that hackers, cybercriminals, or other unauthorized third parties will not be able to defeat our security and improperly collect, access, steal, or modify your information.</p>
-                    <p>Although we will do our best to protect your personal information, transmission of personal information to and from our Services is at your own risk. You should only access the Services within a secure environment.</p>
-                </section>
-
-                <section id="minors" class="section fade-in">
-                    <h2 class="section-title">8. DO WE COLLECT INFORMATION FROM MINORS?</h2>
-                    <p><strong>In Short:</strong> We do not knowingly collect data from or market to minors.</p>
-                    <p>We do not permit the use of our Services for inappropriate purposes involving minors. We abstain from collecting minor user information outside of necessary data such as usernames, items, and user regions.</p>
-                    <p>We routinely dispose of location data and IP login information each time a user logs out to ensure safety. This prevents doxing and the collection of sensitive data from minors.</p>
-                </section>
-
-                <section id="privacy-rights" class="section fade-in">
-                    <h2 class="section-title">3. USER RIGHTS (GERMANY & JAPAN COMPLIANT)</h2>
-                    <p><strong>In Short:</strong> You have the right to request access to your data, correction, or full deletion. Depending on your location, such as in Germany, Japan, or regions within the European Economic Area (EEA), United Kingdom (UK), Switzerland, and Canada, you have additional rights under applicable data protection laws.</p>
-                
-                    <h3 class="section-subtitle">Your Rights</h3>
-                    <p>In some regions, you have the following rights:</p>
+                <section id="policy-changes" class="section fade-in">
+                    <h2 class="section-title transition-text" data-i18n="changes-title">7. Changes to This Privacy Policy</h2>
+                    <p class="transition-text" data-i18n="changes-intro">We may update this Privacy Policy from time to time to reflect changes in our practices or for other operational, legal, or regulatory reasons.</p>
+                    
                     <ul>
-                        <li>To request access and obtain a copy of your personal information</li>
-                        <li>To request correction or deletion of your data</li>
-                        <li>To restrict the processing of your personal information</li>
-                        <li>To request data portability (if applicable)</li>
-                        <li>Not to be subject to automated decision-making</li>
-                        <li>The right to withdraw your consent (if consent is required for processing)</li>
-                    </ul>
-                
-                    <h3 class="section-subtitle">How to Exercise Your Rights</h3>
-                    <ul>
-                        <li>To delete your account, use the website deletion option.</li>
-                        <li>For full data deletion, email us at: <a href="mailto:treronsupport@trerondevelopment.xyz">treronsupport@trerondevelopment.xyz</a></li>
-                    </ul>
-                
-                    <p>If you are located in the EEA or UK and believe we are unlawfully processing your personal information, you also have the right to complain to your Member State data protection authority or UK data protection authority.</p>
-                    <p>If you are located in Switzerland, you may contact the Federal Data Protection and Information Commissioner.</p>
-                
-                    <h3 class="section-subtitle">Withdrawing Your Consent</h3>
-                    <p>If we rely on your consent to process your personal information, you can withdraw that consent at any time by contacting us. This will not affect the legality of processing conducted prior to withdrawal, nor will it affect processing based on other legal grounds.</p>
-                </section>
-
-                <section id="do-not-track" class="section fade-in">
-                    <h2 class="section-title">10. CONTROLS FOR DO-NOT-TRACK FEATURES</h2>
-                    <p><strong>In Short:</strong> Most web browsers and some mobile operating systems and mobile applications include a Do-Not-Track ("DNT") feature or setting you can activate to signal your privacy preference not to have data about your online browsing activities monitored and collected.</p>
-                    <p>At this stage, no uniform technology standard for recognizing and implementing DNT signals has been finalized. As such, we do not currently respond to DNT browser signals or any other mechanism that automatically communicates your choice not to be tracked online.</p>
-                    <p>If a standard for online tracking is adopted that we must follow in the future, we will inform you about that practice in a revised version of this Privacy Notice.</p>
-                </section>
-
-                <section id="california-privacy" class="section fade-in">
-                    <h2 class="section-title">11. CALIFORNIA PRIVACY RIGHTS</h2>
-                    <p><strong>In Short:</strong> California residents have specific rights regarding their personal information.</p>
-                    <p>If you are a California resident, you have specific rights regarding your personal information under California privacy laws, including the California Consumer Privacy Act (CCPA) and the California Privacy Rights Act (CPRA). These rights may include:</p>
-                    <ul>
-                        <li>The right to know what personal information we collect, use, disclose, and sell</li>
-                        <li>The right to access your personal information</li>
-                        <li>The right to request deletion of your personal information</li>
-                        <li>The right to opt out of the sale of your personal information</li>
-                        <li>The right to non-discrimination for exercising your rights</li>
-                    </ul>
-                    <p>To exercise these rights, you can contact us by submitting a data subject access request, by emailing us at privacy@trerondevelopment.com, or by referring to the contact details at the bottom of this document.</p>
-
-                    <h3 class="section-subtitle">Personal Information We Collect</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th data-i18n="table-header-category">Category</th>
-                                <th data-i18n="table-header-examples">Examples</th>
-                                <th data-i18n="table-header-collect">Do We Collect This?</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td data-i18n="table-row-1-category">A. Identifiers</td>
-                                <td data-i18n="table-row-1-examples">Contact details, such as name, email address, phone number, account name</td>
-                                <td data-i18n="yes">YES</td>
-                            </tr>
-                            <tr>
-                                <td>B. Personal Information Categories Listed in the California Customer Records Statute</td>
-                                <td>Contact details, such as name, address, phone number, education, employment, financial, and health information</td>
-                                <td data-i18n="no">NO</td>
-                            </tr>
-                            <tr>
-                                <td>C. Protected Classification Characteristics under California or Federal Law</td>
-                                <td>Age, race, sex, sexual orientation, gender identity, disability</td>
-                                <td data-i18n="no">NO</td>
-                            </tr>
-                            <tr>
-                                <td>D. Commercial Information</td>
-                                <td>Purchase history, transaction history</td>
-                                <td data-i18n="no">NO</td>
-                            </tr>
-                            <tr>
-                                <td>E. Biometric Information</td>
-                                <td>Fingerprints, voiceprints, facial recognition</td>
-                                <td data-i18n="no">NO</td>
-                            </tr>
-                            <tr>
-                                <td>F. Internet or Other Similar Network Activity</td>
-                                <td>Browsing history, search history, interactions with our website or advertisements</td>
-                                <td data-i18n="yes">YES</td>
-                            </tr>
-                            <tr>
-                                <td>G. Geolocation Data</td>
-                                <td>Physical location or movements</td>
-                                <td data-i18n="no">NO</td>
-                            </tr>
-                            <tr>
-                                <td>H. Sensory Data</td>
-                                <td>Audio recordings, electronic recordings, visual recordings</td>
-                                <td data-i18n="no">NO</td>
-                            </tr>
-                            <tr>
-                                <td>I. Professional or Employment-Related Information</td>
-                                <td>Professional background, work history, and professional qualifications if you apply for a job with us</td>
-                                <td data-i18n="no">NO</td>
-                            </tr>
-                            <tr>
-                                <td>J. Education Information</td>
-                                <td>Student records and directory information</td>
-                                <td data-i18n="no">NO</td>
-                            </tr>
-                            <tr>
-                                <td>K. Inferences Drawn from Collected Personal Information</td>
-                                <td>Inferences drawn from any of the collected personal information listed above to create a profile or summary about, for example, an individual's preferences and characteristics</td>
-                                <td data-i18n="no">NO</td>
-                            </tr>
-                            <tr>
-                                <td>L. Sensitive Personal Information</td>
-                                <td></td>
-                                <td data-i18n="no">NO</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <p>We may also collect other personal information outside of these categories through instances where you interact with us in person, online, or by phone or mail in the context of:</p>
-                    <ul>
-                        <li>Receiving help through our customer support channels;</li>
-                        <li>Participation in customer surveys or contests; and</li>
-                        <li>Facilitation in the delivery of our Services and to respond to your inquiries.</li>
-                    </ul>
-
-                    <p>We will use and retain the collected personal information as needed to provide the Services or for:</p>
-                    <ul>
-                        <li><strong>Category C</strong> - usually around 1 day or more depending if they want to remove it quickly or not.</li>
-                        <li><strong>Category G</strong> - Only For Until Logged Out of the Game When Exiting the Game. (Typically only around 5 hours)</li>
+                        <li class="transition-text" data-i18n="changes-notification">We will notify you of any material changes by posting the new Privacy Policy on our website</li>
+                        <li class="transition-text" data-i18n="changes-effective">Changes become effective when posted unless otherwise specified</li>
+                        <li class="transition-text" data-i18n="changes-review">We encourage you to review this Privacy Policy periodically</li>
+                        <li class="transition-text" data-i18n="changes-continued">Your continued use of our services after changes constitutes acceptance of the updated policy</li>
                     </ul>
                 </section>
 
-                <section id="data-sharing" class="section fade-in">
-                    <h2 class="section-title">12. WILL YOUR INFORMATION BE SHARED WITH ANYONE ELSE?</h2>
-                    <p>We may disclose your personal information with our service providers pursuant to a written contract between us and each service provider. Learn more about how we disclose personal information in the section, "WHEN AND WITH WHOM DO WE SHARE YOUR PERSONAL INFORMATION?"</p>
-                    <p>We may use your personal information for our own business purposes, such as for undertaking internal research for technological development and demonstration. This is not considered to be "selling" of your personal information.</p>
-                    <p>We have not disclosed, sold, or shared any personal information to third parties for a business or commercial purpose in the preceding twelve (12) months. We will not sell or share personal information in the future belonging to website visitors, users, and other consumers.</p>
-                </section>
-
-                <section id="your-rights" class="section fade-in">
-                    <h2 class="section-title">13. YOUR RIGHTS</h2>
-                    <p>You have rights under certain US state data protection laws. However, these rights are not absolute, and in certain cases, we may decline your request as permitted by law. These rights include:</p>
+                <section id="contact-info" class="section fade-in">
+                    <h2 class="section-title transition-text" data-i18n="contact-title">8. Contact Information</h2>
+                    <p class="transition-text" data-i18n="contact-intro">If you have questions, concerns, or requests regarding this Privacy Policy or your personal data, please contact us:</p>
+                    
                     <ul>
-                        <li>Right to know whether or not we are processing your personal data</li>
-                        <li>Right to access your personal data</li>
-                        <li>Right to correct inaccuracies in your personal data</li>
-                        <li>Right to request the deletion of your personal data</li>
-                        <li>Right to obtain a copy of the personal data you previously shared with us</li>
-                        <li>Right to non-discrimination for exercising your rights</li>
-                        <li>Right to opt out of the processing of your personal data if it is used for targeted advertising (or sharing as defined under California's privacy law), the sale of personal data, or profiling in furtherance of decisions that produce legal or similarly significant effects ("profiling")</li>
+                        <li class="transition-text" data-i18n="contact-email">Email: <a href="mailto:treronsupport@trerondevelopment.xyz">treronsupport@trerondevelopment.xyz</a></li>
+                        <li class="transition-text" data-i18n="contact-backup">Backup Email: <a href="mailto:sansgamer1234566@gmail.com">sansgamer1234566@gmail.com</a></li>
+                        <li class="transition-text" data-i18n="contact-discord">Discord: <a href="https://discord.gg/bhRB8m74gG" target="_blank">Treron Development LLC Community</a></li>
                     </ul>
-                    <p>Depending upon the state where you live, you may also have the following rights:</p>
+                    
+                    <h3 class="section-subtitle transition-text" data-i18n="your-rights">Your Rights</h3>
+                    <p class="transition-text" data-i18n="rights-intro">Depending on your location, you may have the following rights regarding your personal data:</p>
                     <ul>
-                        <li>Right to obtain a list of the categories of third parties to which we have disclosed personal data (as permitted by applicable law, including California's and Delaware's privacy law)</li>
-                        <li>Right to obtain a list of specific third parties to which we have disclosed personal data (as permitted by applicable law, including Oregon's privacy law)</li>
-                        <li>Right to limit use and disclosure of sensitive personal data (as permitted by applicable law, including California's privacy law)</li>
-                        <li>Right to opt out of the collection of sensitive data and personal data collected through the operation of a voice or facial recognition feature (as permitted by applicable law, including Florida's privacy law)</li>
+                        <li class="transition-text" data-i18n="right-access">Right to access your personal information</li>
+                        <li class="transition-text" data-i18n="right-correct">Right to correct inaccurate information</li>
+                        <li class="transition-text" data-i18n="right-delete">Right to request deletion of your data</li>
+                        <li class="transition-text" data-i18n="right-portability">Right to data portability</li>
+                        <li class="transition-text" data-i18n="right-restrict">Right to restrict processing</li>
+                        <li class="transition-text" data-i18n="right-object">Right to object to processing</li>
                     </ul>
-                </section>
-
-                <section id="rights-exercise" class="section fade-in">
-                    <h2 class="section-title">14. HOW TO EXERCISE YOUR RIGHTS</h2>
-                    <p>To exercise these rights, you can contact us by submitting a data subject access request, by emailing us at privacy@trerondevelopment.com, or by referring to the contact details at the bottom of this document.</p>
-                    <p>Under certain US state data protection laws, you can designate an authorized agent to make a request on your behalf. We may deny a request from an authorized agent that does not submit proof that they have been validly authorized to act on your behalf in accordance with applicable laws.</p>
-                </section>
-
-                <section id="request-verification" class="section fade-in">
-                    <h2 class="section-title">15. REQUEST VERIFICATION</h2>
-                    <p>Upon receiving your request, we will need to verify your identity to determine you are the same person about whom we have the information in our system. We will only use personal information provided in your request to verify your identity or authority to make the request.</p>
-                    <p>However, if we cannot verify your identity from the information already maintained by us, we may request that you provide additional information for the purposes of verifying your identity and for security or fraud-prevention purposes.</p>
-                    <p>If you submit the request through an authorized agent, we may need to collect additional information to verify your identity before processing your request and the agent will need to provide a written and signed permission from you to submit such request on your behalf.</p>
-                </section>
-
-                <section id="appeals" class="section fade-in">
-                    <h2 class="section-title">16. APPEALS</h2>
-                    <p>Under certain US state data protection laws, if we decline to take action regarding your request, you may appeal our decision by emailing us at appeals@trerondevelopment.com. We will inform you in writing of our decision regarding your appeal.</p>
-                </section>
-
-                <section id="changes" class="section fade-in">
-                    <h2 class="section-title">17. CHANGES TO THIS NOTICE</h2>
-                    <p>We may update this Privacy Notice from time to time. We will notify you of any changes by posting the new Privacy Notice on our website. You are advised to review this Privacy Notice periodically for any changes. Changes to this Privacy Notice are effective when they are posted on this page.</p>
-                </section>
-
-                <section id="contact" class="section fade-in">
-                    <h2 class="section-title">18. HOW CAN YOU CONTACT US ABOUT THIS NOTICE?</h2>
-                    <p>If you have questions, comments, or concerns about this Privacy Notice or your data, you can contact us at:</p>
-                    <ul>
-                        <li>Email: <a href="mailto:treronsupport@trerondevelopment.xyz">treronsupport@trerondevelopment.xyz</a></li>
-                        <li>Backup Email: <a href="mailto:sansgamer1234566@gmail.com">sansgamer1234566@gmail.com (Alternative Personal Email)</a></li>
-                        <li>Through the Treron Discord: <a href="https://discord.gg/bhRB8m74gG">https://discord.gg/TreronDevelopmentLLC</a></li>
-                    </ul>
-                    <p>We will review and respond to inquiries in accordance with applicable data protection laws.</p>
+                    
+                    <p class="transition-text" data-i18n="rights-exercise">To exercise these rights, please contact us using the information provided above. We will respond to your request within the timeframe required by applicable law.</p>
                 </section>
             </div>
         </div>
-    </div>
 
-    <div class="back-button-container">
-        <div class="menu-link-wrapper back-button">
-            <div class="menu-item-glow" style="background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, rgba(37,99,235,0.06) 50%, rgba(29,78,216,0) 100%);"></div>
-            <a href="https://trerondevelopment.xyz/" class="menu-link-front" onmousedown="playSound('https://github.com/darkresident55/Public-Assets/raw/refs/heads/main/ClickIn.wav')" onmouseup="playSound('https://github.com/darkresident55/Public-Assets/raw/refs/heads/main/ClickOut.wav')">
-                <svg class="menu-icon icon-svg" style="--icon-color: #3b82f6;" viewBox="0 0 24 24">
+        <div class="back-button-container">
+            <a href="https://trerondevelopment.xyz/" class="back-button" onmousedown="playSound('https://github.com/darkresident55/Public-Assets/raw/refs/heads/main/ClickIn.wav')" onmouseup="playSound('https://github.com/darkresident55/Public-Assets/raw/refs/heads/main/ClickOut.wav')">
+                <svg class="icon-svg" viewBox="0 0 24 24">
                     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                     <polyline points="9 22 9 12 15 12 15 22"></polyline>
                 </svg>
-                <span>Go back to Main Screen</span>
-            </a>
-            <a href="https://trerondevelopment.xyz/" class="menu-link-back" onmousedown="playSound('https://github.com/darkresident55/Public-Assets/raw/refs/heads/main/ClickIn.wav')" onmouseup="playSound('https://github.com/darkresident55/Public-Assets/raw/refs/heads/main/ClickOut.wav')">
-                <svg class="menu-icon icon-svg" style="--icon-color: #3b82f6;" viewBox="0 0 24 24">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                </svg>
-                <span>Go back to Main Screen</span>
+                <span class="transition-text" data-i18n="back-to-main">Go back to Main Screen</span>
             </a>
         </div>
     </div>
@@ -1039,417 +1206,626 @@
     </div>
 
     <footer>
-        <p>Copyright &copy; <span id="current-year">2024</span> Treron Development LLC. All rights reserved.</p>
+        <p class="transition-text" data-i18n="copyright">&copy; 2024 Treron Development LLC. All rights reserved.</p>
     </footer>
 
     <script>
+        // Comprehensive translation system - consistent with main site
         const translations = {
             en: {
                 "company-name": "Treron Development LLC",
-                "privacy-notice": "Privacy Notice",
+                "privacy-policy-title": "Privacy & Safety",
                 "effective-date": "Effective Date",
-                "intro-text": "This Privacy Notice explains how Treron Development LLC collects, uses, and shares your personal information when you use our services.",
-                "intro-scope": "This applies to all games & services registered under Treron Development LLC. including: Recharge, Chimp Palace, The Waking Soul, Universal Water Hole, ETC.",
-                "toc.title": "Table of Contents",
-                "info-collection-title": "Information Collection",
-                "info-collection-short": "In Short: We collect only the minimum required data to operate our services, and we do not share it with third-party developers.",
-                "info-we-collect-title": "Information We Collect",
-                "info-collect-email": "Your email (if provided during account creation)",
-                "info-collect-ip": "Your IP address and device ID while logged in",
-                "info-collect-ip-use": "(As stated later in these policies, we use your IP address to verify your user, which helps with bot verification, thus keeping our services safer.)",
-                "data-protection-title": "Data Protection Compliance",
-                "data-protection-text": "We comply with the following data protection regulations:",
-                "gdpr-text": "GDPR (EU, including Germany)",
-                "appi-text": "APPI (Japan)",
-                "us-privacy-text": "Applicable US Privacy Standards",
-                "info-use-title": "Information Use",
-                "info-sharing-title": "Information Sharing",
-                "cookies-title": "Cookies & Tracking",
-                "third-party-title": "Third-Party Websites",
-                "retention-title": "Data Retention",
-                "security-title": "Information Security",
-                "minors-title": "Minors",
-                "privacy-rights-title": "Privacy Rights",
-                "dnt-title": "Do-Not-Track",
-                "california-title": "California Privacy Rights",
-                "data-sharing-title": "Data Sharing",
-                "your-rights-title": "Your Rights",
-                "exercise-rights-title": "Exercise Your Rights",
-                "verification-title": "Request Verification",
-                "appeals-title": "Appeals",
-                "changes-title": "Changes to Notice",
-                "contact-title": "Contact Us",
+                "intro-text": "This Privacy Policy explains how Treron Development LLC collects, uses, and shares your personal information when you use our services.",
+                "intro-scope": "This applies to all games & services registered under Treron Development LLC, including: Recharge, Chimp Palace, The Waking Soul, Universal Water Hole, and others.",
+                "toc-title": "Table of Contents",
+                "toc-item-1": "1. Data Collection",
+                "toc-item-2": "2. Data Usage", 
+                "toc-item-3": "3. Data Protection",
+                "toc-item-4": "4. Privacy & Anti-Doxing",
+                "toc-item-5": "5. Cookies",
+                "toc-item-6": "6. Third-Party Links",
+                "toc-item-7": "7. Policy Changes",
+                "toc-item-8": "8. Contact Information",
+                "data-collection-title": "1. Data Collection",
+                "data-collection-intro": "In Short: We collect only the minimum required data to operate our services, and we do not share it with third-party developers.",
+                "info-we-collect": "Information We Collect",
+                "collect-email": "Your email address (if provided during account creation)",
+                "collect-ip": "Your IP address and device ID while logged in",
+                "collect-usage": "Basic usage analytics to improve our services",
+                "collect-preferences": "User preferences and settings",
+                "data-collection-note": "We use your IP address to verify your identity, which helps with bot verification and keeps our services safer. This information is only accessible by our internal team and we do not use external data processors for this data.",
+                "data-usage-title": "2. Data Usage",
+                "data-usage-intro": "We use the information we collect to provide, improve, and personalize our services.",
+                "how-we-use": "How We Use Your Information",
+                "use-provide": "Provide and maintain our services",
+                "use-improve": "Improve and personalize your experience",
+                "use-communicate": "Communicate with you about updates and support",
+                "use-security": "Ensure security and prevent abuse",
+                "use-analytics": "Monitor usage and analyze trends",
+                "data-retention": "Data Retention",
+                "retention-ip": "Your IP address is cleared after every logout",
+                "retention-banned": "If your account is banned, your IP and device ID are securely stored in a blacklist to prevent abuse",
+                "retention-general": "We retain personal information only as long as necessary to fulfill the purposes outlined in this policy",
+                "data-protection-title": "3. Data Protection",
+                "data-protection-intro": "We implement appropriate technical and organizational security measures to protect your personal information.",
+                "security-measures": "Security Measures",
+                "security-encryption": "Data encryption in transit and at rest",
+                "security-access": "Limited access controls and authentication",
+                "security-monitoring": "Regular security monitoring and updates",
+                "security-backup": "Secure backup and recovery procedures",
+                "compliance": "Compliance",
+                "compliance-text": "We comply with applicable data protection regulations including:",
+                "compliance-gdpr": "GDPR (European Union, including Germany)",
+                "compliance-appi": "APPI (Japan)",
+                "compliance-ccpa": "CCPA (California)",
+                "compliance-us": "Other applicable US privacy standards",
+                "cookies-title": "5. Cookies",
+                "cookies-intro": "We use cookies and similar technologies to enhance your experience and analyze usage patterns.",
+                "cookie-types": "Types of Cookies We Use",
+                "table-cookie-type": "Cookie Type",
+                "table-cookie-purpose": "Purpose",
+                "table-cookie-duration": "Duration",
+                "cookie-essential": "Essential",
+                "cookie-essential-desc": "Required for basic site functionality",
+                "cookie-essential-time": "Session",
+                "cookie-analytics": "Analytics",
+                "cookie-analytics-desc": "Help us understand how you use our services",
+                "cookie-analytics-time": "30 days",
+                "cookie-preferences": "Preferences",
+                "cookie-preferences-desc": "Remember your settings and preferences",
+                "cookie-preferences-time": "1 year",
+                "cookie-control": "You can control cookies through your browser settings. However, disabling certain cookies may affect the functionality of our services.",
+                "third-party-title": "6. Third-Party Links",
+                "third-party-intro": "Our services may contain links to third-party websites or services that are not operated by us.",
+                "third-party-responsibility": "We are not responsible for the privacy practices of third-party websites",
+                "third-party-review": "We encourage you to review the privacy policies of any third-party sites you visit",
+                "third-party-data": "We do not share your personal data with third parties without your consent",
+                "third-party-control": "You have control over what information you share with third-party services",
+                "changes-title": "7. Changes to This Privacy Policy",
+                "changes-intro": "We may update this Privacy Policy from time to time to reflect changes in our practices or for other operational, legal, or regulatory reasons.",
+                "changes-notification": "We will notify you of any material changes by posting the new Privacy Policy on our website",
+                "changes-effective": "Changes become effective when posted unless otherwise specified",
+                "changes-review": "We encourage you to review this Privacy Policy periodically",
+                "changes-continued": "Your continued use of our services after changes constitutes acceptance of the updated policy",
+                "contact-title": "8. Contact Information",
+                "contact-intro": "If you have questions, concerns, or requests regarding this Privacy Policy or your personal data, please contact us:",
+                "contact-email": "Email: treronsupport@trerondevelopment.xyz",
+                "contact-backup": "Backup Email: sansgamer1234566@gmail.com",
+                "contact-discord": "Discord: Treron Development LLC Community",
+                "your-rights": "Your Rights",
+                "rights-intro": "Depending on your location, you may have the following rights regarding your personal data:",
+                "right-access": "Right to access your personal information",
+                "right-correct": "Right to correct inaccurate information",
+                "right-delete": "Right to request deletion of your data",
+                "right-portability": "Right to data portability",
+                "right-restrict": "Right to restrict processing",
+                "right-object": "Right to object to processing",
+                "rights-exercise": "To exercise these rights, please contact us using the information provided above. We will respond to your request within the timeframe required by applicable law.",
                 "back-to-main": "Go back to Main Screen",
-                "copyright": "Copyright © ${year} Treron Development LLC. All rights reserved.",
-                "table-header-category": "Category",
-                "yes": "YES",
-                "privacy-last-updated": "Last updated: January 1, 2025",
-                "privacy-intro": "This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our game and associated services (\"the Game\"). Please read this privacy policy carefully.",
-                "privacy-1-title": "1. Information We Collect",
-                "privacy-1-personal": "Personal Data: We do not collect any personally identifiable information unless you voluntarily provide it to us.",
-                "privacy-7-body": "If you have questions or comments about this policy, please contact us via the support page within the Game."
+                "copyright": "© 2024 Treron Development LLC. All rights reserved.",
+                "language-changed": "Language changed to English",
+                "toc-item-4": "4. Privacy & Anti-Doxing",
+                "anti-doxing-title": "4. Privacy & Anti-Doxing Policy",
+                "anti-doxing-intro": "In Short: Doxing or sharing private/personal information of any user is strictly forbidden and will result in immediate action.",
+                "doxing-prohibition": "Prohibition of Doxing",
+                "doxing-forbidden": "Doxing or sharing private/personal information of any user is strictly forbidden",
+                "doxing-consequences": "Anyone caught doing so will be banned and reported to appropriate authorities",
+                "doxing-zero-tolerance": "We maintain a zero-tolerance policy for privacy violations",
+                "doxing-includes": "This includes sharing real names, addresses, phone numbers, personal photos, or any identifying information without consent",
+                "privacy-safety-policies": "Privacy & Safety Policies",
+                "privacy-safety-apply": "Treron Development's Privacy & Safety policies apply to all interactions within our services and community.",
+                "privacy-safety-link": "For complete details, please review our comprehensive Privacy & Safety documentation:",
+                "privacy-safety-link-text": "Privacy & Safety Policies",
+                "reporting-crimes": "Reporting Cybercrime & Doxing Attacks",
+                "reporting-intro": "If you experience doxing attacks or other cybercrimes, you can report them to the appropriate government authorities:",
+                "fbi-reporting": "FBI Cybercrime Reporting",
+                "fbi-description": "Report internet crimes, including doxing, harassment, and privacy violations to the FBI's Internet Crime Complaint Center.",
+                "fbi-link": "Report to FBI IC3",
+                "local-authorities": "Local Law Enforcement",
+                "local-description": "Contact your local police department or cybercrime unit for immediate assistance with serious threats.",
+                "user-responsibility": "User Responsibility",
+                "user-responsibility-text": "Important: You are solely responsible for any crimes committed against members or staff. Treron Development LLC will cooperate fully with law enforcement investigations.",
+                "protection-measures": "Our Protection Measures",
+                "protection-monitoring": "Active monitoring of community interactions for privacy violations",
+                "protection-reporting": "Easy reporting mechanisms for users to report privacy breaches",
+                "protection-investigation": "Thorough investigation of all reported incidents",
+                "protection-cooperation": "Full cooperation with law enforcement when criminal activity is suspected",
+                "protection-education": "Educational resources about online privacy and safety"
             },
             ja: {
                 "company-name": "Treron Development LLC",
-                "privacy-notice": "プライバシーポリシー",
+                "privacy-policy-title": "プライバシーポリシー",
                 "effective-date": "発効日",
-                "intro-text": "このプライバシー通知は、Treron Development LLCがお客様の個人情報をどのように収集、使用、共有するかを説明するものです。",
+                "intro-text": "このプライバシーポリシーは、Treron Development LLCがお客様の個人情報をどのように収集、使用、共有するかを説明するものです。",
                 "intro-scope": "これは、Recharge、Chimp Palace、The Waking Soul、Universal Water Hole等、Treron Development LLC配下の全てのゲームおよびサービスに適用されます。",
-                "toc.title": "目次",
-                "toc.item1": "1. 情報収集",
-                "toc.item2": "2. 情報の使用",
-                "toc.item3": "3. 情報の共有",
-                "toc.item4": "4. クッキーとトラッキング",
-                "toc.item5": "5. 第三者のウェブサイト",
-                "toc.item6": "6. データの保持",
-                "toc.item7": "7. 情報セキュリティ",
-                "toc.item8": "8. 未成年者",
-                "toc.item9": "9. プライバシー権",
-                "toc.item10": "10. Do-Not-Track",
-                "toc.item11": "11. カリフォルニア州のプライバシー権",
-                "toc.item12": "12. データ共有",
-                "toc.item13": "13. あなたの権利",
-                "toc.item14": "14. 権利の行使",
-                "toc.item15": "15. 本人確認",
-                "toc.item16": "16. 異議申し立て",
-                "toc.item17": "17. 変更について",
-                "toc.item18": "18. お問い合わせ",
-                "privacy-last-updated": "最終更新日：2025年1月1日",
-                "privacy-intro": "このプライバシーポリシーは、ゲームおよび関連サービス（「本ゲーム」）の利用時に、お客様の情報をどのように収集・使用・開示・保護するかを説明するものです。ご一読ください。",
-                "privacy-1-title": "1. 収集する情報",
-                "privacy-1-personal": "個人データ：自発的に提供されない限り、個人を特定できる情報は収集しません。",
-                "privacy-1-derivative": "派生データ：デバイス情報、ゲーム進行状況、パフォーマンスメトリクスなど、ゲームへのアクセス時に自動で収集される情報。",
-                "privacy-1-access": "モバイルデバイスのアクセス：BluetoothやWi-Fiなど、特定の機能へのアクセスを求める場合があります。",
-                "privacy-1-mobile": "モバイルデバイスデータ：デバイスID、モデル、製造元、OSバージョン、位置情報（許可された場合）。",
-                "privacy-1-thirdparty": "第三者データ：ソーシャルメディアなどのプラットフォーム経由でアカウントを接続した場合に取得される情報。",
-                "privacy-1-contests": "キャンペーンやアンケートで提供された個人情報または非個人情報。",
-                "privacy-2-title": "2. 情報の利用目的",
-                "privacy-2-uses": "以下の目的で情報を使用します：",
-                "privacy-2-a": "ゲーム体験と最適化の向上",
-                "privacy-2-b": "利用状況と傾向の監視と分析",
-                "privacy-2-c": "フィードバックの依頼および利用に関する連絡",
-                "privacy-2-d": "問題の解決とトラブルシューティング",
-                "privacy-2-e": "規約およびポリシーの施行",
-                "privacy-3-title": "3. 情報の開示",
-                "privacy-3-list": "以下の状況で情報を共有する場合があります：",
-                "privacy-3-a": "法的要請または権利保護のため",
-                "privacy-3-b": "第三者サービスプロバイダー（例：クラウドストレージ、分析）",
-                "privacy-3-c": "マーケティング通信（該当し、同意がある場合）",
-                "privacy-3-d": "関連会社",
-                "privacy-3-e": "事業譲渡",
-                "privacy-3-f": "お客様の同意がある場合",
-                "privacy-4-title": "4. 情報のセキュリティ",
-                "privacy-4-body": "お客様の情報を保護するために、管理的、技術的、および物理的なセキュリティ対策を講じています。ただし、100％の安全を保証するシステムは存在しません。",
-                "privacy-5-title": "5. 子供に関するポリシー",
-                "privacy-5-body": "13歳未満の子供からデータを意図的に収集することはありません。万一収集してしまった場合は、速やかに削除します。",
-                "privacy-6-title": "6. 情報に関する選択肢",
-                "privacy-6-body": "お客様は以下のことを要求できます：",
-                "privacy-6-a": "データの確認または変更",
-                "privacy-6-b": "メールや通知の配信停止",
-                "privacy-6-c": "アカウントの削除（該当する場合）",
-                "privacy-7-title": "7. お問い合わせ",
-                "privacy-7-body": "本ポリシーに関するご質問やご意見は、ゲーム内のサポートページからお問い合わせください。"
+                "toc-title": "目次",
+                "toc-item-1": "1. データ収集",
+                "toc-item-2": "2. データ使用",
+                "toc-item-3": "3. データ保護",
+                "toc-item-4": "4. プライバシーと身元特定防止",
+                "toc-item-5": "5. クッキー",
+                "toc-item-6": "6. 第三者リンク",
+                "toc-item-7": "7. ポリシー変更",
+                "toc-item-8": "8. 連絡先情報",
+                "data-collection-title": "1. データ収集",
+                "data-collection-intro": "要約：サービス運営に必要最小限のデータのみを収集し、第三者開発者とは共有しません。",
+                "info-we-collect": "収集する情報",
+                "collect-email": "メールアドレス（アカウント作成時に提供された場合）",
+                "collect-ip": "ログイン中のIPアドレスとデバイスID",
+                "collect-usage": "サービス改善のための基本的な使用状況分析",
+                "collect-preferences": "ユーザー設定と好み",
+                "data-collection-note": "IPアドレスは本人確認に使用され、ボット検証に役立ち、サービスの安全性を保ちます。この情報は内部チームのみがアクセス可能で、外部データ処理業者は使用しません。",
+                "data-usage-title": "2. データ使用",
+                "data-usage-intro": "収集した情報は、サービスの提供、改善、パーソナライゼーションに使用します。",
+                "how-we-use": "情報の使用方法",
+                "use-provide": "サービスの提供と維持",
+                "use-improve": "体験の改善とパーソナライゼーション",
+                "use-communicate": "アップデートとサポートに関する連絡",
+                "use-security": "セキュリティの確保と悪用の防止",
+                "use-analytics": "使用状況の監視と傾向分析",
+                "data-retention": "データ保持",
+                "retention-ip": "IPアドレスはログアウト後にクリアされます",
+                "retention-banned": "アカウントが禁止された場合、IPとデバイスIDは悪用防止のためブラックリストに安全に保存されます",
+                "retention-general": "個人情報は本ポリシーに記載された目的を果たすために必要な期間のみ保持します",
+                "data-protection-title": "3. データ保護",
+                "data-protection-intro": "お客様の個人情報を保護するため、適切な技術的・組織的セキュリティ対策を実施しています。",
+                "security-measures": "セキュリティ対策",
+                "security-encryption": "転送中および保存中のデータ暗号化",
+                "security-access": "限定的なアクセス制御と認証",
+                "security-monitoring": "定期的なセキュリティ監視と更新",
+                "security-backup": "安全なバックアップと復旧手順",
+                "compliance": "コンプライアンス",
+                "compliance-text": "以下のデータ保護規制に準拠しています：",
+                "compliance-gdpr": "GDPR（欧州連合、ドイツを含む）",
+                "compliance-appi": "APPI（日本）",
+                "compliance-ccpa": "CCPA（カリフォルニア州）",
+                "compliance-us": "その他の適用される米国プライバシー基準",
+                "cookies-title": "5. クッキー",
+                "cookies-intro": "体験の向上と使用パターンの分析のため、クッキーと類似技術を使用します。",
+                "cookie-types": "使用するクッキーの種類",
+                "table-cookie-type": "クッキーの種類",
+                "table-cookie-purpose": "目的",
+                "table-cookie-duration": "期間",
+                "cookie-essential": "必須",
+                "cookie-essential-desc": "基本的なサイト機能に必要",
+                "cookie-essential-time": "セッション",
+                "cookie-analytics": "分析",
+                "cookie-analytics-desc": "サービスの使用方法を理解するため",
+                "cookie-analytics-time": "30日",
+                "cookie-preferences": "設定",
+                "cookie-preferences-desc": "設定と好みを記憶",
+                "cookie-preferences-time": "1年",
+                "cookie-control": "ブラウザ設定でクッキーを制御できます。ただし、特定のクッキーを無効にするとサービス機能に影響する場合があります。",
+                "third-party-title": "6. 第三者リンク",
+                "third-party-intro": "当サービスには、当社が運営していない第三者のウェブサイトやサービスへのリンクが含まれる場合があります。",
+                "third-party-responsibility": "第三者ウェブサイトのプライバシー慣行については責任を負いません",
+                "third-party-review": "訪問する第三者サイトのプライバシーポリシーを確認することをお勧めします",
+                "third-party-data": "お客様の同意なしに第三者と個人データを共有することはありません",
+                "third-party-control": "第三者サービスと共有する情報をお客様が制御できます",
+                "changes-title": "7. このプライバシーポリシーの変更",
+                "changes-intro": "慣行の変更や運営上、法的、規制上の理由により、このプライバシーポリシーを随時更新する場合があります。",
+                "changes-notification": "重要な変更については、新しいプライバシーポリシーをウェブサイトに掲載してお知らせします",
+                "changes-effective": "特に明記されない限り、変更は掲載時に有効になります",
+                "changes-review": "このプライバシーポリシーを定期的に確認することをお勧めします",
+                "changes-continued": "変更後もサービスを継続利用することで、更新されたポリシーに同意したものとみなされます",
+                "contact-title": "8. 連絡先情報",
+                "contact-intro": "このプライバシーポリシーやお客様の個人データに関してご質問、懸念、リクエストがございましたら、お気軽にお問い合わせください：",
+                "contact-email": "メール：treronsupport@trerondevelopment.xyz",
+                "contact-backup": "バックアップメール：sansgamer1234566@gmail.com",
+                "contact-discord": "Discord：Treron Development LLC コミュニティ",
+                "your-rights": "お客様の権利",
+                "rights-intro": "お住まいの地域によって、個人データに関して以下の権利を有する場合があります：",
+                "right-access": "個人情報へのアクセス権",
+                "right-correct": "不正確な情報の訂正権",
+                "right-delete": "データの削除要求権",
+                "right-portability": "データポータビリティの権利",
+                "right-restrict": "処理制限権",
+                "right-object": "処理への異議申立権",
+                "rights-exercise": "これらの権利を行使するには、上記の連絡先情報をご利用ください。適用法で定められた期間内に回答いたします。",
+                "back-to-main": "メイン画面に戻る",
+                "copyright": "© 2024 Treron Development LLC. 全著作権所有。",
+                "language-changed": "言語が日本語に変更されました",
+                "anti-doxing-title": "4. プライバシーと身元特定防止ポリシー",
+                "anti-doxing-intro": "要約：ユーザーの個人情報や私的情報の身元特定や共有は厳格に禁止されており、即座に対処されます。",
+                "doxing-prohibition": "身元特定の禁止",
+                "doxing-forbidden": "ユーザーの個人情報や私的情報の身元特定や共有は厳格に禁止されています",
+                "doxing-consequences": "違反者は禁止され、適切な当局に報告されます",
+                "doxing-zero-tolerance": "プライバシー侵害に対してゼロトレランス方針を維持しています",
+                "doxing-includes": "これには、同意なしに実名、住所、電話番号、個人写真、または識別情報を共有することが含まれます",
+                "privacy-safety-policies": "プライバシーと安全ポリシー",
+                "privacy-safety-apply": "Treron Developmentのプライバシーと安全ポリシーは、サービスとコミュニティ内のすべての交流に適用されます。",
+                "privacy-safety-link": "詳細については、包括的なプライバシーと安全に関する文書をご確認ください：",
+                "privacy-safety-link-text": "プライバシーと安全ポリシー",
+                "reporting-crimes": "サイバー犯罪と身元特定攻撃の報告",
+                "reporting-intro": "身元特定攻撃やその他のサイバー犯罪を経験した場合、適切な政府当局に報告できます：",
+                "fbi-reporting": "FBI サイバー犯罪報告",
+                "fbi-description": "身元特定、嫌がらせ、プライバシー侵害を含むインターネット犯罪をFBIのインターネット犯罪苦情センターに報告してください。",
+                "fbi-link": "FBI IC3に報告",
+                "local-authorities": "地方法執行機関",
+                "local-description": "深刻な脅威に対する即座の支援については、地元の警察署またはサイバー犯罪部門にお問い合わせください。",
+                "user-responsibility": "ユーザーの責任",
+                "user-responsibility-text": "重要：メンバーやスタッフに対して犯された犯罪については、あなたが単独で責任を負います。Treron Development LLCは法執行機関の調査に全面的に協力します。",
+                "protection-measures": "当社の保護対策",
+                "protection-monitoring": "プライバシー侵害に対するコミュニティ交流の積極的な監視",
+                "protection-reporting": "ユーザーがプライバシー侵害を報告するための簡単な報告メカニズム",
+                "protection-investigation": "報告されたすべての事件の徹底的な調査",
+                "protection-cooperation": "犯罪活動が疑われる場合の法執行機関との完全な協力",
+                "protection-education": "オンラインプライバシーと安全に関する教育リソース"
             },
             de: {
                 "company-name": "Treron Development LLC",
-                "privacy-notice": "Datenschutzerklärung",
+                "privacy-policy-title": "Datenschutzerklärung",
                 "effective-date": "Gültig ab",
                 "intro-text": "Diese Datenschutzerklärung erläutert, wie Treron Development LLC Ihre personenbezogenen Daten erhebt, verwendet und weitergibt.",
-                "intro-scope": "Dies gilt für alle unter Treron Development LLC registrierten Spiele und Dienste, einschließlich: Recharge, Chimp Palace, The Waking Soul, Universal Water Hole, usw.",
+                "intro-scope": "Dies gilt für alle unter Treron Development LLC registrierten Spiele und Dienste, einschließlich: Recharge, Chimp Palace, The Waking Soul, Universal Water Hole und andere.",
                 "toc-title": "Inhaltsverzeichnis",
-                "info-collection-title": "Datenerhebung",
-                "info-collection-short": "Kurz gesagt: Wir erheben nur die minimal erforderlichen Daten für den Betrieb unserer Dienste und teilen diese nicht mit Drittanbietern.",
-                "info-we-collect-title": "Informationen, die wir sammeln",
-                "info-collect-email": "Ihre E-Mail-Adresse (falls bei der Kontoerstellung angegeben)",
-                "info-collect-ip": "Ihre IP-Adresse und Geräte-ID während der Anmeldung",
-                "info-collect-ip-use": "(Wie später in diesen Richtlinien erläutert, verwenden wir Ihre IP-Adresse zur Benutzerverifizierung, was bei der Bot-Erkennung hilft und unsere Dienste sicherer macht.)",
-                "data-protection-title": "Datenschutz-Compliance",
-                "data-protection-text": "Wir halten uns an folgende Datenschutzvorschriften:",
-                "gdpr-text": "DSGVO (EU, einschließlich Deutschland)",
-                "appi-text": "APPI (Japan)",
-                "us-privacy-text": "Anwendbare US-Datenschutzstandards",
-                "info-use-title": "Datennutzung",
-                "info-sharing-title": "Datenweitergabe",
-                "cookies-title": "Cookies und Tracking",
-                "third-party-title": "Drittanbieter-Websites",
-                "retention-title": "Datenspeicherung",
-                "security-title": "Datensicherheit",
-                "minors-title": "Minderjährige",
-                "privacy-rights-title": "Datenschutzrechte",
-                "dnt-title": "Do-Not-Track",
-                "california-title": "Kalifornische Datenschutzrechte",
-                "data-sharing-title": "Datenaustausch",
-                "your-rights-title": "Ihre Rechte",
-                "exercise-rights-title": "Ausübung Ihrer Rechte",
-                "verification-title": "Verifizierungsanfrage",
-                "appeals-title": "Beschwerden",
-                "changes-title": "Änderungen",
-                "contact-title": "Kontakt",
+                "toc-item-1": "1. Datenerhebung",
+                "toc-item-2": "2. Datennutzung",
+                "toc-item-3": "3. Datenschutz",
+                "toc-item-4": "4. Datenschutz & Anti-Doxing",
+                "toc-item-5": "5. Cookies",
+                "toc-item-6": "6. Drittanbieter-Links",
+                "toc-item-7": "7. Richtlinienänderungen",
+                "toc-item-8": "8. Kontaktinformationen",
+                "data-collection-title": "1. Datenerhebung",
+                "data-collection-intro": "Kurz gesagt: Wir erheben nur die minimal erforderlichen Daten für den Betrieb unserer Dienste und teilen diese nicht mit Drittanbietern.",
+                "info-we-collect": "Informationen, die wir sammeln",
+                "collect-email": "Ihre E-Mail-Adresse (falls bei der Kontoerstellung angegeben)",
+                "collect-ip": "Ihre IP-Adresse und Geräte-ID während der Anmeldung",
+                "collect-usage": "Grundlegende Nutzungsanalysen zur Verbesserung unserer Dienste",
+                "collect-preferences": "Benutzereinstellungen und -präferenzen",
+                "data-collection-note": "Wir verwenden Ihre IP-Adresse zur Identitätsverifizierung, was bei der Bot-Erkennung hilft und unsere Dienste sicherer macht. Diese Informationen sind nur für unser internes Team zugänglich und wir verwenden keine externen Datenverarbeiter.",
+                "data-usage-title": "2. Datennutzung",
+                "data-usage-intro": "Wir verwenden die gesammelten Informationen, um unsere Dienste bereitzustellen, zu verbessern und zu personalisieren.",
+                "how-we-use": "Wie wir Ihre Informationen verwenden",
+                "use-provide": "Bereitstellung und Wartung unserer Dienste",
+                "use-improve": "Verbesserung und Personalisierung Ihrer Erfahrung",
+                "use-communicate": "Kommunikation über Updates und Support",
+                "use-security": "Sicherheit gewährleisten und Missbrauch verhindern",
+                "use-analytics": "Nutzung überwachen und Trends analysieren",
+                "data-retention": "Datenspeicherung",
+                "retention-ip": "Ihre IP-Adresse wird nach jedem Logout gelöscht",
+                "retention-banned": "Bei gesperrten Konten werden IP und Geräte-ID sicher in einer Blacklist gespeichert, um Missbrauch zu verhindern",
+                "retention-general": "Wir speichern personenbezogene Daten nur so lange, wie es zur Erfüllung der in dieser Richtlinie beschriebenen Zwecke erforderlich ist",
+                "data-protection-title": "3. Datenschutz",
+                "data-protection-intro": "Wir implementieren angemessene technische und organisatorische Sicherheitsmaßnahmen zum Schutz Ihrer personenbezogenen Daten.",
+                "security-measures": "Sicherheitsmaßnahmen",
+                "security-encryption": "Datenverschlüsselung bei Übertragung und Speicherung",
+                "security-access": "Begrenzte Zugriffskontrollen und Authentifizierung",
+                "security-monitoring": "Regelmäßige Sicherheitsüberwachung und Updates",
+                "security-backup": "Sichere Backup- und Wiederherstellungsverfahren",
+                "compliance": "Compliance",
+                "compliance-text": "Wir halten uns an geltende Datenschutzbestimmungen einschließlich:",
+                "compliance-gdpr": "DSGVO (Europäische Union, einschließlich Deutschland)",
+                "compliance-appi": "APPI (Japan)",
+                "compliance-ccpa": "CCPA (Kalifornien)",
+                "compliance-us": "Andere anwendbare US-Datenschutzstandards",
+                "cookies-title": "5. Cookies",
+                "cookies-intro": "Wir verwenden Cookies und ähnliche Technologien, um Ihre Erfahrung zu verbessern und Nutzungsmuster zu analysieren.",
+                "cookie-types": "Arten von Cookies, die wir verwenden",
+                "table-cookie-type": "Cookie-Typ",
+                "table-cookie-purpose": "Zweck",
+                "table-cookie-duration": "Dauer",
+                "cookie-essential": "Wesentlich",
+                "cookie-essential-desc": "Erforderlich für grundlegende Website-Funktionalität",
+                "cookie-essential-time": "Sitzung",
+                "cookie-analytics": "Analytik",
+                "cookie-analytics-desc": "Helfen uns zu verstehen, wie Sie unsere Dienste nutzen",
+                "cookie-analytics-time": "30 Tage",
+                "cookie-preferences": "Einstellungen",
+                "cookie-preferences-desc": "Merken sich Ihre Einstellungen und Präferenzen",
+                "cookie-preferences-time": "1 Jahr",
+                "cookie-control": "Sie können Cookies über Ihre Browser-Einstellungen steuern. Das Deaktivieren bestimmter Cookies kann jedoch die Funktionalität unserer Dienste beeinträchtigen.",
+                "third-party-title": "6. Drittanbieter-Links",
+                "third-party-intro": "Unsere Dienste können Links zu Drittanbieter-Websites oder -Diensten enthalten, die nicht von uns betrieben werden.",
+                "third-party-responsibility": "Wir sind nicht verantwortlich für die Datenschutzpraktiken von Drittanbieter-Websites",
+                "third-party-review": "Wir empfehlen Ihnen, die Datenschutzrichtlinien aller Drittanbieter-Websites zu überprüfen, die Sie besuchen",
+                "third-party-data": "Wir teilen Ihre personenbezogenen Daten nicht ohne Ihre Zustimmung mit Dritten",
+                "third-party-control": "Sie haben die Kontrolle darüber, welche Informationen Sie mit Drittanbieterdiensten teilen",
+                "changes-title": "7. Änderungen an dieser Datenschutzerklärung",
+                "changes-intro": "Wir können diese Datenschutzerklärung von Zeit zu Zeit aktualisieren, um Änderungen in unseren Praktiken oder aus anderen betrieblichen, rechtlichen oder regulatorischen Gründen widerzuspiegeln.",
+                "changes-notification": "Wir werden Sie über wesentliche Änderungen informieren, indem wir die neue Datenschutzerklärung auf unserer Website veröffentlichen",
+                "changes-effective": "Änderungen werden wirksam, wenn sie veröffentlicht werden, sofern nicht anders angegeben",
+                "changes-review": "Wir empfehlen Ihnen, diese Datenschutzerklärung regelmäßig zu überprüfen",
+                "changes-continued": "Ihre fortgesetzte Nutzung unserer Dienste nach Änderungen stellt die Annahme der aktualisierten Richtlinie dar",
+                "contact-title": "8. Kontaktinformationen",
+                "contact-intro": "Wenn Sie Fragen, Bedenken oder Anfragen bezüglich dieser Datenschutzerklärung oder Ihrer personenbezogenen Daten haben, kontaktieren Sie uns bitte:",
+                "contact-email": "E-Mail: treronsupport@trerondevelopment.xyz",
+                "contact-backup": "Backup-E-Mail: sansgamer1234566@gmail.com",
+                "contact-discord": "Discord: Treron Development LLC Community",
+                "your-rights": "Ihre Rechte",
+                "rights-intro": "Je nach Ihrem Standort haben Sie möglicherweise die folgenden Rechte bezüglich Ihrer personenbezogenen Daten:",
+                "right-access": "Recht auf Zugang zu Ihren personenbezogenen Daten",
+                "right-correct": "Recht auf Berichtigung unrichtiger Informationen",
+                "right-delete": "Recht auf Löschung Ihrer Daten",
+                "right-portability": "Recht auf Datenübertragbarkeit",
+                "right-restrict": "Recht auf Einschränkung der Verarbeitung",
+                "right-object": "Recht auf Widerspruch gegen die Verarbeitung",
+                "rights-exercise": "Um diese Rechte auszuüben, kontaktieren Sie uns bitte über die oben angegebenen Kontaktinformationen. Wir werden auf Ihre Anfrage innerhalb der gesetzlich vorgeschriebenen Frist antworten.",
                 "back-to-main": "Zurück zur Hauptseite",
-                "copyright": "Copyright © ${year} Treron Development LLC. Alle Rechte vorbehalten.",
-                "table-header-category": "Kategorie",
-                "yes": "JA",
-                "privacy-last-updated": "Zuletzt aktualisiert: 1. Januar 2025",
-                "privacy-intro": "Diese Datenschutzrichtlinie erklärt, wie wir Ihre Informationen erfassen, verwenden, offenlegen und schützen, wenn Sie unser Spiel und die zugehörigen Dienste („das Spiel\") nutzen. Bitte lesen Sie diese Richtlinie sorgfältig durch.",
-                "privacy-1-title": "1. Welche Informationen wir sammeln",
-                "privacy-7-body": "Bei Fragen oder Anmerkungen zu dieser Richtlinie kontaktieren Sie uns bitte über die Support-Seite im Spiel.",
-                "toc.title": "Tabla de Contenidos",
-                "toc.item1": "1. Recopilación de Información",
-                "toc.item2": "2. Uso de la Información",
-                "toc.item3": "3. Compartición de Información",
-                "toc.item4": "4. Cookies y Seguimiento",
-                "toc.item5": "5. Sitios Web de Terceros",
-                "toc.item6": "6. Retención de Datos",
-                "toc.item7": "7. Seguridad de la Información",
-                "toc.item8": "8. Menores",
-                "toc.item9": "9. Derechos de Privacidad",
-                "toc.item10": "10. No Rastrear",
-                "toc.item11": "11. Privacidad en California",
-                "toc.item12": "12. Compartición de Datos",
-                "toc.item13": "13. Sus Derechos",
-                "toc.item14": "14. Ejercer Sus Derechos",
-                "toc.item15": "15. Verificación de Solicitudes",
-                "toc.item16": "16. Apelaciones",
-                "toc.item17": "17. Cambios en el Aviso",
-                "toc.item18": "18. Contáctenos",
-            },
-            es: {
-                "company-name": "Treron Development LLC",
-                "privacy-notice": "Aviso de Privacidad",
-                "effective-date": "Fecha Efectiva",
-                "privacy-last-updated": "Última actualización: 1 de enero de 2025",
-                "intro-text": "Este Aviso de Privacidad explica cómo Treron Development LLC recopila, utiliza y comparte su información personal cuando utiliza nuestros servicios.",
-                "intro-scope": "Esto se aplica a todos los juegos y servicios registrados bajo Treron Development LLC, incluyendo: Recharge, Chimp Palace, The Waking Soul, Universal Water Hole, ETC.",
-                "toc.title": "Tabla de Contenidos",
-                "toc.item1": "1. Recopilación de Información",
-                "toc.item2": "2. Uso de la Información",
-                "toc.item3": "3. Compartición de Información",
-                "toc.item4": "4. Cookies y Seguimiento",
-                "toc.item5": "5. Sitios Web de Terceros",
-                "toc.item6": "6. Retención de Datos",
-                "toc.item7": "7. Seguridad de la Información",
-                "toc.item8": "8. Menores",
-                "toc.item9": "9. Derechos de Privacidad",
-                "toc.item10": "10. No Rastrear",
-                "toc.item11": "11. Privacidad en California",
-                "toc.item12": "12. Compartición de Datos",
-                "toc.item13": "13. Sus Derechos",
-                "toc.item14": "14. Ejercer Sus Derechos",
-                "toc.item15": "15. Verificación de Solicitudes",
-                "toc.item16": "16. Apelaciones",
-                "toc.item17": "17. Cambios en el Aviso",
-                "toc.item18": "18. Contáctenos",
+                "copyright": "© 2024 Treron Development LLC. Alle Rechte vorbehalten.",
+                "language-changed": "Sprache wurde auf Deutsch geändert",
+                "anti-doxing-title": "4. Datenschutz & Anti-Doxing-Richtlinie",
+                "anti-doxing-intro": "Kurz gesagt: Doxing oder das Teilen privater/persönlicher Informationen von Benutzern ist streng verboten und führt zu sofortigen Maßnahmen.",
+                "doxing-prohibition": "Verbot von Doxing",
+                "doxing-forbidden": "Doxing oder das Teilen privater/persönlicher Informationen von Benutzern ist streng verboten",
+                "doxing-consequences": "Jeder, der dabei erwischt wird, wird gesperrt und den entsprechenden Behörden gemeldet",
+                "doxing-zero-tolerance": "Wir verfolgen eine Null-Toleranz-Politik für Datenschutzverletzungen",
+                "doxing-includes": "Dies umfasst das Teilen von echten Namen, Adressen, Telefonnummern, persönlichen Fotos oder identifizierenden Informationen ohne Zustimmung",
+                "privacy-safety-policies": "Datenschutz- und Sicherheitsrichtlinien",
+                "privacy-safety-apply": "Treron Developments Datenschutz- und Sicherheitsrichtlinien gelten für alle Interaktionen innerhalb unserer Dienste und Community.",
+                "privacy-safety-link": "Für vollständige Details überprüfen Sie bitte unsere umfassende Datenschutz- und Sicherheitsdokumentation:",
+                "privacy-safety-link-text": "Datenschutz- und Sicherheitsrichtlinien",
+                "reporting-crimes": "Meldung von Cyberkriminalität und Doxing-Angriffen",
+                "reporting-intro": "Wenn Sie Doxing-Angriffe oder andere Cyberkriminalität erleben, können Sie diese den entsprechenden Regierungsbehörden melden:",
+                "fbi-reporting": "FBI Cyberkriminalitätsmeldung",
+                "fbi-description": "Melden Sie Internetkriminalität, einschließlich Doxing, Belästigung und Datenschutzverletzungen an das FBI Internet Crime Complaint Center.",
+                "fbi-link": "An FBI IC3 melden",
+                "local-authorities": "Örtliche Strafverfolgung",
+                "local-description": "Kontaktieren Sie Ihre örtliche Polizeidienststelle oder Cyberkriminalitätseinheit für sofortige Hilfe bei ernsthaften Bedrohungen.",
+                "user-responsibility": "Benutzerverantwortung",
+                "user-responsibility-text": "Wichtig: Sie sind allein verantwortlich für alle Verbrechen, die gegen Mitglieder oder Mitarbeiter begangen werden. Treron Development LLC wird vollständig mit Strafverfolgungsermittlungen kooperieren.",
+                "protection-measures": "Unsere Schutzmaßnahmen",
+                "protection-monitoring": "Aktive Überwachung von Community-Interaktionen auf Datenschutzverletzungen",
+                "protection-reporting": "Einfache Meldemechanismen für Benutzer zur Meldung von Datenschutzverletzungen",
+                "protection-investigation": "Gründliche Untersuchung aller gemeldeten Vorfälle",
+                "protection-cooperation": "Vollständige Zusammenarbeit mit Strafverfolgungsbehörden bei Verdacht auf kriminelle Aktivitäten",
+                "protection-education": "Bildungsressourcen über Online-Datenschutz und -Sicherheit"
             }
         };
 
+        // Add toast notification system
+        function showToast(message, duration = 3000) {
+            const toast = document.getElementById('language-toast');
+            const toastMessage = document.getElementById('toast-message');
+            
+            if (toast && toastMessage) {
+                toastMessage.textContent = message;
+                toast.classList.add('show');
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, duration);
+            }
+        }
+
+        // Function to update language
         function updateLanguage(lang) {
             if (!translations[lang]) {
                 console.error('Translation not found for:', lang);
                 return;
             }
 
+            // Apply language transition effect
+            document.body.classList.add('language-changing');
+            
             // Set HTML lang attribute
             document.documentElement.lang = lang;
             
-            // Update all translatable elements
-            document.querySelectorAll('[data-i18n]').forEach(element => {
-                const key = element.getAttribute('data-i18n');
-                if (translations[lang][key]) {
-                    if (key === 'copyright') {
-                        const year = new Date().getFullYear();
-                        element.textContent = translations[lang][key].replace('${year}', year);
-                    } else {
+            // Short timeout to ensure the animation starts
+            setTimeout(() => {
+                // Update all translatable elements
+                document.querySelectorAll('[data-i18n]').forEach(element => {
+                    const key = element.getAttribute('data-i18n');
+                    if (translations[lang][key]) {
                         element.textContent = translations[lang][key];
                     }
-                }
-            });
-
-            // Update language button display
-            const languageToggle = document.getElementById('language-toggle');
-            if (languageToggle) {
-                const flagImg = languageToggle.querySelector('img');
-                const langName = languageToggle.querySelector('span');
+                });
                 
-                flagImg.src = `https://raw.githubusercontent.com/darkresident55/Public-Assets/main/flags/${lang}.png`;
-                switch (lang) {
-                    case 'ja':
-                        langName.textContent = '日本語';
-                        break;
-                    case 'de':
-                        langName.textContent = 'Deutsch';
-                        break;
-                    case 'es':
-                        langName.textContent = 'Español';
-                        break;
-                    default:
-                        langName.textContent = 'English';
+                // Update language button
+                const selectedOption = document.querySelector(`.language-option[data-lang="${lang}"]`);
+                if (document.getElementById('language-toggle') && selectedOption) {
+                    document.getElementById('language-toggle').innerHTML = selectedOption.innerHTML;
                 }
-            }
-            
-            // Save preference
-            localStorage.setItem('preferred-language', lang);
+                
+                // Update current language name
+                if (document.getElementById('current-language-name')) {
+                    document.getElementById('current-language-name').textContent = selectedOption ? selectedOption.querySelector('span').textContent : '';
+                }
+                
+                // Update current language flag
+                const flagImg = selectedOption ? selectedOption.querySelector('img') : null;
+                if (document.getElementById('current-language-flag') && flagImg) {
+                    document.getElementById('current-language-flag').src = flagImg.src;
+                    document.getElementById('current-language-flag').alt = flagImg.alt;
+                }
+                
+                // Show toast notification
+                showToast(translations[lang]['language-changed']);
+                
+                // Save preference
+                localStorage.setItem('preferred-language', lang);
+                
+                // Remove transition class after a short delay
+                setTimeout(() => {
+                    document.body.classList.remove('language-changing');
+                }, 300);
+            }, 50);
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const languageToggle = document.getElementById('language-toggle');
-            const languageOptions = document.getElementById('language-options');
-            const themeToggle = document.getElementById('theme-toggle-checkbox');
-            const body = document.body;
-            const backToTop = document.getElementById('back-to-top');
-            const tocLinks = document.querySelectorAll('.toc-link');
-            const sections = document.querySelectorAll('.section');
-            const currentYearSpan = document.getElementById('current-year');
+        // Theme toggle functionality
+        const themeToggleCheckbox = document.getElementById('theme-toggle-checkbox');
+        const body = document.body;
 
-            // Set current year
-            currentYearSpan.textContent = new Date().getFullYear();
+        // Initialize theme based on saved preference or default to dark
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        body.classList.add(savedTheme);
+        
+        if (themeToggleCheckbox) {
+            themeToggleCheckbox.checked = savedTheme === 'dark';
 
-            // Initialize theme based on checkbox state
-            if (themeToggle.checked) {
+            themeToggleCheckbox.addEventListener('change', () => {
+                updateTheme(themeToggleCheckbox.checked ? 'dark' : 'light');
+            });
+        }
+
+        function updateTheme(theme) {
+            if (theme === 'dark') {
                 body.classList.add('dark');
                 body.classList.remove('light');
+                localStorage.setItem('theme', 'dark');
+                if (themeToggleCheckbox) themeToggleCheckbox.checked = true;
+                showToast('Dark theme activated');
             } else {
                 body.classList.add('light');
                 body.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                if (themeToggleCheckbox) themeToggleCheckbox.checked = false;
+                showToast('Light theme activated');
             }
+        }
 
-            // Toggle theme when checkbox changes
-            themeToggle.addEventListener('change', function() {
-                if (this.checked) {
-                    body.classList.add('dark');
-                    body.classList.remove('light');
-                } else {
-                    body.classList.add('light');
-                    body.classList.remove('dark');
+        // Enhanced language switcher functionality
+        const languageToggle = document.getElementById('language-toggle');
+        const languageOptions = document.getElementById('language-options');
+        const languageOptionButtons = document.querySelectorAll('.language-option');
+
+        if (languageToggle && languageOptions) {
+            languageToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                languageOptions.classList.toggle('active');
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!languageToggle.contains(e.target) && !languageOptions.contains(e.target)) {
+                    languageOptions.classList.remove('active');
                 }
             });
 
-            // Smooth scrolling for anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 100,
-                            behavior: 'smooth'
-                        });
-
-                        // Update URL without page jump
-                        history.pushState(null, null, targetId);
-
-                        // Update active state in TOC
-                        updateActiveTocLink(targetId);
-                    }
-                });
-            });
-
-            // Back to top button functionality
-            window.addEventListener('scroll', function() {
-                if (window.pageYOffset > 300) {
-                    backToTop.classList.add('visible');
-                } else {
-                    backToTop.classList.remove('visible');
-                }
-                
-                // Update active TOC link based on scroll position
-                updateActiveTocLinkOnScroll();
-
-                // Animate sections as they come into view
-                animateSectionsOnScroll();
-            });
-
-            backToTop.addEventListener('click', function() {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            });
-
-            // Function to update active TOC link
-            function updateActiveTocLink(targetId) {
-                tocLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === targetId) {
-                        link.classList.add('active');
-                    }
-                });
-            }
-
-            // Function to update active TOC link based on scroll position
-            function updateActiveTocLinkOnScroll() {
-                let currentSection = '';
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    const sectionHeight = section.clientHeight;
-                    if (window.pageYOffset >= sectionTop - 150 && 
-                        window.pageYOffset < sectionTop + sectionHeight - 150) {
-                        currentSection = '#' + section.getAttribute('id');
-                    }
-                });
-                if (currentSection) {
-                    updateActiveTocLink(currentSection);
-                }
-            }
-
-            // Function to animate sections as they come into view
-            function animateSectionsOnScroll() {
-                sections.forEach(section => {
-                    const sectionTop = section.getBoundingClientRect().top;
-                    const windowHeight = window.innerHeight;
-                    
-                    if (sectionTop < windowHeight - 100) {
-                        section.style.opacity = '1';
-                        section.style.transform = 'translateY(0)';
-                    }
-                });
-            }
-
-            // Initial call to set active TOC link and animate visible sections
-            updateActiveTocLinkOnScroll();
-            animateSectionsOnScroll();
-
-            // Language toggle functionality
-            if (languageToggle && languageOptions) {
-                // Toggle language options
-                languageToggle.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    languageOptions.classList.toggle('active');
-                });
-
-                // Handle language selection
-                document.querySelectorAll('.language-option').forEach(option => {
+            if (languageOptionButtons) {
+                languageOptionButtons.forEach(option => {
                     option.addEventListener('click', () => {
                         const lang = option.dataset.lang;
                         updateLanguage(lang);
                         languageOptions.classList.remove('active');
                     });
                 });
-
-                // Close language options when clicking outside
-                document.addEventListener('click', (e) => {
-                    if (!languageToggle.contains(e.target) && !languageOptions.contains(e.target)) {
-                        languageOptions.classList.remove('active');
-                    }
-                });
             }
+        }
 
-            // Initialize language from localStorage or default to English
-            const savedLanguage = localStorage.getItem('preferred-language') || 'en';
-            updateLanguage(savedLanguage);
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 120,
+                        behavior: 'smooth'
+                    });
+
+                    // Update URL without page jump
+                    history.pushState(null, null, targetId);
+
+                    // Update active state in TOC
+                    updateActiveTocLink(targetId);
+                }
+            });
         });
+
+        // Back to top button functionality
+        const backToTop = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+            
+            // Update active TOC link based on scroll position
+            updateActiveTocLinkOnScroll();
+
+            // Animate sections as they come into view
+            animateSectionsOnScroll();
+        });
+
+        backToTop.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Function to update active TOC link
+        function updateActiveTocLink(targetId) {
+            const tocLinks = document.querySelectorAll('.toc-link');
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === targetId) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Function to update active TOC link based on scroll position
+        function updateActiveTocLinkOnScroll() {
+            let currentSection = '';
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.pageYOffset >= sectionTop - 150 && 
+                    window.pageYOffset < sectionTop + sectionHeight - 150) {
+                    currentSection = '#' + section.getAttribute('id');
+                }
+            });
+            if (currentSection) {
+                updateActiveTocLink(currentSection);
+            }
+        }
+
+        // Function to animate sections as they come into view
+        function animateSectionsOnScroll() {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (sectionTop < windowHeight - 100) {
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }
+            });
+        }
 
         // Sound effects
         function playSound(soundFile) {
             try {
-                let audio = new Audio(soundFile);
-                audio.play().catch(e => console.log("Sound play error:", e));
+                const audio = new Audio(soundFile);
+                audio.onerror = function() {
+                    console.log("Sound file could not be loaded:", soundFile);
+                };
+                audio.play().catch(e => {
+                    console.log("Sound error:", e);
+                });
             } catch (e) {
                 console.log("Sound error:", e);
             }
         }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set initial language
+            const savedLanguage = localStorage.getItem('preferred-language') || 'en';
+            updateLanguage(savedLanguage);
+            
+            // Initial call to set active TOC link and animate visible sections
+            updateActiveTocLinkOnScroll();
+            animateSectionsOnScroll();
+            
+            // Enhanced image error handling
+            document.querySelectorAll('img').forEach(img => {
+                if (!img.hasAttribute('onerror')) {
+                    img.onerror = function() {
+                        console.warn('Failed to load image:', this.src);
+                    };
+                }
+            });
+        });
     </script>
 </body>
 </html>
-
