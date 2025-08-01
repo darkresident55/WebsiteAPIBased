@@ -81,16 +81,33 @@
     }
 }
 
+@keyframes scale-in {
+    from { 
+        opacity: 0; 
+        transform: scale(0.8); 
+    }
+    to { 
+        opacity: 1; 
+        transform: scale(1); 
+    }
+}
+
 @keyframes shimmer {
     0% { transform: translateX(-100%); }
     100% { transform: translateX(200%); }
 }
 
+@keyframes tab-slide {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     line-height: 1.6;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+    background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
     color: #e2e8f0;
+    text-align: center;
     min-height: 100vh;
     overflow-x: hidden;
     position: relative;
@@ -113,7 +130,7 @@ body {
     left: 50%;
     width: 150vmax;
     height: 150vmax;
-    background: radial-gradient(circle at 30% 30%, hsla(var(--primary), 0.3), transparent 40%);
+    background: radial-gradient(circle at 30% 30%, hsla(var(--primary), 0.4), transparent 40%);
     animation: gradient-flow 25s ease-in-out infinite;
     transform-origin: center;
 }
@@ -125,7 +142,7 @@ body {
     left: 50%;
     width: 120vmax;
     height: 120vmax;
-    background: radial-gradient(circle at 70% 70%, hsl(280, 80%, 50%, 0.2), transparent 35%);
+    background: radial-gradient(circle at 70% 70%, hsl(180, 80%, 50%, 0.3), transparent 35%);
     animation: gradient-secondary 30s ease-in-out infinite reverse;
     transform-origin: center;
 }
@@ -310,6 +327,46 @@ body {
     transform: translateY(-1px);
 }
 
+.language-flag {
+    width: 18px;
+    height: 13px;
+    object-fit: cover;
+    border-radius: 2px;
+}
+
+.language-options {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    padding: 6px 0;
+    display: none;
+    min-width: 140px;
+    box-shadow: var(--glass-shadow);
+    z-index: 1000;
+}
+
+.language-options.active {
+    display: block;
+}
+
+.language-option {
+    padding: 8px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all var(--anim-normal) ease;
+    font-size: 0.85rem;
+}
+
+.language-option:hover {
+    background: hsla(var(--primary), 0.2);
+}
+
 .user-info {
     display: flex;
     align-items: center;
@@ -365,9 +422,24 @@ body {
     text-align: center;
 }
 
-.welcome-section {
-    margin-bottom: 3rem;
-    animation: slide-in-up 1s var(--anim-smooth);
+.content-section {
+    display: none;
+    width: 100%;
+    max-width: 1200px;
+    animation: slide-in-up 0.5s var(--anim-smooth);
+}
+
+.content-section.active {
+    display: block;
+}
+
+/* Games Section */
+.games-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
 }
 
 .welcome-title {
@@ -377,11 +449,6 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 1rem;
-}
-
-.recommended-games {
-    margin-bottom: 2rem;
-    animation: slide-in-up 1s var(--anim-smooth) 0.2s both;
 }
 
 .recommended-title {
@@ -398,7 +465,6 @@ body {
     border-radius: 20px;
     padding: 3rem;
     box-shadow: var(--glass-shadow);
-    animation: slide-in-up 1s var(--anim-smooth) 0.4s both;
     position: relative;
     overflow: hidden;
 }
@@ -447,6 +513,426 @@ body {
 .get-notified-btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 25px hsla(var(--primary), 0.4);
+}
+
+/* Community Section */
+.community-section {
+    padding: 2rem;
+}
+
+.community-grid {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.friends-sidebar {
+    background: var(--glass-bg);
+    backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: var(--glass-shadow);
+    height: fit-content;
+}
+
+.friends-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.friends-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: hsl(var(--primary));
+}
+
+.add-friend-btn {
+    background: hsla(var(--primary), 0.2);
+    color: hsl(var(--primary));
+    border: 1px solid hsla(var(--primary), 0.4);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all var(--anim-normal) ease;
+}
+
+.add-friend-btn:hover {
+    background: hsla(var(--primary), 0.3);
+    transform: translateY(-1px);
+}
+
+.friends-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.friend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    transition: all var(--anim-normal) var(--anim-smooth);
+    cursor: pointer;
+}
+
+.friend-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateX(3px);
+}
+
+.friend-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-h), var(--primary-s), calc(var(--primary-l) - 15%)));
+    color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.friend-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.friend-info {
+    flex: 1;
+}
+
+.friend-name {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #f1f5f9;
+    margin-bottom: 0.25rem;
+}
+
+.friend-status {
+    font-size: 0.75rem;
+    color: #64748b;
+}
+
+.friend-status.online {
+    color: #10b981;
+}
+
+.community-main {
+    background: var(--glass-bg);
+    backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: var(--glass-shadow);
+}
+
+.community-tabs {
+    display: flex;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 4px;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.community-tab {
+    flex: 1;
+    padding: 10px 14px;
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all var(--anim-normal) var(--anim-smooth);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.community-tab:hover {
+    color: #f1f5f9;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.community-tab.active {
+    color: hsl(var(--primary));
+    background: hsla(var(--primary), 0.15);
+    border: 1px solid hsla(var(--primary), 0.3);
+}
+
+.community-tab-icon {
+    width: 14px;
+    height: 14px;
+    stroke-width: 2;
+    stroke: currentColor;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.community-content {
+    padding: 0;
+}
+
+.community-tab-panel {
+    display: none;
+    animation: tab-slide 0.3s var(--anim-smooth);
+}
+
+.community-tab-panel.active {
+    display: block;
+}
+
+/* User Search and Results */
+.user-search {
+    margin-bottom: 2rem;
+}
+
+.search-container {
+    position: relative;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px 16px 12px 45px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    color: #e2e8f0;
+    font-size: 1rem;
+    transition: all var(--anim-normal) var(--anim-smooth);
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: hsla(var(--primary), 0.7);
+    box-shadow: 0 0 0 3px hsla(var(--primary), 0.2);
+}
+
+.search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    color: #64748b;
+}
+
+.search-results {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.user-result {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    transition: all var(--anim-normal) var(--anim-smooth);
+}
+
+.user-result:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.user-result-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-h), var(--primary-s), calc(var(--primary-l) - 15%)));
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.user-result-info {
+    flex: 1;
+}
+
+.user-result-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #f1f5f9;
+    margin-bottom: 0.25rem;
+}
+
+.user-result-email {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    margin-bottom: 0.5rem;
+}
+
+.user-result-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.action-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--anim-normal) ease;
+}
+
+.friend-request-btn {
+    background: hsla(var(--primary), 0.2);
+    color: hsl(var(--primary));
+    border: 1px solid hsla(var(--primary), 0.4);
+}
+
+.friend-request-btn:hover {
+    background: hsla(var(--primary), 0.3);
+    transform: translateY(-1px);
+}
+
+.view-profile-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: #f1f5f9;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.view-profile-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+.block-btn {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.block-btn:hover {
+    background: rgba(239, 68, 68, 0.3);
+    transform: translateY(-1px);
+}
+
+/* Friend Requests Section */
+.friend-requests {
+    margin-bottom: 2rem;
+}
+
+.friend-requests-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: hsl(var(--primary));
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.friend-request-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    margin-bottom: 0.75rem;
+}
+
+.friend-request-info {
+    flex: 1;
+}
+
+.friend-request-name {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #f1f5f9;
+    margin-bottom: 0.25rem;
+}
+
+.friend-request-time {
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+.friend-request-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.accept-btn {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.accept-btn:hover {
+    background: rgba(16, 185, 129, 0.3);
+}
+
+.decline-btn {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.decline-btn:hover {
+    background: rgba(239, 68, 68, 0.3);
+}
+
+/* Empty States */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #64748b;
+}
+
+.empty-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 1.5rem;
+    color: #475569;
+}
+
+.empty-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #94a3b8;
+    margin-bottom: 0.75rem;
+}
+
+.empty-description {
+    font-size: 1rem;
+    color: #64748b;
+    max-width: 400px;
+    margin: 0 auto;
+    line-height: 1.6;
 }
 
 /* Modal Styles */
@@ -823,6 +1309,15 @@ footer {
         margin: 1rem;
         max-width: calc(100vw - 2rem);
     }
+    
+    .community-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .friends-sidebar {
+        order: 2;
+    }
 }
 
 @media (max-width: 480px) {
@@ -943,8 +1438,23 @@ footer {
         <div class="user-section">
             <div class="language-selector">
                 <button class="language-button" id="language-toggle">
+                    <img src="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/flags/en.png" alt="English" class="language-flag" id="current-language-flag">
                     <span id="current-language-name">EN</span>
                 </button>
+                <div class="language-options" id="language-options">
+                    <div class="language-option" data-lang="en">
+                        <img src="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/flags/en.png" alt="English" class="language-flag">
+                        <span>English</span>
+                    </div>
+                    <div class="language-option" data-lang="ja">
+                        <img src="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/flags/jp.png" alt="日本語" class="language-flag">
+                        <span>日本語</span>
+                    </div>
+                    <div class="language-option" data-lang="de">
+                        <img src="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/flags/de.png" alt="Deutsch" class="language-flag">
+                        <span>Deutsch</span>
+                    </div>
+                </div>
             </div>
 
             <div class="user-info" id="user-info">
@@ -957,21 +1467,202 @@ footer {
 
 <!-- Main Content -->
 <main class="main-content">
-    <section class="welcome-section">
-        <h1 class="welcome-title" id="welcome-title">Welcome Back [Username]!</h1>
+    <!-- Games Section -->
+    <section class="content-section active" id="games-section">
+        <div class="games-section">
+            <h1 class="welcome-title" id="welcome-title">Welcome Back [Username]!</h1>
+            <h2 class="recommended-title">Recommended Games</h2>
+            
+            <div class="games-card">
+                <h3 class="games-card-title">Mods and Games are Coming Soon!</h3>
+                <p class="games-card-description">
+                    We're working hard to bring you an incredible collection of games. Our platform 
+                    will feature custom mods, community-created content, and exciting multiplayer 
+                    experiences. Stay Tuned!
+                </p>
+                <button class="get-notified-btn" id="get-notified-btn">Get Notified</button>
+            </div>
+        </div>
     </section>
-    
-    <section class="recommended-games">
-        <h2 class="recommended-title">Recommended Games</h2>
-        
-        <div class="games-card">
-            <h3 class="games-card-title">Mods and Games are Coming Soon!</h3>
-            <p class="games-card-description">
-                We're working hard to bring you an incredible collection of games. Our platform 
-                will feature custom mods, community-created content, and exciting multiplayer 
-                experiences. Stay Tuned!
-            </p>
-            <button class="get-notified-btn" id="get-notified-btn">Get Notified</button>
+
+    <!-- Community Section -->
+    <section class="content-section" id="community-section">
+        <div class="community-section">
+            <div class="community-grid">
+                <aside class="friends-sidebar">
+                    <div class="friends-header">
+                        <h3 class="friends-title">Friends</h3>
+                        <button class="add-friend-btn" id="add-friend-btn">Add Friend</button>
+                    </div>
+                    
+                    <div class="friends-list" id="friends-list">
+                        <div class="empty-state">
+                            <svg class="empty-icon" viewBox="0 0 24 24">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                            <h4 class="empty-title">No Friends Yet</h4>
+                            <p class="empty-description">Add friends to see them here</p>
+                        </div>
+                    </div>
+                </aside>
+
+                <main class="community-main">
+                    <div class="community-tabs">
+                        <button class="community-tab active" data-tab="discover">
+                            <svg class="community-tab-icon" viewBox="0 0 24 24">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="M21 21l-4.35-4.35"></path>
+                            </svg>
+                            <span>Discover</span>
+                        </button>
+                        <button class="community-tab" data-tab="requests">
+                            <svg class="community-tab-icon" viewBox="0 0 24 24">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                            <span>Requests</span>
+                        </button>
+                        <button class="community-tab" data-tab="blocked">
+                            <svg class="community-tab-icon" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+                            </svg>
+                            <span>Blocked</span>
+                        </button>
+                    </div>
+
+                    <div class="community-content">
+                        <!-- Discover Users Panel -->
+                        <div class="community-tab-panel active" id="discover-panel">
+                            <div class="user-search">
+                                <div class="search-container">
+                                    <input type="text" class="search-input" id="user-search-input" placeholder="Search for users...">
+                                    <svg class="search-icon" viewBox="0 0 24 24">
+                                        <circle cx="11" cy="11" r="8"></circle>
+                                        <path d="M21 21l-4.35-4.35"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            
+                            <div class="search-results" id="search-results">
+                                <div class="empty-state">
+                                    <svg class="empty-icon" viewBox="0 0 24 24">
+                                        <circle cx="11" cy="11" r="8"></circle>
+                                        <path d="M21 21l-4.35-4.35"></path>
+                                    </svg>
+                                    <h4 class="empty-title">Search for Users</h4>
+                                    <p class="empty-description">Use the search bar above to find other users on the Treron platform</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Friend Requests Panel -->
+                        <div class="community-tab-panel" id="requests-panel">
+                            <div class="friend-requests">
+                                <h4 class="friend-requests-title">Incoming Requests</h4>
+                                <div id="incoming-requests">
+                                    <div class="empty-state">
+                                        <svg class="empty-icon" viewBox="0 0 24 24">
+                                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="9" cy="7" r="4"></circle>
+                                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                        </svg>
+                                        <h4 class="empty-title">No Friend Requests</h4>
+                                        <p class="empty-description">You don't have any pending friend requests</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="friend-requests">
+                                <h4 class="friend-requests-title">Sent Requests</h4>
+                                <div id="sent-requests">
+                                    <div class="empty-state">
+                                        <svg class="empty-icon" viewBox="0 0 24 24">
+                                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="9" cy="7" r="4"></circle>
+                                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                        </svg>
+                                        <h4 class="empty-title">No Sent Requests</h4>
+                                        <p class="empty-description">You haven't sent any friend requests</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Blocked Users Panel -->
+                        <div class="community-tab-panel" id="blocked-panel">
+                            <div id="blocked-users">
+                                <div class="empty-state">
+                                    <svg class="empty-icon" viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+                                    </svg>
+                                    <h4 class="empty-title">No Blocked Users</h4>
+                                    <p class="empty-description">You haven't blocked any users</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mods Section -->
+    <section class="content-section" id="mods-section">
+        <div class="games-section">
+            <h1 class="welcome-title">Mods & Extensions</h1>
+            <h2 class="recommended-title">Coming Soon</h2>
+            
+            <div class="games-card">
+                <h3 class="games-card-title">Mod Platform Coming Soon!</h3>
+                <p class="games-card-description">
+                    Create, share, and discover amazing mods for your favorite games. Our platform 
+                    will support custom modifications, texture packs, and gameplay enhancements.
+                </p>
+                <button class="get-notified-btn">Get Notified</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Store Section -->
+    <section class="content-section" id="store-section">
+        <div class="games-section">
+            <h1 class="welcome-title">Treron Store</h1>
+            <h2 class="recommended-title">Digital Marketplace</h2>
+            
+            <div class="games-card">
+                <h3 class="games-card-title">Store Opening Soon!</h3>
+                <p class="games-card-description">
+                    Browse and purchase games, mods, and digital content. Support creators and 
+                    discover new gaming experiences in our upcoming marketplace.
+                </p>
+                <button class="get-notified-btn">Get Notified</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Settings Section -->
+    <section class="content-section" id="settings-section">
+        <div class="games-section">
+            <h1 class="welcome-title">Settings</h1>
+            <h2 class="recommended-title">Customize Your Experience</h2>
+            
+            <div class="games-card">
+                <h3 class="games-card-title">Settings Panel Coming Soon!</h3>
+                <p class="games-card-description">
+                    Personalize your gaming experience with comprehensive settings. Manage your account, 
+                    privacy preferences, display options, and notification settings all in one place.
+                </p>
+                <button class="get-notified-btn">Get Notified</button>
+            </div>
         </div>
     </section>
 </main>
@@ -1110,6 +1801,51 @@ footer {
     </div>
 </div>
 
+<!-- User Profile Modal -->
+<div class="modal-overlay" id="profile-modal">
+    <div class="modal" style="max-width: 600px;">
+        <div class="modal-header">
+            <h2 class="modal-title" id="profile-modal-title">User Profile</h2>
+            <button class="modal-close" id="profile-modal-close">
+                <svg viewBox="0 0 24 24" width="16" height="16">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        
+        <div id="profile-content">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+                <div id="profile-modal-avatar" style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-h), var(--primary-s), calc(var(--primary-l) - 15%))); color: white; font-size: 2rem; font-weight: bold; display: flex; align-items: center; justify-content: center; overflow: hidden;">U</div>
+                <div>
+                    <h3 id="profile-modal-username" style="font-size: 1.5rem; font-weight: 600; color: #f1f5f9; margin-bottom: 0.5rem;">Username</h3>
+                    <p id="profile-modal-email" style="color: #94a3b8; margin-bottom: 0.5rem;">email@example.com</p>
+                    <p id="profile-modal-joined" style="color: #64748b; font-size: 0.9rem;">Joined: January 2025</p>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                <div style="text-align: center; padding: 1rem; background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px;">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: hsl(var(--primary)); margin-bottom: 0.25rem;">0</div>
+                    <div style="font-size: 0.8rem; color: #94a3b8;">Friends</div>
+                </div>
+                <div style="text-align: center; padding: 1rem; background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px;">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: hsl(var(--primary)); margin-bottom: 0.25rem;">0</div>
+                    <div style="font-size: 0.8rem; color: #94a3b8;">Games</div>
+                </div>
+                <div style="text-align: center; padding: 1rem; background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px;">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: hsl(var(--primary)); margin-bottom: 0.25rem;">0</div>
+                    <div style="font-size: 0.8rem; color: #94a3b8;">Mods</div>
+                </div>
+            </div>
+            
+            <div id="profile-actions" style="display: flex; gap: 1rem; justify-content: center;">
+                <!-- Action buttons will be inserted here -->
+            </div>
+        </div>
+    </div>
+</div>
+
 <footer>
     <p>&copy; 2025 Treron Development LLC. All rights reserved.</p>
 </footer>
@@ -1149,12 +1885,10 @@ class UsernameManager {
         this.storageRef = storage.ref('Usernames');
     }
 
-    // Generate a unique filename for the user's email
     generateFilename(email) {
         return btoa(email).replace(/[^a-zA-Z0-9]/g, '') + '.json';
     }
 
-    // Search for users by username
     async searchUsers(query) {
         try {
             const listResult = await this.storageRef.listAll();
@@ -1186,7 +1920,6 @@ class UsernameManager {
         }
     }
 
-    // Get username for a user
     async getUsername(email) {
         try {
             const filename = this.generateFilename(email);
@@ -1199,14 +1932,13 @@ class UsernameManager {
             return data.username || null;
         } catch (error) {
             if (error.code === 'storage/object-not-found') {
-                return null; // No username set for this user
+                return null;
             }
             console.error('Error getting username:', error);
             throw error;
         }
     }
 
-    // Save username for a user
     async saveUsername(email, username) {
         try {
             const filename = this.generateFilename(email);
@@ -1230,36 +1962,221 @@ class UsernameManager {
             throw error;
         }
     }
+}
 
-    // Check if username is available
-    async checkUsernameAvailability(username) {
+// Friend Management System
+class FriendManager {
+    constructor() {
+        this.storageRef = storage.ref('Friends');
+    }
+
+    generateFilename(email) {
+        return btoa(email).replace(/[^a-zA-Z0-9]/g, '') + '_friends.json';
+    }
+
+    async getFriendData(email) {
         try {
-            const listResult = await this.storageRef.listAll();
+            const filename = this.generateFilename(email);
+            const fileRef = this.storageRef.child(filename);
             
-            for (const item of listResult.items) {
-                try {
-                    const url = await item.getDownloadURL();
-                    const response = await fetch(url);
-                    const data = await response.json();
-                    
-                    if (data.username && data.username.toLowerCase() === username.toLowerCase()) {
-                        return false; // Username is taken
-                    }
-                } catch (error) {
-                    console.warn('Error checking file:', item.name, error);
-                }
+            const url = await fileRef.getDownloadURL();
+            const response = await fetch(url);
+            const data = await response.json();
+            
+            return data;
+        } catch (error) {
+            if (error.code === 'storage/object-not-found') {
+                return {
+                    email: email,
+                    friends: [],
+                    friendRequests: {
+                        incoming: [],
+                        sent: []
+                    },
+                    blocked: [],
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                };
+            }
+            console.error('Error getting friend data:', error);
+            throw error;
+        }
+    }
+
+    async saveFriendData(email, data) {
+        try {
+            const filename = this.generateFilename(email);
+            const fileRef = this.storageRef.child(filename);
+            
+            data.updatedAt = new Date().toISOString();
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], {
+                type: 'application/json'
+            });
+            
+            await fileRef.put(blob);
+            return true;
+        } catch (error) {
+            console.error('Error saving friend data:', error);
+            throw error;
+        }
+    }
+
+    async sendFriendRequest(fromEmail, toEmail, toUsername) {
+        try {
+            // Get sender's data
+            const senderData = await this.getFriendData(fromEmail);
+            const senderUsername = await usernameManager.getUsername(fromEmail);
+            
+            // Get receiver's data
+            const receiverData = await this.getFriendData(toEmail);
+            
+            // Check if already friends or request exists
+            if (senderData.friends.some(f => f.email === toEmail)) {
+                throw new Error('Already friends');
             }
             
-            return true; // Username is available
+            if (senderData.friendRequests.sent.some(r => r.email === toEmail)) {
+                throw new Error('Friend request already sent');
+            }
+            
+            if (receiverData.friendRequests.incoming.some(r => r.email === fromEmail)) {
+                throw new Error('Friend request already exists');
+            }
+            
+            // Add to sender's sent requests
+            senderData.friendRequests.sent.push({
+                email: toEmail,
+                username: toUsername,
+                sentAt: new Date().toISOString()
+            });
+            
+            // Add to receiver's incoming requests
+            receiverData.friendRequests.incoming.push({
+                email: fromEmail,
+                username: senderUsername || fromEmail.split('@')[0],
+                receivedAt: new Date().toISOString()
+            });
+            
+            // Save both
+            await this.saveFriendData(fromEmail, senderData);
+            await this.saveFriendData(toEmail, receiverData);
+            
+            return true;
         } catch (error) {
-            console.error('Error checking username availability:', error);
+            console.error('Error sending friend request:', error);
+            throw error;
+        }
+    }
+
+    async acceptFriendRequest(userEmail, friendEmail) {
+        try {
+            const userData = await this.getFriendData(userEmail);
+            const friendData = await this.getFriendData(friendEmail);
+            
+            const friendUsername = await usernameManager.getUsername(friendEmail);
+            const userUsername = await usernameManager.getUsername(userEmail);
+            
+            // Remove from incoming requests
+            userData.friendRequests.incoming = userData.friendRequests.incoming.filter(r => r.email !== friendEmail);
+            
+            // Remove from friend's sent requests
+            friendData.friendRequests.sent = friendData.friendRequests.sent.filter(r => r.email !== userEmail);
+            
+            // Add to both friends lists
+            userData.friends.push({
+                email: friendEmail,
+                username: friendUsername || friendEmail.split('@')[0],
+                friendSince: new Date().toISOString()
+            });
+            
+            friendData.friends.push({
+                email: userEmail,
+                username: userUsername || userEmail.split('@')[0],
+                friendSince: new Date().toISOString()
+            });
+            
+            // Save both
+            await this.saveFriendData(userEmail, userData);
+            await this.saveFriendData(friendEmail, friendData);
+            
+            return true;
+        } catch (error) {
+            console.error('Error accepting friend request:', error);
+            throw error;
+        }
+    }
+
+    async declineFriendRequest(userEmail, friendEmail) {
+        try {
+            const userData = await this.getFriendData(userEmail);
+            const friendData = await this.getFriendData(friendEmail);
+            
+            // Remove from incoming requests
+            userData.friendRequests.incoming = userData.friendRequests.incoming.filter(r => r.email !== friendEmail);
+            
+            // Remove from friend's sent requests
+            friendData.friendRequests.sent = friendData.friendRequests.sent.filter(r => r.email !== userEmail);
+            
+            // Save both
+            await this.saveFriendData(userEmail, userData);
+            await this.saveFriendData(friendEmail, friendData);
+            
+            return true;
+        } catch (error) {
+            console.error('Error declining friend request:', error);
+            throw error;
+        }
+    }
+
+    async blockUser(userEmail, blockEmail) {
+        try {
+            const userData = await this.getFriendData(userEmail);
+            const blockUsername = await usernameManager.getUsername(blockEmail);
+            
+            // Remove from friends if they are friends
+            userData.friends = userData.friends.filter(f => f.email !== blockEmail);
+            
+            // Remove any pending requests
+            userData.friendRequests.incoming = userData.friendRequests.incoming.filter(r => r.email !== blockEmail);
+            userData.friendRequests.sent = userData.friendRequests.sent.filter(r => r.email !== blockEmail);
+            
+            // Add to blocked list
+            if (!userData.blocked.some(b => b.email === blockEmail)) {
+                userData.blocked.push({
+                    email: blockEmail,
+                    username: blockUsername || blockEmail.split('@')[0],
+                    blockedAt: new Date().toISOString()
+                });
+            }
+            
+            await this.saveFriendData(userEmail, userData);
+            return true;
+        } catch (error) {
+            console.error('Error blocking user:', error);
+            throw error;
+        }
+    }
+
+    async unblockUser(unblockEmail) {
+        try {
+            const userData = await this.getFriendData(userEmail);
+            
+            // Remove from blocked list
+            userData.blocked = userData.blocked.filter(b => b.email !== unblockEmail);
+            
+            await this.saveFriendData(userEmail, userData);
+            return true;
+        } catch (error) {
+            console.error('Error unblocking user:', error);
             throw error;
         }
     }
 }
 
-// Initialize username manager
+// Initialize managers
 const usernameManager = new UsernameManager();
+const friendManager = new FriendManager();
 
 // Particle system
 function createParticles() {
@@ -1280,7 +2197,8 @@ function createParticles() {
 // Modal functionality
 const modals = {
     login: document.getElementById('login-modal'),
-    signup: document.getElementById('signup-modal')
+    signup: document.getElementById('signup-modal'),
+    profile: document.getElementById('profile-modal')
 };
 
 function openModal(modalName) {
@@ -1303,6 +2221,43 @@ function closeAllModals() {
         modal.classList.remove('active');
     });
     document.body.style.overflow = '';
+}
+
+// Navigation functionality
+function switchTab(tabName) {
+    // Remove active class from all tabs
+    document.querySelectorAll('.nav-tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    
+    // Hide all content sections
+    document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.remove('active');
+    });
+    
+    // Activate the selected tab and section
+    const activeTab = document.querySelector(`[data-tab="${tabName}"]`);
+    const activeSection = document.getElementById(`${tabName}-section`);
+    
+    if (activeTab) activeTab.classList.add('active');
+    if (activeSection) activeSection.classList.add('active');
+}
+
+// Community tab functionality
+function switchCommunityTab(tabName) {
+    document.querySelectorAll('.community-tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    
+    document.querySelectorAll('.community-tab-panel').forEach(panel => {
+        panel.classList.remove('active');
+    });
+    
+    const activeTab = document.querySelector(`.community-tab[data-tab="${tabName}"]`);
+    const activePanel = document.getElementById(`${tabName}-panel`);
+    
+    if (activeTab) activeTab.classList.add('active');
+    if (activePanel) activePanel.classList.add('active');
 }
 
 // Toast notification
@@ -1349,6 +2304,9 @@ async function updateUserDisplay(user) {
             if (user.photoURL) {
                 userAvatar.innerHTML = `<img src="${user.photoURL}" alt="Profile">`;
             }
+            
+            // Load friend data
+            await loadFriendData(user.email);
         } catch (error) {
             console.error('Error updating user display:', error);
             const fallbackName = user.displayName || user.email.split('@')[0];
@@ -1363,24 +2321,371 @@ async function updateUserDisplay(user) {
     }
 }
 
+// Load friend data
+async function loadFriendData(userEmail) {
+    try {
+        const friendData = await friendManager.getFriendData(userEmail);
+        
+        // Update friends list
+        updateFriendsList(friendData.friends);
+        
+        // Update friend requests
+        updateFriendRequests(friendData.friendRequests);
+        
+        // Update blocked users
+        updateBlockedUsers(friendData.blocked);
+        
+    } catch (error) {
+        console.error('Error loading friend data:', error);
+    }
+}
+
+// Update friends list
+function updateFriendsList(friends) {
+    const friendsList = document.getElementById('friends-list');
+    
+    if (friends.length === 0) {
+        friendsList.innerHTML = `
+            <div class="empty-state">
+                <svg class="empty-icon" viewBox="0 0 24 24">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+                <h4 class="empty-title">No Friends Yet</h4>
+                <p class="empty-description">Add friends to see them here</p>
+            </div>
+        `;
+        return;
+    }
+    
+    friendsList.innerHTML = friends.map(friend => `
+        <div class="friend-item" onclick="showUserProfile('${friend.email}', '${friend.username}')">
+            <div class="friend-avatar">${friend.username.charAt(0).toUpperCase()}</div>
+            <div class="friend-info">
+                <div class="friend-name">${friend.username}</div>
+                
+</cut_off_point>
+                <div class="friend-status online">Online</div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Update friend requests
+function updateFriendRequests(requests) {
+    const incomingContainer = document.getElementById('incoming-requests');
+    const sentContainer = document.getElementById('sent-requests');
+    
+    // Incoming requests
+    if (requests.incoming.length === 0) {
+        incomingContainer.innerHTML = `
+            <div class="empty-state">
+                <svg class="empty-icon" viewBox="0 0 24 24">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+                <h4 class="empty-title">No Friend Requests</h4>
+                <p class="empty-description">You don't have any pending friend requests</p>
+            </div>
+        `;
+    } else {
+        incomingContainer.innerHTML = requests.incoming.map(request => `
+            <div class="friend-request-item">
+                <div class="friend-avatar">${request.username.charAt(0).toUpperCase()}</div>
+                <div class="friend-request-info">
+                    <div class="friend-request-name">${request.username}</div>
+                    <div class="friend-request-time">${new Date(request.receivedAt).toLocaleDateString()}</div>
+                </div>
+                <div class="friend-request-actions">
+                    <button class="action-btn accept-btn" onclick="acceptFriendRequest('${request.email}')">Accept</button>
+                    <button class="action-btn decline-btn" onclick="declineFriendRequest('${request.email}')">Decline</button>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    // Sent requests
+    if (requests.sent.length === 0) {
+        sentContainer.innerHTML = `
+            <div class="empty-state">
+                <svg class="empty-icon" viewBox="0 0 24 24">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+                <h4 class="empty-title">No Sent Requests</h4>
+                <p class="empty-description">You haven't sent any friend requests</p>
+            </div>
+        `;
+    } else {
+        sentContainer.innerHTML = requests.sent.map(request => `
+            <div class="friend-request-item">
+                <div class="friend-avatar">${request.username.charAt(0).toUpperCase()}</div>
+                <div class="friend-request-info">
+                    <div class="friend-request-name">${request.username}</div>
+                    <div class="friend-request-time">Sent ${new Date(request.sentAt).toLocaleDateString()}</div>
+                </div>
+                <div class="friend-request-actions">
+                    <button class="action-btn decline-btn" onclick="cancelFriendRequest('${request.email}')">Cancel</button>
+                </div>
+            </div>
+        `).join('');
+    }
+}
+
+// Update blocked users
+function updateBlockedUsers(blocked) {
+    const blockedContainer = document.getElementById('blocked-users');
+    
+    if (blocked.length === 0) {
+        blockedContainer.innerHTML = `
+            <div class="empty-state">
+                <svg class="empty-icon" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+                </svg>
+                <h4 class="empty-title">No Blocked Users</h4>
+                <p class="empty-description">You haven't blocked any users</p>
+            </div>
+        `;
+    } else {
+        blockedContainer.innerHTML = blocked.map(user => `
+            <div class="user-result">
+                <div class="user-result-avatar">${user.username.charAt(0).toUpperCase()}</div>
+                <div class="user-result-info">
+                    <div class="user-result-name">${user.username}</div>
+                    <div class="user-result-email">Blocked ${new Date(user.blockedAt).toLocaleDateString()}</div>
+                </div>
+                <div class="user-result-actions">
+                    <button class="action-btn friend-request-btn" onclick="unblockUser('${user.email}')">Unblock</button>
+                </div>
+            </div>
+        `).join('');
+    }
+}
+
+// Search users
+async function searchUsers(query) {
+    const searchResults = document.getElementById('search-results');
+    
+    if (!query.trim()) {
+        searchResults.innerHTML = `
+            <div class="empty-state">
+                <svg class="empty-icon" viewBox="0 0 24 24">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="M21 21l-4.35-4.35"></path>
+                </svg>
+                <h4 class="empty-title">Search for Users</h4>
+                <p class="empty-description">Use the search bar above to find other users on the Treron platform</p>
+            </div>
+        `;
+        return;
+    }
+    
+    try {
+        const users = await usernameManager.searchUsers(query);
+        const currentUser = auth.currentUser;
+        
+        if (users.length === 0) {
+            searchResults.innerHTML = `
+                <div class="empty-state">
+                    <svg class="empty-icon" viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="M21 21l-4.35-4.35"></path>
+                    </svg>
+                    <h4 class="empty-title">No Users Found</h4>
+                    <p class="empty-description">No users match your search query "${query}"</p>
+                </div>
+            `;
+            return;
+        }
+        
+        // Filter out current user
+        const filteredUsers = users.filter(user => user.email !== currentUser?.email);
+        
+        searchResults.innerHTML = filteredUsers.map(user => `
+            <div class="user-result">
+                <div class="user-result-avatar">${user.username.charAt(0).toUpperCase()}</div>
+                <div class="user-result-info">
+                    <div class="user-result-name">${user.username}</div>
+                    <div class="user-result-email">${user.email}</div>
+                    <div style="font-size: 0.8rem; color: #64748b;">Joined ${new Date(user.createdAt).toLocaleDateString()}</div>
+                </div>
+                <div class="user-result-actions">
+                    <button class="action-btn friend-request-btn" onclick="sendFriendRequest('${user.email}', '${user.username}')">Add Friend</button>
+                    <button class="action-btn view-profile-btn" onclick="showUserProfile('${user.email}', '${user.username}')">View Profile</button>
+                    <button class="action-btn block-btn" onclick="blockUser('${user.email}')">Block</button>
+                </div>
+            </div>
+        `).join('');
+        
+    } catch (error) {
+        console.error('Search error:', error);
+        searchResults.innerHTML = `
+            <div class="empty-state">
+                <svg class="empty-icon" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <h4 class="empty-title">Search Error</h4>
+                <p class="empty-description">There was an error searching for users. Please try again.</p>
+            </div>
+        `;
+    }
+}
+
+// Show user profile
+function showUserProfile(email, username) {
+    const modal = document.getElementById('profile-modal');
+    const title = document.getElementById('profile-modal-title');
+    const avatar = document.getElementById('profile-modal-avatar');
+    const usernameEl = document.getElementById('profile-modal-username');
+    const emailEl = document.getElementById('profile-modal-email');
+    const joinedEl = document.getElementById('profile-modal-joined');
+    const actionsEl = document.getElementById('profile-actions');
+    
+    title.textContent = `${username}'s Profile`;
+    avatar.textContent = username.charAt(0).toUpperCase();
+    usernameEl.textContent = username;
+    emailEl.textContent = email;
+    joinedEl.textContent = 'Joined: January 2025';
+    
+    // Add action buttons
+    actionsEl.innerHTML = `
+        <button class="action-btn friend-request-btn" onclick="sendFriendRequest('${email}', '${username}')">Add Friend</button>
+        <button class="action-btn block-btn" onclick="blockUser('${email}')">Block User</button>
+    `;
+    
+    openModal('profile');
+}
+
+// Friend request functions
+async function sendFriendRequest(toEmail, toUsername) {
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+        showToast('Please log in to send friend requests');
+        return;
+    }
+    
+    try {
+        await friendManager.sendFriendRequest(currentUser.email, toEmail, toUsername);
+        showToast('Friend request sent!');
+        await loadFriendData(currentUser.email);
+    } catch (error) {
+        console.error('Error sending friend request:', error);
+        showToast(error.message || 'Failed to send friend request');
+    }
+}
+
+async function acceptFriendRequest(friendEmail) {
+    const currentUser = auth.currentUser;
+    if (!currentUser) return;
+    
+    try {
+        await friendManager.acceptFriendRequest(currentUser.email, friendEmail);
+        showToast('Friend request accepted!');
+        await loadFriendData(currentUser.email);
+    } catch (error) {
+        console.error('Error accepting friend request:', error);
+        showToast('Failed to accept friend request');
+    }
+}
+
+async function declineFriendRequest(friendEmail) {
+    const currentUser = auth.currentUser;
+    if (!currentUser) return;
+    
+    try {
+        await friendManager.declineFriendRequest(currentUser.email, friendEmail);
+        showToast('Friend request declined');
+        await loadFriendData(currentUser.email);
+    } catch (error) {
+        console.error('Error declining friend request:', error);
+        showToast('Failed to decline friend request');
+    }
+}
+
+async function blockUser(blockEmail) {
+    const currentUser = auth.currentUser;
+    if (!currentUser) return;
+    
+    try {
+        await friendManager.blockUser(currentUser.email, blockEmail);
+        showToast('User blocked');
+        await loadFriendData(currentUser.email);
+        closeAllModals();
+    } catch (error) {
+        console.error('Error blocking user:', error);
+        showToast('Failed to block user');
+    }
+}
+
+async function unblockUser(unblockEmail) {
+    const currentUser = auth.currentUser;
+    if (!currentUser) return;
+    
+    try {
+        await friendManager.unblockUser(currentUser.email, unblockEmail);
+        showToast('User unblocked');
+        await loadFriendData(currentUser.email);
+    } catch (error) {
+        console.error('Error unblocking user:', error);
+        showToast('Failed to unblock user');
+    }
+}
+
 // Initialize particles
 createParticles();
 
 // Event listeners
 document.addEventListener('DOMContentLoaded', function() {
+    // Language selector
+    const languageToggle = document.getElementById('language-toggle');
+    const languageOptions = document.getElementById('language-options');
+
+    languageToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        languageOptions.classList.toggle('active');
+    });
+
+    document.addEventListener('click', function() {
+        languageOptions.classList.remove('active');
+    });
+
+    document.querySelectorAll('.language-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const lang = this.getAttribute('data-lang');
+            const flagSrc = this.querySelector('.language-flag').src;
+            const langName = this.querySelector('span').textContent;
+            
+            document.getElementById('current-language-flag').src = flagSrc;
+            document.getElementById('current-language-name').textContent = langName.substring(0, 2).toUpperCase();
+            
+            languageOptions.classList.remove('active');
+            showToast('Language changed');
+        });
+    });
+    
     // Navigation tabs
     document.querySelectorAll('.nav-tab').forEach(tab => {
         tab.addEventListener('click', function(e) {
             e.preventDefault();
-            
-            // Remove active class from all tabs
-            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-            
-            // Add active class to clicked tab
-            this.classList.add('active');
-            
             const tabName = this.getAttribute('data-tab');
-            showToast(`Switched to ${tabName}`);
+            switchTab(tabName);
+        });
+    });
+    
+    // Community tabs
+    document.querySelectorAll('.community-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            const tabName = this.getAttribute('data-tab');
+            switchCommunityTab(tabName);
         });
     });
     
@@ -1388,8 +2693,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('user-info').addEventListener('click', function() {
         const user = auth.currentUser;
         if (user) {
-            // Open profile viewer in new window
-            window.open('profile-viewer.html', '_blank', 'width=1000,height=700');
+            // Could open user's own profile or settings
+            showToast('Profile settings coming soon!');
         } else {
             openModal('login');
         }
@@ -1426,6 +2731,17 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('show-login').addEventListener('click', function() {
         closeModal('signup');
         openModal('login');
+    });
+    
+    // User search
+    const searchInput = document.getElementById('user-search-input');
+    let searchTimeout;
+    
+    searchInput.addEventListener('input', function() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            searchUsers(this.value);
+        }, 500);
     });
     
     // Google Sign-In
