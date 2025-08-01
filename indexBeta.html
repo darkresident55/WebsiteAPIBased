@@ -2282,7 +2282,7 @@ svg {
                                         <div class="info-card-header">
                                             <div>
                                                 <h4 class="info-card-title">Member Since</h4>
-                                                <p class="info-card-value" id="member-since-date">January 2025</p>
+                                                <p class="info-card-value" id="member-since-date">Loading...</p>
                                             </div>
                                         </div>
                                     </div>
@@ -2478,7 +2478,7 @@ svg {
                 <div>
                     <h3 id="profile-modal-username" style="font-size: 1.5rem; font-weight: 600; color: #f1f5f9; margin-bottom: 0.5rem;">Username</h3>
                     <p id="profile-modal-email" style="color: #94a3b8; margin-bottom: 0.5rem;">email@example.com</p>
-                    <p id="profile-modal-joined" style="color: #64748b; font-size: 0.9rem;">Joined: January 2025</p>
+                    <p id="profile-modal-joined" style="color: #64748b; font-size: 0.9rem;">Joined: Loading...</p>
                 </div>
             </div>
             
@@ -2537,6 +2537,25 @@ const googleProvider = new firebase.auth.GoogleAuthProvider();
 googleProvider.addScope('email');
 googleProvider.addScope('profile');
 
+// Helper function to format dates
+function formatDate(dateString) {
+    if (!dateString) return 'Unknown';
+    
+    try {
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) return 'Unknown';
+        
+        return date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    } catch (error) {
+        console.error('Error formatting date:', error);
+        return 'Unknown';
+    }
+}
+
 // Username Management System
 class UsernameManager {
     constructor() {
@@ -2593,6 +2612,25 @@ class UsernameManager {
                 return null;
             }
             console.error('Error getting username:', error);
+            throw error;
+        }
+    }
+
+    async getUserData(email) {
+        try {
+            const filename = this.generateFilename(email);
+            const fileRef = this.storageRef.child(filename);
+            
+            const url = await fileRef.getDownloadURL();
+            const response = await fetch(url);
+            const data = await response.json();
+            
+            return data;
+        } catch (error) {
+            if (error.code === 'storage/object-not-found') {
+                return null;
+            }
+            console.error('Error getting user data:', error);
             throw error;
         }
     }
@@ -3077,17 +3115,25 @@ async function updateUserDisplay(user) {
     const profileDisplayName = document.getElementById('profile-display-name');
     const profileEmail = document.getElementById('profile-email');
     const profileAvatar = document.getElementById('profile-avatar');
+    const memberSinceDate = document.getElementById('member-since-date');
     
     if (user) {
         try {
-            const username = await usernameManager.getUsername(user.email);
-            const displayName = username || user.displayName || user.email.split('@')[0];
-            const initial = displayName.charAt(0).toUpperCase();
+            const userData = await usernameManager.getUserData(user.email);
+            const username = userData?.username || user.displayName || user.email.split('@')[0];
+            const initial = username.charAt(0).toUpperCase();
             
-            welcomeTitle.textContent = `Welcome Back ${displayName}!`;
-            profileDisplayName.textContent = displayName;
+            welcomeTitle.textContent = `Welcome Back ${username}!`;
+            profileDisplayName.textContent = username;
             profileEmail.textContent = user.email;
             profileAvatar.textContent = initial;
+            
+            // Update member since date with actual creation date
+            if (userData?.createdAt) {
+                memberSinceDate.textContent = formatDate(userData.createdAt);
+            } else {
+                memberSinceDate.textContent = 'Unknown';
+            }
             
             if (user.photoURL) {
                 profileAvatar.innerHTML = `<img src="${user.photoURL}" alt="Profile">`;
@@ -3102,12 +3148,14 @@ async function updateUserDisplay(user) {
             profileDisplayName.textContent = fallbackName;
             profileEmail.textContent = user.email;
             profileAvatar.textContent = fallbackName.charAt(0).toUpperCase();
+            memberSinceDate.textContent = 'Unknown';
         }
     } else {
         welcomeTitle.textContent = 'Welcome Back [Username]!';
         profileDisplayName.textContent = 'Guest';
         profileEmail.textContent = 'guest@example.com';
         profileAvatar.textContent = 'G';
+        memberSinceDate.textContent = 'Unknown';
     }
 }
 
@@ -3192,7 +3240,7 @@ function updateFriendRequests(requests) {
                 <div class="friend-avatar">${request.username.charAt(0).toUpperCase()}</div>
                 <div class="friend-request-info">
                     <div class="friend-request-name">${request.username}</div>
-                    <div class="friend-request-time">${new Date(request.receivedAt).toLocaleDateString()}</div>
+                    <div class="friend-request-time">${formatDate(request.receivedAt)}</div>
                 </div>
                 <div class="friend-request-actions">
                     <button class="action-btn accept-btn" onclick="acceptFriendRequest('${request.email}')">Accept</button>
@@ -3222,7 +3270,7 @@ function updateFriendRequests(requests) {
                 <div class="friend-avatar">${request.username.charAt(0).toUpperCase()}</div>
                 <div class="friend-request-info">
                     <div class="friend-request-name">${request.username}</div>
-                    <div class="friend-request-time">Sent ${new Date(request.sentAt).toLocaleDateString()}</div>
+                    <div class="friend-request-time">Sent ${formatDate(request.sentAt)}</div>
                 </div>
                 <div class="friend-request-actions">
                     <button class="action-btn decline-btn" onclick="cancelFriendRequest('${request.email}')">Cancel</button>
@@ -3255,7 +3303,7 @@ function updateBlockedUsers(blocked) {
             <div class="user-result-avatar">${user.username.charAt(0).toUpperCase()}</div>
             <div class="user-result-info">
                 <div class="user-result-name">${user.username}</div>
-                <div class="user-result-email">Blocked ${new Date(user.blockedAt).toLocaleDateString()}</div>
+                <div class="user-result-email">Blocked ${formatDate(user.blockedAt)}</div>
             </div>
             <div class="user-result-actions">
                 <button class="action-btn view-profile-btn" onclick="unblockUser('${user.email}')">Unblock</button>
@@ -3408,7 +3456,7 @@ async function unblockUser(unblockEmail) {
 }
 
 // Show user profile
-function showUserProfile(email, username) {
+async function showUserProfile(email, username) {
     const modal = document.getElementById('profile-modal');
     const title = document.getElementById('profile-modal-title');
     const avatar = document.getElementById('profile-modal-avatar');
@@ -3421,7 +3469,19 @@ function showUserProfile(email, username) {
     avatar.textContent = username.charAt(0).toUpperCase();
     usernameEl.textContent = username;
     emailEl.textContent = email;
-    joinedEl.textContent = 'Joined: January 2025';
+    
+    try {
+        // Get user data to show actual join date
+        const userData = await usernameManager.getUserData(email);
+        if (userData?.createdAt) {
+            joinedEl.textContent = `Joined: ${formatDate(userData.createdAt)}`;
+        } else {
+            joinedEl.textContent = 'Joined: Unknown';
+        }
+    } catch (error) {
+        console.error('Error getting user data:', error);
+        joinedEl.textContent = 'Joined: Unknown';
+    }
     
     // Add action buttons
     actionsEl.innerHTML = `
