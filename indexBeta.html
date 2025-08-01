@@ -399,6 +399,7 @@ body {
     gap: 2rem;
     max-width: 1200px;
     margin: 0 auto;
+    align-items: center;
 }
 
 .friends-sidebar {
@@ -971,12 +972,12 @@ body {
     border: 1px solid var(--glass-border);
     border-radius: 20px;
     width: 100%;
-    max-width: 450px;
+    max-width: 900px;
     box-shadow: var(--glass-shadow);
     transform: scale(0.9) translateY(20px);
     opacity: 0;
     transition: all var(--anim-slow) var(--anim-bounce);
-    padding: 2rem;
+    padding: 0rem;
     color: #e2e8f0;
     position: relative;
     overflow: hidden;
@@ -1787,6 +1788,7 @@ footer {
     .menu-list {
         gap: 4px;
     }
+    
 
     .profile-avatar-large {
         width: 60px;
@@ -1827,6 +1829,16 @@ footer {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+svg {
+  display: inline-block;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 </style>
 </head>
 <body>
@@ -3726,6 +3738,19 @@ window.cancelFriendRequest = cancelFriendRequest;
 window.blockUser = blockUser;
 window.unblockUser = unblockUser;
 window.showUserProfile = showUserProfile;
+</script>
+
+<script
+data-name="BMC-Widget" 
+data-cfasync="false"
+src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
+data-id="anemunt"
+data-description="Support me on Buy me a coffee!"
+data-message="Feel Free to donate to Anemunt and the LLC. If you'd like or buy one of My Assets, It's in the link below in the Widget!"
+data-color="#BD5FFF"
+data-position="Right"
+data-x_margin="18"
+data-y_margin="18">
 </script>
 
 </body>
