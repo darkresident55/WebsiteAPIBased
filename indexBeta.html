@@ -282,6 +282,30 @@ body {
     background: hsla(var(--primary), 0.2);
 }
 
+/* Privacy Policy Link */
+.privacy-link {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    z-index: 50;
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 0.8rem;
+    transition: all var(--anim-normal) var(--anim-smooth);
+    box-shadow: var(--glass-shadow);
+}
+
+.privacy-link:hover {
+    color: hsl(var(--primary));
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
+}
+
 /* Main Content */
 .main-content {
     margin-top: 80px;
@@ -1748,6 +1772,12 @@ footer {
     .activity-grid {
         grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     }
+
+    .privacy-link {
+        bottom: 60px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
 }
 
 @media (max-width: 480px) {
@@ -1803,6 +1833,12 @@ footer {
     .profile-main {
         padding: 1rem;
     }
+
+    .privacy-link {
+        bottom: 70px;
+        font-size: 0.75rem;
+        padding: 6px 10px;
+    }
 }
 
 /* Loading States */
@@ -1847,6 +1883,11 @@ svg {
 
 <div class="particles" id="particles"></div>
 
+<!-- Privacy Policy Link -->
+<a href="https://trerondevelopment.xyz/privacyandsafety" target="_blank" class="privacy-link" data-translate="privacy_policy">
+    Privacy Policy
+</a>
+
 <!-- Header with Navigation -->
 <header class="header">
     <div class="logo-container">
@@ -1872,6 +1913,14 @@ svg {
                 <img src="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/flags/de.png" alt="Deutsch" class="language-flag">
                 <span>Deutsch</span>
             </div>
+            <div class="language-option" data-lang="es">
+                <img src="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/flags/es.png" alt="Español" class="language-flag">
+                <span>Español</span>
+            </div>
+            <div class="language-option" data-lang="fr">
+                <img src="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/flags/fr.png" alt="Français" class="language-flag">
+                <span>Français</span>
+            </div>
         </div>
     </div>
 </header>
@@ -1881,17 +1930,17 @@ svg {
     <!-- Games Section -->
     <section class="content-section active" id="games-section">
         <div class="games-section">
-            <h1 class="welcome-title" id="welcome-title">Welcome Back [Username]!</h1>
-            <h2 class="recommended-title">Recommended Games</h2>
+            <h1 class="welcome-title" id="welcome-title" data-translate="welcome_back">Welcome Back [Username]!</h1>
+            <h2 class="recommended-title" data-translate="recommended_games">Recommended Games</h2>
             
             <div class="games-card">
-                <h3 class="games-card-title">Mods and Games are Coming Soon!</h3>
-                <p class="games-card-description">
+                <h3 class="games-card-title" data-translate="games_coming_soon">Mods and Games are Coming Soon!</h3>
+                <p class="games-card-description" data-translate="games_description">
                     We're working hard to bring you an incredible collection of games. Our platform 
                     will feature custom mods, community-created content, and exciting multiplayer 
                     experiences. Stay Tuned!
                 </p>
-                <button class="get-notified-btn" id="get-notified-btn">Get Notified</button>
+                <button class="get-notified-btn" id="get-notified-btn" data-translate="get_notified">Get Notified</button>
             </div>
         </div>
     </section>
@@ -1902,8 +1951,8 @@ svg {
             <div class="community-grid">
                 <aside class="friends-sidebar">
                     <div class="friends-header">
-                        <h3 class="friends-title">Friends</h3>
-                        <button class="add-friend-btn" id="add-friend-btn">Add Friend</button>
+                        <h3 class="friends-title" data-translate="friends">Friends</h3>
+                        <button class="add-friend-btn" id="add-friend-btn" data-translate="add_friend">Add Friend</button>
                     </div>
                     
                     <div class="friends-list" id="friends-list">
@@ -1914,8 +1963,8 @@ svg {
                                 <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                                 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                             </svg>
-                            <h4 class="empty-title">No Friends Yet</h4>
-                            <p class="empty-description">Add friends to see them here</p>
+                            <h4 class="empty-title" data-translate="no_friends_yet">No Friends Yet</h4>
+                            <p class="empty-description" data-translate="add_friends_description">Add friends to see them here</p>
                         </div>
                     </div>
                 </aside>
@@ -1927,7 +1976,7 @@ svg {
                                 <circle cx="11" cy="11" r="8"></circle>
                                 <path d="M21 21l-4.35-4.35"></path>
                             </svg>
-                            <span>Discover</span>
+                            <span data-translate="discover">Discover</span>
                         </button>
                         <button class="community-tab" data-tab="requests">
                             <svg class="community-tab-icon" viewBox="0 0 24 24">
@@ -1936,14 +1985,14 @@ svg {
                                 <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                                 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                             </svg>
-                            <span>Requests</span>
+                            <span data-translate="requests">Requests</span>
                         </button>
                         <button class="community-tab" data-tab="blocked">
                             <svg class="community-tab-icon" viewBox="0 0 24 24">
                                 <circle cx="12" cy="12" r="10"></circle>
                                 <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
                             </svg>
-                            <span>Blocked</span>
+                            <span data-translate="blocked">Blocked</span>
                         </button>
                     </div>
 
@@ -1952,7 +2001,7 @@ svg {
                         <div class="community-tab-panel active" id="discover-panel">
                             <div class="user-search">
                                 <div class="search-container">
-                                    <input type="text" class="search-input" id="user-search-input" placeholder="Search for users...">
+                                    <input type="text" class="search-input" id="user-search-input" data-translate-placeholder="search_users" placeholder="Search for users...">
                                     <svg class="search-icon" viewBox="0 0 24 24">
                                         <circle cx="11" cy="11" r="8"></circle>
                                         <path d="M21 21l-4.35-4.35"></path>
@@ -1966,8 +2015,8 @@ svg {
                                         <circle cx="11" cy="11" r="8"></circle>
                                         <path d="M21 21l-4.35-4.35"></path>
                                     </svg>
-                                    <h4 class="empty-title">Search for Users</h4>
-                                    <p class="empty-description">Use the search bar above to find other users on the Treron platform</p>
+                                    <h4 class="empty-title" data-translate="search_for_users">Search for Users</h4>
+                                    <p class="empty-description" data-translate="search_description">Use the search bar above to find other users on the Treron platform</p>
                                 </div>
                             </div>
                         </div>
@@ -1975,7 +2024,7 @@ svg {
                         <!-- Friend Requests Panel -->
                         <div class="community-tab-panel" id="requests-panel">
                             <div class="friend-requests">
-                                <h4 class="friend-requests-title">Incoming Requests</h4>
+                                <h4 class="friend-requests-title" data-translate="incoming_requests">Incoming Requests</h4>
                                 <div id="incoming-requests">
                                     <div class="empty-state">
                                         <svg class="empty-icon" viewBox="0 0 24 24">
@@ -1984,14 +2033,14 @@ svg {
                                             <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                                             <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                                         </svg>
-                                        <h4 class="empty-title">No Friend Requests</h4>
-                                        <p class="empty-description">You don't have any pending friend requests</p>
+                                        <h4 class="empty-title" data-translate="no_friend_requests">No Friend Requests</h4>
+                                        <p class="empty-description" data-translate="no_pending_requests">You don't have any pending friend requests</p>
                                     </div>
                                 </div>
                             </div>
                             
                             <div class="friend-requests">
-                                <h4 class="friend-requests-title">Sent Requests</h4>
+                                <h4 class="friend-requests-title" data-translate="sent_requests">Sent Requests</h4>
                                 <div id="sent-requests">
                                     <div class="empty-state">
                                         <svg class="empty-icon" viewBox="0 0 24 24">
@@ -2000,8 +2049,8 @@ svg {
                                             <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                                             <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                                         </svg>
-                                        <h4 class="empty-title">No Sent Requests</h4>
-                                        <p class="empty-description">You haven't sent any friend requests</p>
+                                        <h4 class="empty-title" data-translate="no_sent_requests">No Sent Requests</h4>
+                                        <p class="empty-description" data-translate="no_sent_requests_description">You haven't sent any friend requests</p>
                                     </div>
                                 </div>
                             </div>
@@ -2015,8 +2064,8 @@ svg {
                                         <circle cx="12" cy="12" r="10"></circle>
                                         <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
                                     </svg>
-                                    <h4 class="empty-title">No Blocked Users</h4>
-                                    <p class="empty-description">You haven't blocked any users</p>
+                                    <h4 class="empty-title" data-translate="no_blocked_users">No Blocked Users</h4>
+                                    <p class="empty-description" data-translate="no_blocked_description">You haven't blocked any users</p>
                                 </div>
                             </div>
                         </div>
@@ -2029,16 +2078,16 @@ svg {
     <!-- Mods Section -->
     <section class="content-section" id="mods-section">
         <div class="games-section">
-            <h1 class="welcome-title">Mods & Extensions</h1>
-            <h2 class="recommended-title">Coming Soon</h2>
+            <h1 class="welcome-title" data-translate="mods_extensions">Mods & Extensions</h1>
+            <h2 class="recommended-title" data-translate="coming_soon">Coming Soon</h2>
             
             <div class="games-card">
-                <h3 class="games-card-title">Mod Platform Coming Soon!</h3>
-                <p class="games-card-description">
+                <h3 class="games-card-title" data-translate="mod_platform_coming">Mod Platform Coming Soon!</h3>
+                <p class="games-card-description" data-translate="mod_description">
                     Create, share, and discover amazing mods for your favorite games. Our platform 
                     will support custom modifications, texture packs, and gameplay enhancements.
                 </p>
-                <button class="get-notified-btn">Get Notified</button>
+                <button class="get-notified-btn" data-translate="get_notified">Get Notified</button>
             </div>
         </div>
     </section>
@@ -2046,16 +2095,16 @@ svg {
     <!-- Store Section -->
     <section class="content-section" id="store-section">
         <div class="games-section">
-            <h1 class="welcome-title">Treron Store</h1>
-            <h2 class="recommended-title">Digital Marketplace</h2>
+            <h1 class="welcome-title" data-translate="treron_store">Treron Store</h1>
+            <h2 class="recommended-title" data-translate="digital_marketplace">Digital Marketplace</h2>
             
             <div class="games-card">
-                <h3 class="games-card-title">Store Opening Soon!</h3>
-                <p class="games-card-description">
+                <h3 class="games-card-title" data-translate="store_opening_soon">Store Opening Soon!</h3>
+                <p class="games-card-description" data-translate="store_description">
                     Browse and purchase games, mods, and digital content. Support creators and 
                     discover new gaming experiences in our upcoming marketplace.
                 </p>
-                <button class="get-notified-btn">Get Notified</button>
+                <button class="get-notified-btn" data-translate="get_notified">Get Notified</button>
             </div>
         </div>
     </section>
@@ -2063,16 +2112,16 @@ svg {
     <!-- Settings Section -->
     <section class="content-section" id="settings-section">
         <div class="games-section">
-            <h1 class="welcome-title">Settings</h1>
-            <h2 class="recommended-title">Customize Your Experience</h2>
+            <h1 class="welcome-title" data-translate="settings">Settings</h1>
+            <h2 class="recommended-title" data-translate="customize_experience">Customize Your Experience</h2>
             
             <div class="games-card">
-                <h3 class="games-card-title">Settings Panel Coming Soon!</h3>
-                <p class="games-card-description">
+                <h3 class="games-card-title" data-translate="settings_panel_coming">Settings Panel Coming Soon!</h3>
+                <p class="games-card-description" data-translate="settings_description">
                     Personalize your gaming experience with comprehensive settings. Manage your account, 
                     privacy preferences, display options, and notification settings all in one place.
                 </p>
-                <button class="get-notified-btn">Get Notified</button>
+                <button class="get-notified-btn" data-translate="get_notified">Get Notified</button>
             </div>
         </div>
     </section>
@@ -2090,7 +2139,7 @@ svg {
                             <line x1="8" y1="21" x2="16" y2="21"></line>
                             <line x1="12" y1="17" x2="12" y2="21"></line>
                         </svg>
-                        <span>Games</span>
+                        <span data-translate="games">Games</span>
                     </a>
                 </div>
             </li>
@@ -2103,7 +2152,7 @@ svg {
                             <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                             <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                         </svg>
-                        <span>Community</span>
+                        <span data-translate="community">Community</span>
                     </a>
                 </div>
             </li>
@@ -2114,7 +2163,7 @@ svg {
                             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                             <polyline points="14 2 14 8 20 8"></polyline>
                         </svg>
-                        <span>Mods</span>
+                        <span data-translate="mods">Mods</span>
                     </a>
                 </div>
             </li>
@@ -2126,7 +2175,7 @@ svg {
                             <line x1="3" y1="6" x2="21" y2="6"></line>
                             <path d="M16 10a4 4 0 0 1-8 0"></path>
                         </svg>
-                        <span>Store</span>
+                        <span data-translate="store">Store</span>
                     </a>
                 </div>
             </li>
@@ -2137,7 +2186,7 @@ svg {
                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                             <circle cx="12" cy="7" r="4"></circle>
                         </svg>
-                        <span>Profile</span>
+                        <span data-translate="profile">Profile</span>
                     </a>
                 </div>
             </li>
@@ -2150,7 +2199,7 @@ svg {
     <div class="modal">
         <div id="login-view">
             <div class="modal-header">
-                <h2 class="modal-title">Log in</h2>
+                <h2 class="modal-title" data-translate="log_in">Log in</h2>
                 <button class="modal-close" id="login-modal-close">
                     <svg viewBox="0 0 24 24" width="16" height="16">
                         <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -2159,8 +2208,8 @@ svg {
                 </button>
             </div>
             <div id="login-error" class="message error"></div>
-            <p class="modal-subtitle">Enter your credentials to continue</p>
-            <span class="modal-link" id="show-signup">Create account</span>
+            <p class="modal-subtitle" data-translate="enter_credentials">Enter your credentials to continue</p>
+            <span class="modal-link" id="show-signup" data-translate="create_account">Create account</span>
             
             <button class="google-button" id="google-signin-btn">
                 <svg class="google-icon" viewBox="0 0 24 24">
@@ -2169,17 +2218,17 @@ svg {
                     <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                     <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                 </svg>
-                <span>Continue with Google</span>
+                <span data-translate="continue_with_google">Continue with Google</span>
             </button>
 
             <div class="auth-divider">
-                <span>or</span>
+                <span data-translate="or">or</span>
             </div>
 
             <form id="login-form">
                 <div class="form-group">
                     <div class="input-with-icon">
-                        <input type="email" id="email" placeholder="Username or Email" required>
+                        <input type="email" id="email" data-translate-placeholder="username_or_email" placeholder="Username or Email" required>
                         <svg class="input-icon" viewBox="0 0 24 24">
                             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                             <polyline points="22,6 12,13 2,6"></polyline>
@@ -2188,7 +2237,7 @@ svg {
                 </div>
                 <div class="form-group">
                     <div class="input-with-icon">
-                        <input type="password" id="password" placeholder="Password" required>
+                        <input type="password" id="password" data-translate-placeholder="password" placeholder="Password" required>
                         <svg class="input-icon" viewBox="0 0 24 24">
                             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                             <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
@@ -2198,23 +2247,23 @@ svg {
                 <div class="form-options">
                     <label class="checkbox-wrapper">
                         <input type="checkbox" id="remember-me">
-                        <span>Remember me</span>
+                        <span data-translate="remember_me">Remember me</span>
                     </label>
-                    <a href="#" class="form-link" id="forgot-password">Forgot Password?</a>
+                    <a href="#" class="form-link" id="forgot-password" data-translate="forgot_password">Forgot Password?</a>
                 </div>
                 <button type="submit" class="primary-button">
-                    <span>LOGIN</span>
+                    <span data-translate="login">LOGIN</span>
                 </button>
             </form>
             <div class="modal-footer">
-                <p>By logging in, you agree to the <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</p>
+                <p data-translate="login_agreement">By logging in, you agree to the <a href="https://trerondevelopment.xyz/privacyandsafety" target="_blank">Terms</a> and <a href="https://trerondevelopment.xyz/privacyandsafety" target="_blank">Privacy Policy</a>.</p>
             </div>
         </div>
         
         <div id="profile-view" style="display: none;">
             <div class="modal profile-modal">
                 <div class="profile-modal-header">
-                    <h2 class="profile-modal-title">Your Profile</h2>
+                    <h2 class="profile-modal-title" data-translate="your_profile">Your Profile</h2>
                     <button class="profile-modal-close" id="profile-close">
                         <svg viewBox="0 0 24 24" width="16" height="16">
                             <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -2229,7 +2278,7 @@ svg {
                     <div class="profile-user-info">
                         <div class="profile-username">
                             <span id="profile-display-name">Guest</span>
-                            <button class="username-edit-btn" id="username-edit-btn">Edit</button>
+                            <button class="username-edit-btn" id="username-edit-btn" data-translate="edit">Edit</button>
                         </div>
                         <p class="profile-email" id="profile-email">guest@example.com</p>
                     </div>
@@ -2246,7 +2295,7 @@ svg {
                                             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                                             <polyline points="9 22 9 12 15 12 15 22"></polyline>
                                         </svg>
-                                        <span>Account Overview</span>
+                                        <span data-translate="account_overview">Account Overview</span>
                                     </a>
                                 </li>
                                 <li class="profile-nav-item">
@@ -2255,7 +2304,7 @@ svg {
                                             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                                             <polyline points="14 2 14 8 20 8"></polyline>
                                         </svg>
-                                        <span>Created Mods</span>
+                                        <span data-translate="created_mods">Created Mods</span>
                                     </a>
                                 </li>
                                 <li class="profile-nav-item">
@@ -2264,7 +2313,7 @@ svg {
                                             <polyline points="16 18 22 12 16 6"></polyline>
                                             <polyline points="8 6 2 12 8 18"></polyline>
                                         </svg>
-                                        <span>SCL Extensions</span>
+                                        <span data-translate="scl_extensions">SCL Extensions</span>
                                     </a>
                                 </li>
                             </ul>
@@ -2276,12 +2325,12 @@ svg {
                         <!-- Account Overview Panel -->
                         <div class="profile-tab-panel active" id="overview-panel">
                             <div class="profile-section">
-                                <h3 class="profile-section-title">Account Information</h3>
+                                <h3 class="profile-section-title" data-translate="account_information">Account Information</h3>
                                 <div class="profile-section-content">
                                     <div class="info-card">
                                         <div class="info-card-header">
                                             <div>
-                                                <h4 class="info-card-title">Member Since</h4>
+                                                <h4 class="info-card-title" data-translate="member_since">Member Since</h4>
                                                 <p class="info-card-value" id="member-since-date">Loading...</p>
                                             </div>
                                         </div>
@@ -2289,33 +2338,33 @@ svg {
                                     <div class="info-card">
                                         <div class="info-card-header">
                                             <div>
-                                                <h4 class="info-card-title">Account Type</h4>
-                                                <p class="info-card-value">Free Account</p>
+                                                <h4 class="info-card-title" data-translate="account_type">Account Type</h4>
+                                                <p class="info-card-value" data-translate="free_account">Free Account</p>
                                             </div>
-                                            <span class="status-badge status-active">ACTIVE</span>
+                                            <span class="status-badge status-active" data-translate="active">ACTIVE</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="profile-section">
-                                <h3 class="profile-section-title">Activity Summary</h3>
+                                <h3 class="profile-section-title" data-translate="activity_summary">Activity Summary</h3>
                                 <div class="activity-grid">
                                     <div class="activity-stat">
                                         <div class="activity-stat-number" id="mods-count">0</div>
-                                        <div class="activity-stat-label">Mods</div>
+                                        <div class="activity-stat-label" data-translate="mods">Mods</div>
                                     </div>
                                     <div class="activity-stat">
                                         <div class="activity-stat-number" id="extensions-count">0</div>
-                                        <div class="activity-stat-label">Extensions</div>
+                                        <div class="activity-stat-label" data-translate="extensions">Extensions</div>
                                     </div>
                                     <div class="activity-stat">
                                         <div class="activity-stat-number" id="downloads-count">0</div>
-                                        <div class="activity-stat-label">Downloads</div>
+                                        <div class="activity-stat-label" data-translate="downloads">Downloads</div>
                                     </div>
                                     <div class="activity-stat">
                                         <div class="activity-stat-number" id="friends-count">0</div>
-                                        <div class="activity-stat-label">Friends</div>
+                                        <div class="activity-stat-label" data-translate="friends">Friends</div>
                                     </div>
                                 </div>
                             </div>
@@ -2324,14 +2373,14 @@ svg {
                         <!-- Created Mods Panel -->
                         <div class="profile-tab-panel" id="mods-panel">
                             <div class="profile-section">
-                                <h3 class="profile-section-title">Your Mods</h3>
+                                <h3 class="profile-section-title" data-translate="your_mods">Your Mods</h3>
                                 <div class="empty-state">
                                     <svg class="empty-icon" viewBox="0 0 24 24">
                                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                                         <polyline points="14 2 14 8 20 8"></polyline>
                                     </svg>
-                                    <h4 class="empty-title">No Mods Created Yet</h4>
-                                    <p class="empty-description">You haven't created any mods yet. Start building something amazing!</p>
+                                    <h4 class="empty-title" data-translate="no_mods_created">No Mods Created Yet</h4>
+                                    <p class="empty-description" data-translate="no_mods_description">You haven't created any mods yet. Start building something amazing!</p>
                                 </div>
                             </div>
                         </div>
@@ -2339,14 +2388,14 @@ svg {
                         <!-- SCL Extensions Panel -->
                         <div class="profile-tab-panel" id="extensions-panel">
                             <div class="profile-section">
-                                <h3 class="profile-section-title">Your SCL Extensions</h3>
+                                <h3 class="profile-section-title" data-translate="your_scl_extensions">Your SCL Extensions</h3>
                                 <div class="empty-state">
                                     <svg class="empty-icon" viewBox="0 0 24 24">
                                         <polyline points="16 18 22 12 16 6"></polyline>
                                         <polyline points="8 6 2 12 8 18"></polyline>
                                     </svg>
-                                    <h4 class="empty-title">No Extensions Created Yet</h4>
-                                    <p class="empty-description">You haven't created any SCL extensions yet. Extend the platform's functionality!</p>
+                                    <h4 class="empty-title" data-translate="no_extensions_created">No Extensions Created Yet</h4>
+                                    <p class="empty-description" data-translate="no_extensions_description">You haven't created any SCL extensions yet. Extend the platform's functionality!</p>
                                 </div>
                             </div>
                         </div>
@@ -2355,7 +2404,7 @@ svg {
 
                 <!-- Logout Section -->
                 <div class="logout-section">
-                    <button class="logout-button" id="logout-button">Log out</button>
+                    <button class="logout-button" id="logout-button" data-translate="log_out">Log out</button>
                 </div>
             </div>
         </div>
@@ -2366,7 +2415,7 @@ svg {
 <div class="modal-overlay" id="signup-modal">
     <div class="modal">
         <div class="modal-header">
-            <h2 class="modal-title">Create Account</h2>
+            <h2 class="modal-title" data-translate="create_account">Create Account</h2>
             <button class="modal-close" id="signup-modal-close">
                 <svg viewBox="0 0 24 24" width="16" height="16">
                     <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -2375,8 +2424,8 @@ svg {
             </button>
         </div>
         <div id="signup-error" class="message error"></div>
-        <p class="modal-subtitle">Join the gaming community</p>
-        <span class="modal-link" id="show-login">Already have an account?</span>
+        <p class="modal-subtitle" data-translate="join_gaming_community">Join the gaming community</p>
+        <span class="modal-link" id="show-login" data-translate="already_have_account">Already have an account?</span>
         
         <button class="google-button" id="google-signup-btn">
             <svg class="google-icon" viewBox="0 0 24 24">
@@ -2385,17 +2434,17 @@ svg {
                 <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                 <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
             </svg>
-            <span>Sign up with Google</span>
+            <span data-translate="sign_up_with_google">Sign up with Google</span>
         </button>
 
         <div class="auth-divider">
-            <span>or</span>
+            <span data-translate="or">or</span>
         </div>
 
         <form id="signup-form">
             <div class="form-group">
                 <div class="input-with-icon">
-                    <input type="email" id="signup-email" placeholder="Your email address" required>
+                    <input type="email" id="signup-email" data-translate-placeholder="your_email" placeholder="Your email address" required>
                     <svg class="input-icon" viewBox="0 0 24 24">
                         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                         <polyline points="22,6 12,13 2,6"></polyline>
@@ -2404,7 +2453,7 @@ svg {
             </div>
             <div class="form-group">
                 <div class="input-with-icon">
-                    <input type="password" id="signup-password" placeholder="Create password (min 6 characters)" required minlength="6">
+                    <input type="password" id="signup-password" data-translate-placeholder="create_password" placeholder="Create password (min 6 characters)" required minlength="6">
                     <svg class="input-icon" viewBox="0 0 24 24">
                         <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                         <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
@@ -2413,7 +2462,7 @@ svg {
             </div>
             <div class="form-group">
                 <div class="input-with-icon">
-                    <input type="password" id="confirm-password" placeholder="Confirm your password" required minlength="6">
+                    <input type="password" id="confirm-password" data-translate-placeholder="confirm_password" placeholder="Confirm your password" required minlength="6">
                     <svg class="input-icon" viewBox="0 0 24 24">
                         <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                         <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
@@ -2421,11 +2470,11 @@ svg {
                 </div>
             </div>
             <button type="submit" class="primary-button">
-                <span>SIGN UP</span>
+                <span data-translate="sign_up">SIGN UP</span>
             </button>
         </form>
         <div class="modal-footer">
-            <p>By signing up, you agree to the <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</p>
+            <p data-translate="signup_agreement">By signing up, you agree to the <a href="https://trerondevelopment.xyz/privacyandsafety" target="_blank">Terms</a> and <a href="https://trerondevelopment.xyz/privacyandsafety" target="_blank">Privacy Policy</a>.</p>
         </div>
     </div>
 </div>
@@ -2434,7 +2483,7 @@ svg {
 <div class="modal-overlay" id="username-modal">
     <div class="modal username-modal">
         <div class="modal-header">
-            <h2 class="modal-title">Set Username</h2>
+            <h2 class="modal-title" data-translate="set_username">Set Username</h2>
             <button class="modal-close" id="username-modal-close">
                 <svg viewBox="0 0 24 24" width="16" height="16">
                     <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -2443,18 +2492,18 @@ svg {
             </button>
         </div>
         <div id="username-error" class="message error"></div>
-        <p class="modal-subtitle">Choose a unique username for your profile</p>
+        <p class="modal-subtitle" data-translate="choose_username">Choose a unique username for your profile</p>
         <form id="username-form">
             <div class="form-group">
-                <input type="text" id="username-input" class="username-input" placeholder="Enter username" required minlength="3" maxlength="20">
+                <input type="text" id="username-input" class="username-input" data-translate-placeholder="enter_username" placeholder="Enter username" required minlength="3" maxlength="20">
                 <div id="username-availability" class="username-availability"></div>
             </div>
             <button type="submit" class="primary-button" id="username-save-btn" disabled>
-                <span>Save Username</span>
+                <span data-translate="save_username">Save Username</span>
             </button>
         </form>
         <div class="modal-footer">
-            <p>Username must be 3-20 characters long and contain only letters, numbers, and underscores.</p>
+            <p data-translate="username_requirements">Username must be 3-20 characters long and contain only letters, numbers, and underscores.</p>
         </div>
     </div>
 </div>
@@ -2463,7 +2512,7 @@ svg {
 <div class="modal-overlay" id="profile-modal">
     <div class="modal" style="max-width: 600px;">
         <div class="modal-header">
-            <h2 class="modal-title" id="profile-modal-title">User Profile</h2>
+            <h2 class="modal-title" id="profile-modal-title" data-translate="user_profile">User Profile</h2>
             <button class="modal-close" id="profile-modal-close">
                 <svg viewBox="0 0 24 24" width="16" height="16">
                     <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -2478,22 +2527,22 @@ svg {
                 <div>
                     <h3 id="profile-modal-username" style="font-size: 1.5rem; font-weight: 600; color: #f1f5f9; margin-bottom: 0.5rem;">Username</h3>
                     <p id="profile-modal-email" style="color: #94a3b8; margin-bottom: 0.5rem;">email@example.com</p>
-                    <p id="profile-modal-joined" style="color: #64748b; font-size: 0.9rem;">Joined: Loading...</p>
+                    <p id="profile-modal-joined" style="color: #64748b; font-size: 0.9rem;" data-translate="joined">Joined: Loading...</p>
                 </div>
             </div>
             
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
                 <div style="text-align: center; padding: 1rem; background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px;">
                     <div style="font-size: 1.5rem; font-weight: 700; color: hsl(var(--primary)); margin-bottom: 0.25rem;">0</div>
-                    <div style="font-size: 0.8rem; color: #94a3b8;">Friends</div>
+                    <div style="font-size: 0.8rem; color: #94a3b8;" data-translate="friends">Friends</div>
                 </div>
                 <div style="text-align: center; padding: 1rem; background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px;">
                     <div style="font-size: 1.5rem; font-weight: 700; color: hsl(var(--primary)); margin-bottom: 0.25rem;">0</div>
-                    <div style="font-size: 0.8rem; color: #94a3b8;">Games</div>
+                    <div style="font-size: 0.8rem; color: #94a3b8;" data-translate="games">Games</div>
                 </div>
                 <div style="text-align: center; padding: 1rem; background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px;">
                     <div style="font-size: 1.5rem; font-weight: 700; color: hsl(var(--primary)); margin-bottom: 0.25rem;">0</div>
-                    <div style="font-size: 0.8rem; color: #94a3b8;">Mods</div>
+                    <div style="font-size: 0.8rem; color: #94a3b8;" data-translate="mods">Mods</div>
                 </div>
             </div>
             
@@ -2536,6 +2585,504 @@ const storage = firebase.storage();
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 googleProvider.addScope('email');
 googleProvider.addScope('profile');
+
+// Translation System
+const translations = {
+    en: {
+        privacy_policy: "Privacy Policy",
+        welcome_back: "Welcome Back [Username]!",
+        recommended_games: "Recommended Games",
+        games_coming_soon: "Mods and Games are Coming Soon!",
+        games_description: "We're working hard to bring you an incredible collection of games. Our platform will feature custom mods, community-created content, and exciting multiplayer experiences. Stay Tuned!",
+        get_notified: "Get Notified",
+        friends: "Friends",
+        add_friend: "Add Friend",
+        no_friends_yet: "No Friends Yet",
+        add_friends_description: "Add friends to see them here",
+        discover: "Discover",
+        requests: "Requests",
+        blocked: "Blocked",
+        search_users: "Search for users...",
+        search_for_users: "Search for Users",
+        search_description: "Use the search bar above to find other users on the Treron platform",
+        incoming_requests: "Incoming Requests",
+        no_friend_requests: "No Friend Requests",
+        no_pending_requests: "You don't have any pending friend requests",
+        sent_requests: "Sent Requests",
+        no_sent_requests: "No Sent Requests",
+        no_sent_requests_description: "You haven't sent any friend requests",
+        no_blocked_users: "No Blocked Users",
+        no_blocked_description: "You haven't blocked any users",
+        mods_extensions: "Mods & Extensions",
+        coming_soon: "Coming Soon",
+        mod_platform_coming: "Mod Platform Coming Soon!",
+        mod_description: "Create, share, and discover amazing mods for your favorite games. Our platform will support custom modifications, texture packs, and gameplay enhancements.",
+        treron_store: "Treron Store",
+        digital_marketplace: "Digital Marketplace",
+        store_opening_soon: "Store Opening Soon!",
+        store_description: "Browse and purchase games, mods, and digital content. Support creators and discover new gaming experiences in our upcoming marketplace.",
+        settings: "Settings",
+        customize_experience: "Customize Your Experience",
+        settings_panel_coming: "Settings Panel Coming Soon!",
+        settings_description: "Personalize your gaming experience with comprehensive settings. Manage your account, privacy preferences, display options, and notification settings all in one place.",
+        games: "Games",
+        community: "Community",
+        mods: "Mods",
+        store: "Store",
+        profile: "Profile",
+        log_in: "Log in",
+        enter_credentials: "Enter your credentials to continue",
+        create_account: "Create account",
+        continue_with_google: "Continue with Google",
+        or: "or",
+        username_or_email: "Username or Email",
+        password: "Password",
+        remember_me: "Remember me",
+        forgot_password: "Forgot Password?",
+        login: "LOGIN",
+        login_agreement: "By logging in, you agree to the Terms and Privacy Policy.",
+        your_profile: "Your Profile",
+        edit: "Edit",
+        account_overview: "Account Overview",
+        created_mods: "Created Mods",
+        scl_extensions: "SCL Extensions",
+        account_information: "Account Information",
+        member_since: "Member Since",
+        account_type: "Account Type",
+        free_account: "Free Account",
+        active: "ACTIVE",
+        activity_summary: "Activity Summary",
+        extensions: "Extensions",
+        downloads: "Downloads",
+        your_mods: "Your Mods",
+        no_mods_created: "No Mods Created Yet",
+        no_mods_description: "You haven't created any mods yet. Start building something amazing!",
+        your_scl_extensions: "Your SCL Extensions",
+        no_extensions_created: "No Extensions Created Yet",
+        no_extensions_description: "You haven't created any SCL extensions yet. Extend the platform's functionality!",
+        log_out: "Log out",
+        join_gaming_community: "Join the gaming community",
+        already_have_account: "Already have an account?",
+        sign_up_with_google: "Sign up with Google",
+        your_email: "Your email address",
+        create_password: "Create password (min 6 characters)",
+        confirm_password: "Confirm your password",
+        sign_up: "SIGN UP",
+        signup_agreement: "By signing up, you agree to the Terms and Privacy Policy.",
+        set_username: "Set Username",
+        choose_username: "Choose a unique username for your profile",
+        enter_username: "Enter username",
+        save_username: "Save Username",
+        username_requirements: "Username must be 3-20 characters long and contain only letters, numbers, and underscores.",
+        user_profile: "User Profile",
+        joined: "Joined:",
+        language_changed: "Language changed to"
+    },
+    ja: {
+        privacy_policy: "プライバシーポリシー",
+        welcome_back: "おかえりなさい [Username]！",
+        recommended_games: "おすすめゲーム",
+        games_coming_soon: "MODとゲームが近日公開！",
+        games_description: "素晴らしいゲームコレクションをお届けするため、懸命に取り組んでいます。当プラットフォームでは、カスタムMOD、コミュニティ作成コンテンツ、エキサイティングなマルチプレイヤー体験を提供予定です。お楽しみに！",
+        get_notified: "通知を受け取る",
+        friends: "フレンド",
+        add_friend: "フレンド追加",
+        no_friends_yet: "まだフレンドがいません",
+        add_friends_description: "フレンドを追加してここに表示させましょう",
+        discover: "発見",
+        requests: "リクエスト",
+        blocked: "ブロック済み",
+        search_users: "ユーザーを検索...",
+        search_for_users: "ユーザーを検索",
+        search_description: "上の検索バーを使用してTreronプラットフォームの他のユーザーを見つけてください",
+        incoming_requests: "受信リクエスト",
+        no_friend_requests: "フレンドリクエストなし",
+        no_pending_requests: "保留中のフレンドリクエストはありません",
+        sent_requests: "送信済みリクエスト",
+        no_sent_requests: "送信済みリクエストなし",
+        no_sent_requests_description: "フレンドリクエストを送信していません",
+        no_blocked_users: "ブロック済みユーザーなし",
+        no_blocked_description: "ユーザーをブロックしていません",
+        mods_extensions: "MOD & 拡張機能",
+        coming_soon: "近日公開",
+        mod_platform_coming: "MODプラットフォーム近日公開！",
+        mod_description: "お気に入りのゲーム用の素晴らしいMODを作成、共有、発見しましょう。当プラットフォームでは、カスタム改造、テクスチャパック、ゲームプレイ強化をサポートします。",
+        treron_store: "Treronストア",
+        digital_marketplace: "デジタルマーケットプレイス",
+        store_opening_soon: "ストア近日オープン！",
+        store_description: "ゲーム、MOD、デジタルコンテンツを閲覧・購入しましょう。クリエイターをサポートし、今後のマーケットプレイスで新しいゲーム体験を発見してください。",
+        settings: "設定",
+        customize_experience: "体験をカスタマイズ",
+        settings_panel_coming: "設定パネル近日公開！",
+        settings_description: "包括的な設定でゲーム体験をパーソナライズしましょう。アカウント、プライバシー設定、表示オプション、通知設定をすべて一箇所で管理できます。",
+        games: "ゲーム",
+        community: "コミュニティ",
+        mods: "MOD",
+        store: "ストア",
+        profile: "プロフィール",
+        log_in: "ログイン",
+        enter_credentials: "続行するには認証情報を入力してください",
+        create_account: "アカウント作成",
+        continue_with_google: "Googleで続行",
+        or: "または",
+        username_or_email: "ユーザー名またはメール",
+        password: "パスワード",
+        remember_me: "ログイン状態を保持",
+        forgot_password: "パスワードを忘れた？",
+        login: "ログイン",
+        login_agreement: "ログインすることで、利用規約とプライバシーポリシーに同意したことになります。",
+        your_profile: "あなたのプロフィール",
+        edit: "編集",
+        account_overview: "アカウント概要",
+        created_mods: "作成したMOD",
+        scl_extensions: "SCL拡張機能",
+        account_information: "アカウント情報",
+        member_since: "登録日",
+        account_type: "アカウントタイプ",
+        free_account: "無料アカウント",
+        active: "アクティブ",
+        activity_summary: "アクティビティ概要",
+        extensions: "拡張機能",
+        downloads: "ダウンロード",
+        your_mods: "あなたのMOD",
+        no_mods_created: "まだMODを作成していません",
+        no_mods_description: "まだMODを作成していません。素晴らしいものを作り始めましょう！",
+        your_scl_extensions: "あなたのSCL拡張機能",
+        no_extensions_created: "まだ拡張機能を作成していません",
+        no_extensions_description: "まだSCL拡張機能を作成していません。プラットフォームの機能を拡張しましょう！",
+        log_out: "ログアウト",
+        join_gaming_community: "ゲーミングコミュニティに参加",
+        already_have_account: "すでにアカウントをお持ちですか？",
+        sign_up_with_google: "Googleでサインアップ",
+        your_email: "メールアドレス",
+        create_password: "パスワードを作成（6文字以上）",
+        confirm_password: "パスワードを確認",
+        sign_up: "サインアップ",
+        signup_agreement: "サインアップすることで、利用規約とプライバシーポリシーに同意したことになります。",
+        set_username: "ユーザー名設定",
+        choose_username: "プロフィール用のユニークなユーザー名を選択してください",
+        enter_username: "ユーザー名を入力",
+        save_username: "ユーザー名を保存",
+        username_requirements: "ユーザー名は3-20文字で、文字、数字、アンダースコアのみ使用できます。",
+        user_profile: "ユーザープロフィール",
+        joined: "参加日:",
+        language_changed: "言語が変更されました："
+    },
+    de: {
+        privacy_policy: "Datenschutzrichtlinie",
+        welcome_back: "Willkommen zurück [Username]!",
+        recommended_games: "Empfohlene Spiele",
+        games_coming_soon: "Mods und Spiele kommen bald!",
+        games_description: "Wir arbeiten hart daran, Ihnen eine unglaubliche Sammlung von Spielen zu bringen. Unsere Plattform wird benutzerdefinierte Mods, von der Community erstellte Inhalte und aufregende Multiplayer-Erfahrungen bieten. Bleiben Sie dran!",
+        get_notified: "Benachrichtigung erhalten",
+        friends: "Freunde",
+        add_friend: "Freund hinzufügen",
+        no_friends_yet: "Noch keine Freunde",
+        add_friends_description: "Fügen Sie Freunde hinzu, um sie hier zu sehen",
+        discover: "Entdecken",
+        requests: "Anfragen",
+        blocked: "Blockiert",
+        search_users: "Benutzer suchen...",
+        search_for_users: "Benutzer suchen",
+        search_description: "Verwenden Sie die Suchleiste oben, um andere Benutzer auf der Treron-Plattform zu finden",
+        incoming_requests: "Eingehende Anfragen",
+        no_friend_requests: "Keine Freundschaftsanfragen",
+        no_pending_requests: "Sie haben keine ausstehenden Freundschaftsanfragen",
+        sent_requests: "Gesendete Anfragen",
+        no_sent_requests: "Keine gesendeten Anfragen",
+        no_sent_requests_description: "Sie haben keine Freundschaftsanfragen gesendet",
+        no_blocked_users: "Keine blockierten Benutzer",
+        no_blocked_description: "Sie haben keine Benutzer blockiert",
+        mods_extensions: "Mods & Erweiterungen",
+        coming_soon: "Demnächst",
+        mod_platform_coming: "Mod-Plattform kommt bald!",
+        mod_description: "Erstellen, teilen und entdecken Sie erstaunliche Mods für Ihre Lieblingsspiele. Unsere Plattform wird benutzerdefinierte Modifikationen, Texturpakete und Gameplay-Verbesserungen unterstützen.",
+        treron_store: "Treron Store",
+        digital_marketplace: "Digitaler Marktplatz",
+        store_opening_soon: "Store öffnet bald!",
+        store_description: "Durchsuchen und kaufen Sie Spiele, Mods und digitale Inhalte. Unterstützen Sie Ersteller und entdecken Sie neue Gaming-Erfahrungen in unserem kommenden Marktplatz.",
+        settings: "Einstellungen",
+        customize_experience: "Passen Sie Ihr Erlebnis an",
+        settings_panel_coming: "Einstellungsbereich kommt bald!",
+        settings_description: "Personalisieren Sie Ihr Gaming-Erlebnis mit umfassenden Einstellungen. Verwalten Sie Ihr Konto, Datenschutzeinstellungen, Anzeigeoptionen und Benachrichtigungseinstellungen an einem Ort.",
+        games: "Spiele",
+        community: "Community",
+        mods: "Mods",
+        store: "Store",
+        profile: "Profil",
+        log_in: "Anmelden",
+        enter_credentials: "Geben Sie Ihre Anmeldedaten ein, um fortzufahren",
+        create_account: "Konto erstellen",
+        continue_with_google: "Mit Google fortfahren",
+        or: "oder",
+        username_or_email: "Benutzername oder E-Mail",
+        password: "Passwort",
+        remember_me: "Angemeldet bleiben",
+        forgot_password: "Passwort vergessen?",
+        login: "ANMELDEN",
+        login_agreement: "Durch die Anmeldung stimmen Sie den Nutzungsbedingungen und der Datenschutzrichtlinie zu.",
+        your_profile: "Ihr Profil",
+        edit: "Bearbeiten",
+        account_overview: "Kontoübersicht",
+        created_mods: "Erstellte Mods",
+        scl_extensions: "SCL-Erweiterungen",
+        account_information: "Kontoinformationen",
+        member_since: "Mitglied seit",
+        account_type: "Kontotyp",
+        free_account: "Kostenloses Konto",
+        active: "AKTIV",
+        activity_summary: "Aktivitätszusammenfassung",
+        extensions: "Erweiterungen",
+        downloads: "Downloads",
+        your_mods: "Ihre Mods",
+        no_mods_created: "Noch keine Mods erstellt",
+        no_mods_description: "Sie haben noch keine Mods erstellt. Beginnen Sie, etwas Erstaunliches zu bauen!",
+        your_scl_extensions: "Ihre SCL-Erweiterungen",
+        no_extensions_created: "Noch keine Erweiterungen erstellt",
+        no_extensions_description: "Sie haben noch keine SCL-Erweiterungen erstellt. Erweitern Sie die Funktionalität der Plattform!",
+        log_out: "Abmelden",
+        join_gaming_community: "Der Gaming-Community beitreten",
+        already_have_account: "Haben Sie bereits ein Konto?",
+        sign_up_with_google: "Mit Google registrieren",
+        your_email: "Ihre E-Mail-Adresse",
+        create_password: "Passwort erstellen (min. 6 Zeichen)",
+        confirm_password: "Passwort bestätigen",
+        sign_up: "REGISTRIEREN",
+        signup_agreement: "Durch die Registrierung stimmen Sie den Nutzungsbedingungen und der Datenschutzrichtlinie zu.",
+        set_username: "Benutzername festlegen",
+        choose_username: "Wählen Sie einen eindeutigen Benutzernamen für Ihr Profil",
+        enter_username: "Benutzername eingeben",
+        save_username: "Benutzername speichern",
+        username_requirements: "Der Benutzername muss 3-20 Zeichen lang sein und darf nur Buchstaben, Zahlen und Unterstriche enthalten.",
+        user_profile: "Benutzerprofil",
+        joined: "Beigetreten:",
+        language_changed: "Sprache geändert zu"
+    },
+    es: {
+        privacy_policy: "Política de Privacidad",
+        welcome_back: "¡Bienvenido de vuelta [Username]!",
+        recommended_games: "Juegos Recomendados",
+        games_coming_soon: "¡Mods y Juegos Próximamente!",
+        games_description: "Estamos trabajando duro para traerte una increíble colección de juegos. Nuestra plataforma contará con mods personalizados, contenido creado por la comunidad y emocionantes experiencias multijugador. ¡Mantente atento!",
+        get_notified: "Recibir Notificaciones",
+        friends: "Amigos",
+        add_friend: "Agregar Amigo",
+        no_friends_yet: "Aún No Tienes Amigos",
+        add_friends_description: "Agrega amigos para verlos aquí",
+        discover: "Descubrir",
+        requests: "Solicitudes",
+        blocked: "Bloqueados",
+        search_users: "Buscar usuarios...",
+        search_for_users: "Buscar Usuarios",
+        search_description: "Usa la barra de búsqueda de arriba para encontrar otros usuarios en la plataforma Treron",
+        incoming_requests: "Solicitudes Entrantes",
+        no_friend_requests: "No Hay Solicitudes de Amistad",
+        no_pending_requests: "No tienes solicitudes de amistad pendientes",
+        sent_requests: "Solicitudes Enviadas",
+        no_sent_requests: "No Hay Solicitudes Enviadas",
+        no_sent_requests_description: "No has enviado ninguna solicitud de amistad",
+        no_blocked_users: "No Hay Usuarios Bloqueados",
+        no_blocked_description: "No has bloqueado a ningún usuario",
+        mods_extensions: "Mods y Extensiones",
+        coming_soon: "Próximamente",
+        mod_platform_coming: "¡Plataforma de Mods Próximamente!",
+        mod_description: "Crea, comparte y descubre mods increíbles para tus juegos favoritos. Nuestra plataforma soportará modificaciones personalizadas, paquetes de texturas y mejoras de jugabilidad.",
+        treron_store: "Tienda Treron",
+        digital_marketplace: "Mercado Digital",
+        store_opening_soon: "¡Tienda Abriendo Pronto!",
+        store_description: "Navega y compra juegos, mods y contenido digital. Apoya a los creadores y descubre nuevas experiencias de juego en nuestro próximo mercado.",
+        settings: "Configuración",
+        customize_experience: "Personaliza Tu Experiencia",
+        settings_panel_coming: "¡Panel de Configuración Próximamente!",
+        settings_description: "Personaliza tu experiencia de juego con configuraciones completas. Gestiona tu cuenta, preferencias de privacidad, opciones de visualización y configuraciones de notificaciones todo en un lugar.",
+        games: "Juegos",
+        community: "Comunidad",
+        mods: "Mods",
+        store: "Tienda",
+        profile: "Perfil",
+        log_in: "Iniciar Sesión",
+        enter_credentials: "Ingresa tus credenciales para continuar",
+        create_account: "Crear cuenta",
+        continue_with_google: "Continuar con Google",
+        or: "o",
+        username_or_email: "Nombre de usuario o Email",
+        password: "Contraseña",
+        remember_me: "Recordarme",
+        forgot_password: "¿Olvidaste tu contraseña?",
+        login: "INICIAR SESIÓN",
+        login_agreement: "Al iniciar sesión, aceptas los Términos y la Política de Privacidad.",
+        your_profile: "Tu Perfil",
+        edit: "Editar",
+        account_overview: "Resumen de Cuenta",
+        created_mods: "Mods Creados",
+        scl_extensions: "Extensiones SCL",
+        account_information: "Información de Cuenta",
+        member_since: "Miembro Desde",
+        account_type: "Tipo de Cuenta",
+        free_account: "Cuenta Gratuita",
+        active: "ACTIVO",
+        activity_summary: "Resumen de Actividad",
+        extensions: "Extensiones",
+        downloads: "Descargas",
+        your_mods: "Tus Mods",
+        no_mods_created: "Aún No Has Creado Mods",
+        no_mods_description: "Aún no has creado ningún mod. ¡Comienza a construir algo increíble!",
+        your_scl_extensions: "Tus Extensiones SCL",
+        no_extensions_created: "Aún No Has Creado Extensiones",
+        no_extensions_description: "Aún no has creado ninguna extensión SCL. ¡Extiende la funcionalidad de la plataforma!",
+        log_out: "Cerrar Sesión",
+        join_gaming_community: "Únete a la comunidad gamer",
+        already_have_account: "¿Ya tienes una cuenta?",
+        sign_up_with_google: "Registrarse con Google",
+        your_email: "Tu dirección de email",
+        create_password: "Crear contraseña (mín. 6 caracteres)",
+        confirm_password: "Confirmar contraseña",
+        sign_up: "REGISTRARSE",
+        signup_agreement: "Al registrarte, aceptas los Términos y la Política de Privacidad.",
+        set_username: "Establecer Nombre de Usuario",
+        choose_username: "Elige un nombre de usuario único para tu perfil",
+        enter_username: "Ingresa nombre de usuario",
+        save_username: "Guardar Nombre de Usuario",
+        username_requirements: "El nombre de usuario debe tener 3-20 caracteres y contener solo letras, números y guiones bajos.",
+        user_profile: "Perfil de Usuario",
+        joined: "Se unió:",
+        language_changed: "Idioma cambiado a"
+    },
+    fr: {
+        privacy_policy: "Politique de Confidentialité",
+        welcome_back: "Bon retour [Username] !",
+        recommended_games: "Jeux Recommandés",
+        games_coming_soon: "Mods et Jeux Bientôt Disponibles !",
+        games_description: "Nous travaillons dur pour vous apporter une incroyable collection de jeux. Notre plateforme proposera des mods personnalisés, du contenu créé par la communauté et des expériences multijoueurs passionnantes. Restez à l'écoute !",
+        get_notified: "Être Notifié",
+        friends: "Amis",
+        add_friend: "Ajouter un Ami",
+        no_friends_yet: "Pas Encore d'Amis",
+        add_friends_description: "Ajoutez des amis pour les voir ici",
+        discover: "Découvrir",
+        requests: "Demandes",
+        blocked: "Bloqués",
+        search_users: "Rechercher des utilisateurs...",
+        search_for_users: "Rechercher des Utilisateurs",
+        search_description: "Utilisez la barre de recherche ci-dessus pour trouver d'autres utilisateurs sur la plateforme Treron",
+        incoming_requests: "Demandes Reçues",
+        no_friend_requests: "Aucune Demande d'Ami",
+        no_pending_requests: "Vous n'avez aucune demande d'ami en attente",
+        sent_requests: "Demandes Envoyées",
+        no_sent_requests: "Aucune Demande Envoyée",
+        no_sent_requests_description: "Vous n'avez envoyé aucune demande d'ami",
+        no_blocked_users: "Aucun Utilisateur Bloqué",
+        no_blocked_description: "Vous n'avez bloqué aucun utilisateur",
+        mods_extensions: "Mods et Extensions",
+        coming_soon: "Bientôt Disponible",
+        mod_platform_coming: "Plateforme de Mods Bientôt Disponible !",
+        mod_description: "Créez, partagez et découvrez des mods incroyables pour vos jeux préférés. Notre plateforme supportera les modifications personnalisées, les packs de textures et les améliorations de gameplay.",
+        treron_store: "Boutique Treron",
+        digital_marketplace: "Marché Numérique",
+        store_opening_soon: "Boutique Bientôt Ouverte !",
+        store_description: "Parcourez et achetez des jeux, mods et contenu numérique. Soutenez les créateurs et découvrez de nouvelles expériences de jeu dans notre prochain marché.",
+        settings: "Paramètres",
+        customize_experience: "Personnalisez Votre Expérience",
+        settings_panel_coming: "Panneau de Paramètres Bientôt Disponible !",
+        settings_description: "Personnalisez votre expérience de jeu avec des paramètres complets. Gérez votre compte, préférences de confidentialité, options d'affichage et paramètres de notification en un seul endroit.",
+        games: "Jeux",
+        community: "Communauté",
+        mods: "Mods",
+        store: "Boutique",
+        profile: "Profil",
+        log_in: "Se Connecter",
+        enter_credentials: "Entrez vos identifiants pour continuer",
+        create_account: "Créer un compte",
+        continue_with_google: "Continuer avec Google",
+        or: "ou",
+        username_or_email: "Nom d'utilisateur ou Email",
+        password: "Mot de passe",
+        remember_me: "Se souvenir de moi",
+        forgot_password: "Mot de passe oublié ?",
+        login: "CONNEXION",
+        login_agreement: "En vous connectant, vous acceptez les Conditions et la Politique de Confidentialité.",
+        your_profile: "Votre Profil",
+        edit: "Modifier",
+        account_overview: "Aperçu du Compte",
+        created_mods: "Mods Créés",
+        scl_extensions: "Extensions SCL",
+        account_information: "Informations du Compte",
+        member_since: "Membre Depuis",
+        account_type: "Type de Compte",
+        free_account: "Compte Gratuit",
+        active: "ACTIF",
+        activity_summary: "Résumé d'Activité",
+        extensions: "Extensions",
+        downloads: "Téléchargements",
+        your_mods: "Vos Mods",
+        no_mods_created: "Aucun Mod Créé",
+        no_mods_description: "Vous n'avez encore créé aucun mod. Commencez à construire quelque chose d'incroyable !",
+        your_scl_extensions: "Vos Extensions SCL",
+        no_extensions_created: "Aucune Extension Créée",
+        no_extensions_description: "Vous n'avez encore créé aucune extension SCL. Étendez les fonctionnalités de la plateforme !",
+        log_out: "Se Déconnecter",
+        join_gaming_community: "Rejoindre la communauté gaming",
+        already_have_account: "Vous avez déjà un compte ?",
+        sign_up_with_google: "S'inscrire avec Google",
+        your_email: "Votre adresse email",
+        create_password: "Créer un mot de passe (min. 6 caractères)",
+        confirm_password: "Confirmer le mot de passe",
+        sign_up: "S'INSCRIRE",
+        signup_agreement: "En vous inscrivant, vous acceptez les Conditions et la Politique de Confidentialité.",
+        set_username: "Définir le Nom d'Utilisateur",
+        choose_username: "Choisissez un nom d'utilisateur unique pour votre profil",
+        enter_username: "Entrez le nom d'utilisateur",
+        save_username: "Sauvegarder le Nom d'Utilisateur",
+        username_requirements: "Le nom d'utilisateur doit contenir 3-20 caractères et ne peut contenir que des lettres, chiffres et traits de soulignement.",
+        user_profile: "Profil Utilisateur",
+        joined: "Rejoint :",
+        language_changed: "Langue changée en"
+    }
+};
+
+let currentLanguage = 'en';
+
+// Translation function
+function translateText(key, language = currentLanguage) {
+    return translations[language]?.[key] || translations['en'][key] || key;
+}
+
+// Apply translations to the page
+function applyTranslations(language = currentLanguage) {
+    // Translate elements with data-translate attribute
+    document.querySelectorAll('[data-translate]').forEach(element => {
+        const key = element.getAttribute('data-translate');
+        const translatedText = translateText(key, language);
+        
+        // Handle special cases for welcome message
+        if (key === 'welcome_back') {
+            const currentUser = auth.currentUser;
+            if (currentUser) {
+                // Keep the existing username replacement logic
+                const currentText = element.textContent;
+                const usernameMatch = currentText.match(/\[(.*?)\]/);
+                if (usernameMatch) {
+                    element.textContent = translatedText.replace('[Username]', usernameMatch[1]);
+                } else {
+                    element.textContent = translatedText;
+                }
+            } else {
+                element.textContent = translatedText;
+            }
+        } else {
+            element.textContent = translatedText;
+        }
+    });
+    
+    // Translate placeholders
+    document.querySelectorAll('[data-translate-placeholder]').forEach(element => {
+        const key = element.getAttribute('data-translate-placeholder');
+        element.placeholder = translateText(key, language);
+    });
+    
+    // Update document title
+    document.title = `Treron - ${translateText('games', language)}`;
+}
 
 // Helper function to format dates
 function formatDate(dateString) {
@@ -3123,7 +3670,10 @@ async function updateUserDisplay(user) {
             const username = userData?.username || user.displayName || user.email.split('@')[0];
             const initial = username.charAt(0).toUpperCase();
             
-            welcomeTitle.textContent = `Welcome Back ${username}!`;
+            // Update welcome message with translation
+            const welcomeText = translateText('welcome_back', currentLanguage);
+            welcomeTitle.textContent = welcomeText.replace('[Username]', username);
+            
             profileDisplayName.textContent = username;
             profileEmail.textContent = user.email;
             profileAvatar.textContent = initial;
@@ -3144,14 +3694,16 @@ async function updateUserDisplay(user) {
         } catch (error) {
             console.error('Error updating user display:', error);
             const fallbackName = user.displayName || user.email.split('@')[0];
-            welcomeTitle.textContent = `Welcome Back ${fallbackName}!`;
+            const welcomeText = translateText('welcome_back', currentLanguage);
+            welcomeTitle.textContent = welcomeText.replace('[Username]', fallbackName);
             profileDisplayName.textContent = fallbackName;
             profileEmail.textContent = user.email;
             profileAvatar.textContent = fallbackName.charAt(0).toUpperCase();
             memberSinceDate.textContent = 'Unknown';
         }
     } else {
-        welcomeTitle.textContent = 'Welcome Back [Username]!';
+        const welcomeText = translateText('welcome_back', currentLanguage);
+        welcomeTitle.textContent = welcomeText;
         profileDisplayName.textContent = 'Guest';
         profileEmail.textContent = 'guest@example.com';
         profileAvatar.textContent = 'G';
@@ -3197,8 +3749,8 @@ function updateFriendsList(friends) {
                     <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                     <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                 </svg>
-                <h4 class="empty-title">No Friends Yet</h4>
-                <p class="empty-description">Add friends to see them here</p>
+                <h4 class="empty-title" data-translate="no_friends_yet">${translateText('no_friends_yet')}</h4>
+                <p class="empty-description" data-translate="add_friends_description">${translateText('add_friends_description')}</p>
             </div>
         `;
         return;
@@ -3230,8 +3782,8 @@ function updateFriendRequests(requests) {
                     <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                     <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                 </svg>
-                <h4 class="empty-title">No Friend Requests</h4>
-                <p class="empty-description">You don't have any pending friend requests</p>
+                <h4 class="empty-title">${translateText('no_friend_requests')}</h4>
+                <p class="empty-description">${translateText('no_pending_requests')}</p>
             </div>
         `;
     } else {
@@ -3243,8 +3795,8 @@ function updateFriendRequests(requests) {
                     <div class="friend-request-time">${formatDate(request.receivedAt)}</div>
                 </div>
                 <div class="friend-request-actions">
-                    <button class="action-btn accept-btn" onclick="acceptFriendRequest('${request.email}')">Accept</button>
-                    <button class="action-btn decline-btn" onclick="declineFriendRequest('${request.email}')">Decline</button>
+                    <button class="action-btn accept-btn" onclick="acceptFriendRequest('${request.email}')">${translateText('accept', currentLanguage) || 'Accept'}</button>
+                    <button class="action-btn decline-btn" onclick="declineFriendRequest('${request.email}')">${translateText('decline', currentLanguage) || 'Decline'}</button>
                 </div>
             </div>
         `).join('');
@@ -3260,8 +3812,8 @@ function updateFriendRequests(requests) {
                     <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                     <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                 </svg>
-                <h4 class="empty-title">No Sent Requests</h4>
-                <p class="empty-description">You haven't sent any friend requests</p>
+                <h4 class="empty-title">${translateText('no_sent_requests')}</h4>
+                <p class="empty-description">${translateText('no_sent_requests_description')}</p>
             </div>
         `;
     } else {
@@ -3273,7 +3825,7 @@ function updateFriendRequests(requests) {
                     <div class="friend-request-time">Sent ${formatDate(request.sentAt)}</div>
                 </div>
                 <div class="friend-request-actions">
-                    <button class="action-btn decline-btn" onclick="cancelFriendRequest('${request.email}')">Cancel</button>
+                    <button class="action-btn decline-btn" onclick="cancelFriendRequest('${request.email}')">${translateText('cancel', currentLanguage) || 'Cancel'}</button>
                 </div>
             </div>
         `).join('');
@@ -3291,8 +3843,8 @@ function updateBlockedUsers(blocked) {
                     <circle cx="12" cy="12" r="10"></circle>
                     <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
                 </svg>
-                <h4 class="empty-title">No Blocked Users</h4>
-                <p class="empty-description">You haven't blocked any users</p>
+                <h4 class="empty-title">${translateText('no_blocked_users')}</h4>
+                <p class="empty-description">${translateText('no_blocked_description')}</p>
             </div>
         `;
         return;
@@ -3306,7 +3858,7 @@ function updateBlockedUsers(blocked) {
                 <div class="user-result-email">Blocked ${formatDate(user.blockedAt)}</div>
             </div>
             <div class="user-result-actions">
-                <button class="action-btn view-profile-btn" onclick="unblockUser('${user.email}')">Unblock</button>
+                <button class="action-btn view-profile-btn" onclick="unblockUser('${user.email}')">${translateText('unblock', currentLanguage) || 'Unblock'}</button>
             </div>
         </div>
     `).join('');
@@ -3321,8 +3873,8 @@ async function searchUsers(query) {
                     <circle cx="11" cy="11" r="8"></circle>
                     <path d="M21 21l-4.35-4.35"></path>
                 </svg>
-                <h4 class="empty-title">Search for Users</h4>
-                <p class="empty-description">Use the search bar above to find other users on the Treron platform</p>
+                <h4 class="empty-title">${translateText('search_for_users')}</h4>
+                <p class="empty-description">${translateText('search_description')}</p>
             </div>
         `;
         return;
@@ -3357,9 +3909,9 @@ async function searchUsers(query) {
                     <div class="user-result-email">${user.email}</div>
                 </div>
                 <div class="user-result-actions">
-                    <button class="action-btn friend-request-btn" onclick="sendFriendRequest('${user.email}', '${user.username}')">Add Friend</button>
-                    <button class="action-btn view-profile-btn" onclick="showUserProfile('${user.email}', '${user.username}')">View Profile</button>
-                    <button class="action-btn block-btn" onclick="blockUser('${user.email}')">Block</button>
+                    <button class="action-btn friend-request-btn" onclick="sendFriendRequest('${user.email}', '${user.username}')">${translateText('add_friend')}</button>
+                    <button class="action-btn view-profile-btn" onclick="showUserProfile('${user.email}', '${user.username}')">${translateText('view_profile', currentLanguage) || 'View Profile'}</button>
+                    <button class="action-btn block-btn" onclick="blockUser('${user.email}')">${translateText('block', currentLanguage) || 'Block'}</button>
                 </div>
             </div>
         `).join('');
@@ -3377,7 +3929,7 @@ async function sendFriendRequest(toEmail, toUsername) {
     
     try {
         await friendManager.sendFriendRequest(currentUser.email, toEmail, toUsername);
-        showToast('Friend request sent!');
+        showToast(translateText('friend_request_sent', currentLanguage) || 'Friend request sent!');
         await loadFriendData(currentUser.email);
     } catch (error) {
         console.error('Error sending friend request:', error);
@@ -3391,7 +3943,7 @@ async function acceptFriendRequest(friendEmail) {
     
     try {
         await friendManager.acceptFriendRequest(currentUser.email, friendEmail);
-        showToast('Friend request accepted!');
+        showToast(translateText('friend_request_accepted', currentLanguage) || 'Friend request accepted!');
         await loadFriendData(currentUser.email);
     } catch (error) {
         console.error('Error accepting friend request:', error);
@@ -3405,7 +3957,7 @@ async function declineFriendRequest(friendEmail) {
     
     try {
         await friendManager.declineFriendRequest(currentUser.email, friendEmail);
-        showToast('Friend request declined');
+        showToast(translateText('friend_request_declined', currentLanguage) || 'Friend request declined');
         await loadFriendData(currentUser.email);
     } catch (error) {
         console.error('Error declining friend request:', error);
@@ -3419,7 +3971,7 @@ async function cancelFriendRequest(targetEmail) {
     
     try {
         await friendManager.cancelFriendRequest(currentUser.email, targetEmail);
-        showToast('Friend request canceled');
+        showToast(translateText('friend_request_canceled', currentLanguage) || 'Friend request canceled');
         await loadFriendData(currentUser.email);
     } catch (error) {
         console.error('Error canceling friend request:', error);
@@ -3433,7 +3985,7 @@ async function blockUser(blockEmail) {
     
     try {
         await friendManager.blockUser(currentUser.email, blockEmail);
-        showToast('User blocked');
+        showToast(translateText('user_blocked', currentLanguage) || 'User blocked');
         await loadFriendData(currentUser.email);
     } catch (error) {
         console.error('Error blocking user:', error);
@@ -3447,7 +3999,7 @@ async function unblockUser(unblockEmail) {
     
     try {
         await friendManager.unblockUser(currentUser.email, unblockEmail);
-        showToast('User unblocked');
+        showToast(translateText('user_unblocked', currentLanguage) || 'User unblocked');
         await loadFriendData(currentUser.email);
     } catch (error) {
         console.error('Error unblocking user:', error);
@@ -3474,19 +4026,19 @@ async function showUserProfile(email, username) {
         // Get user data to show actual join date
         const userData = await usernameManager.getUserData(email);
         if (userData?.createdAt) {
-            joinedEl.textContent = `Joined: ${formatDate(userData.createdAt)}`;
+            joinedEl.textContent = `${translateText('joined')}: ${formatDate(userData.createdAt)}`;
         } else {
-            joinedEl.textContent = 'Joined: Unknown';
+            joinedEl.textContent = `${translateText('joined')}: Unknown`;
         }
     } catch (error) {
         console.error('Error getting user data:', error);
-        joinedEl.textContent = 'Joined: Unknown';
+        joinedEl.textContent = `${translateText('joined')}: Unknown`;
     }
     
     // Add action buttons
     actionsEl.innerHTML = `
-        <button class="action-btn friend-request-btn" onclick="sendFriendRequest('${email}', '${username}'); closeModal('profile')">Add Friend</button>
-        <button class="action-btn block-btn" onclick="blockUser('${email}'); closeModal('profile')">Block User</button>
+        <button class="action-btn friend-request-btn" onclick="sendFriendRequest('${email}', '${username}'); closeModal('profile')">${translateText('add_friend')}</button>
+        <button class="action-btn block-btn" onclick="blockUser('${email}'); closeModal('profile')">${translateText('block_user', currentLanguage) || 'Block User'}</button>
     `;
     
     openModal('profile');
@@ -3505,7 +4057,7 @@ async function checkUsernameAvailability(username) {
     
     // Show checking state
     availabilityDiv.className = 'username-availability checking';
-    availabilityDiv.textContent = 'Checking availability...';
+    availabilityDiv.textContent = translateText('checking_availability', currentLanguage) || 'Checking availability...';
     saveBtn.disabled = true;
     
     try {
@@ -3513,17 +4065,17 @@ async function checkUsernameAvailability(username) {
         
         if (isAvailable) {
             availabilityDiv.className = 'username-availability available';
-            availabilityDiv.textContent = 'Username is available!';
+            availabilityDiv.textContent = translateText('username_available', currentLanguage) || 'Username is available!';
             saveBtn.disabled = false;
         } else {
             availabilityDiv.className = 'username-availability taken';
-            availabilityDiv.textContent = 'Username is already taken';
+            availabilityDiv.textContent = translateText('username_taken', currentLanguage) || 'Username is already taken';
             saveBtn.disabled = true;
         }
     } catch (error) {
         console.error('Error checking username availability:', error);
         availabilityDiv.className = 'username-availability taken';
-        availabilityDiv.textContent = 'Error checking availability';
+        availabilityDiv.textContent = translateText('error_checking', currentLanguage) || 'Error checking availability';
         saveBtn.disabled = true;
     }
 }
@@ -3548,11 +4100,24 @@ document.addEventListener('DOMContentLoaded', function() {
             const flagSrc = this.querySelector('.language-flag').src;
             const langName = this.querySelector('span').textContent;
             
+            // Update current language
+            currentLanguage = lang;
+            
+            // Update language selector display
             document.getElementById('current-language-flag').src = flagSrc;
             document.getElementById('current-language-name').textContent = langName.substring(0, 2).toUpperCase();
             
+            // Apply translations
+            applyTranslations(lang);
+            
+            // Update user display if logged in
+            const currentUser = auth.currentUser;
+            if (currentUser) {
+                updateUserDisplay(currentUser);
+            }
+            
             languageOptions.classList.remove('active');
-            showToast(`Language changed to ${langName}`);
+            showToast(`${translateText('language_changed')} ${langName}`);
         });
     });
 });
@@ -3562,6 +4127,9 @@ createParticles();
 
 // Event listeners
 document.addEventListener('DOMContentLoaded', function() {
+    // Apply initial translations
+    applyTranslations();
+    
     // Modal close buttons
     document.querySelectorAll('.modal-close, .profile-modal-close').forEach(button => {
         button.addEventListener('click', function() {
@@ -3669,9 +4237,10 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Update profile display
             document.getElementById('profile-display-name').textContent = username;
-            document.getElementById('welcome-title').textContent = `Welcome Back ${username}!`;
+            const welcomeText = translateText('welcome_back', currentLanguage);
+            document.getElementById('welcome-title').textContent = welcomeText.replace('[Username]', username);
             
-            showToast('Username saved successfully!');
+            showToast(translateText('username_saved', currentLanguage) || 'Username saved successfully!');
             closeModal('username');
             
         } catch (error) {
@@ -3694,7 +4263,7 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             await auth.signOut();
             closeAllModals();
-            showToast('Logged out successfully');
+            showToast(translateText('logged_out', currentLanguage) || 'Logged out successfully');
         } catch (error) {
             console.error('Error signing out:', error);
         }
@@ -3706,7 +4275,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const result = await auth.signInWithPopup(googleProvider);
             const user = result.user;
             
-            showToast('Successfully signed in with Google');
+            showToast(translateText('signed_in_google', currentLanguage) || 'Successfully signed in with Google');
             closeModal('login');
             
             await updateUserDisplay(user);
@@ -3723,7 +4292,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const result = await auth.signInWithPopup(googleProvider);
             const user = result.user;
             
-            showToast('Account created successfully with Google');
+            showToast(translateText('account_created_google', currentLanguage) || 'Account created successfully with Google');
             closeModal('signup');
             
             await updateUserDisplay(user);
@@ -3745,7 +4314,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const userCredential = await auth.signInWithEmailAndPassword(email, password);
             const user = userCredential.user;
             
-            showToast('Logged in successfully');
+            showToast(translateText('logged_in_success', currentLanguage) || 'Logged in successfully');
             closeModal('login');
             
             await updateUserDisplay(user);
@@ -3773,7 +4342,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const userCredential = await auth.createUserWithEmailAndPassword(email, password);
             const user = userCredential.user;
             
-            showToast('Account created successfully');
+            showToast(translateText('account_created_success', currentLanguage) || 'Account created successfully');
             closeModal('signup');
             
             await updateUserDisplay(user);
