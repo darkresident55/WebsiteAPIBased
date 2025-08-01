@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Treron - Profile Viewer</title>
+<link rel="icon" href="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/Treron%20Logo.png" type="image/png">
+
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
+
+<style>
+:root {
+    --primary-h: 250;
+    --primary-s: 95%;
+    --primary-l: 65%;
+    --primary: var(--primary-h), var(--primary-s), var(--primary-l);
+    
+    --glass-bg: rgba(22, 25, 40, 0.4);
+    --glass-border: rgba(255, 255, 255, 0.12);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    
+    --anim-fast: 0.2s;
+    --anim-normal: 0.4s;
+    --anim-slow: 0.6s;
+    --anim-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --anim-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body0.46,0.45,0.94);
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    line-height: 1.6;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+    color: #e2e8f0;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    overflow: hidden;
+}
+
+.background-container::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 150vmax;
+    height: 150vmax;
+    background: radial-gradient(circle at 30% 30%, hsla(var(--primary), 0.3), transparent 40%);
+    animation: gradient-flow 25s ease-in-out infinite;
+    transform-origin: center;
+}
+
+@keyframes gradient-flow {
+    0% { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+    25% { transform: translate(-40%, -60%) rotate(90deg) scale(1.1); }
+    50% { transform: translate(-60%, -40%) rotate(180deg) scale(0.9); }
+    75% { transform: translate(-40%, -30%) rotate(270deg) scale(1.05); }
+    100% { transform: translate(-50%, -50%) rotate(360deg) scale(1); }
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    box-shadow: var(--glass-shadow);
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo {
+    width: 40px;
+    height: auto;
+    filter: drop-shadow(0 4px 12px hsla(var(--primary), 0.6));
+}
+
+.logo-text {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: hsl(var(--primary));
+}
+
+.search-section {
+    flex: 1;
+    max-width: 400px;
+    margin: 0 2rem;
+}
+
+.search-container {
+    position: relative;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px 16px 12px 45px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    color: #e2e8f0;
+    font-size: 1rem;
+    transition: all var(--anim-normal) var(--anim-smooth);
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: hsla(var(--primary), 0.7);
+    box-shadow: 0 0 0 3px hsla(var(--primary), 0.2);
+}
+
+.search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    color: #64748b;
+}
+
+.close-btn {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all var(--anim-normal) var(--anim-bounce);
+}
+
+.close-btn:hover {
+    background: rgba(239, 68, 68, 0.3);
+    transform: translateY(-2px);
+}
+
+.main-content {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
+    flex: 1;
+}
+
+.sidebar {
+    background: var(--glass-bg);
+    backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: var(--glass-shadow);
+    height: fit-content;
+}
+
+.profile-section {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-h), var(--primary-s), calc(var(--primary-l) - 15%)));
+    color: white;
+    font-size: 2.5rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    box-shadow: 0 8px 25px hsla(var(--primary), 0.4);
+    overflow: hidden;
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #f1f5f9;
+    margin-bottom: 0.5rem;
+}
+
+.profile-email {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    margin-bottom: 1rem;
+}
+
+.profile-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+}
+
+.stat-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: hsl(var(--primary));
+    margin-bottom: 0.25rem;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.content-area {
+    background: var(--glass-bg);
+    backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: var(--glass-shadow);
+}
+
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.content-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: hsl(var(--primary));
+}
+
+.search-results {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.user-result {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    transition: all var(--anim-normal) var(--anim-smooth);
+    cursor: pointer;
+}
+
+.user-result:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.user-result-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-h), var(--primary-s), calc(var(--primary-l) - 15%)));
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.user-result-info {
+    flex: 1;
+}
+
+.user-result-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #f1f5f9;
+    margin-bottom: 0.25rem;
+}
+
+.user-result-email {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    margin-bottom: 0.5rem;
+}
+
+.user-result-date {
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #64748b;
+}
+
+.empty-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 1.5rem;
+    color: #475569;
+}
+
+.empty-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #94a3b8;
+    margin-bottom: 0.75rem;
+}
+
+.empty-description {
+    font-size: 1rem;
+    color: #64748b;
+    max-width: 400px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.logout-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logout-btn {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--anim-normal) var(--anim-bounce);
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.logout-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    .header {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    
+    .search-section {
+        max-width: 100%;
+        margin: 0;
+    }
+    
+    .main-content {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .sidebar {
+        order: 2;
+    }
+    
+    .profile-stats {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.5rem;
+    }
+    
+    .stat-item {
+        padding: 0.75rem 0.5rem;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="background-container"></div>
+
+<div class="container">
+    <header class="header">
+        <div class="logo-section">
+            <img src="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/Treron%20Logo.png" alt="Treron Logo" class="logo">
+            <span class="logo-text">Profile Viewer</span>
+        </div>
+        
+        <div class="search-section">
+            <div class="search-container">
+                <input type="text" class="search-input" id="search-input" placeholder="Search for users...">
+                <svg class="search-icon" viewBox="0 0 24 24">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="M21 21l-4.35-4.35"></path>
+                </svg>
+            </div>
+        </div>
+        
+        <button class="close-btn" onclick="window.close()">Close</button>
+    </header>
+
+    <div class="main-content">
+        <aside class="sidebar">
+            <div class="profile-section">
+                <div class="profile-avatar" id="profile-avatar">U</div>
+                <h2 class="profile-name" id="profile-name">Loading...</h2>
+                <p class="profile-email" id="profile-email">Loading...</p>
+                
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="games-count">0</div>
+                        <div class="stat-label">Games</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="mods-count">0</div>
+                        <div class="stat-label">Mods</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="friends-count">0</div>
+                        <div class="stat-label">Friends</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="achievements-count">0</div>
+                        <div class="stat-label">Achievements</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="logout-section">
+                <button class="logout-btn" id="logout-btn">Log out</button>
+            </div>
+        </aside>
+
+        <main class="content-area">
+            <div class="content-header">
+                <h1 class="content-title">User Search</h1>
+            </div>
+            
+            <div class="search-results" id="search-results">
+                <div class="empty-state">
+                    <svg class="empty-icon" viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="M21 21l-4.35-4.35"></path>
+                    </svg>
+                    <h3 class="empty-title">Search for Users</h3>
+                    <p class="empty-description">Use the search bar above to find other users on the Treron platform. You can search by username to discover and connect with other gamers.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script>
+// Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyAC01DxmHUGxXUzZvwodxyyIXa9X-JCIJI",
+    authDomain: "recharge-api-data-get.firebaseapp.com",
+    projectId: "recharge-api-data-get",
+    storageBucket: "recharge-api-data-get.appspot.com",
+    messagingSenderId: "714113841994", 
+    appId: "1:714113841994:web:0297ad94dc14cb04b7c02a"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const storage = firebase.storage();
+
+// Username Management System
+class UsernameManager {
+    constructor() {
+        this.storageRef = storage.ref('Usernames');
+    }
+
+    // Generate a unique filename for the user's email
+    generateFilename(email) {
+        return btoa(email).replace(/[^a-zA-Z0-9]/g, '') + '.json';
+    }
+
+    // Search for users by username
+    async searchUsers(query) {
+        try {
+            const listResult = await this.storageRef.listAll();
+            const searchResults = [];
+            
+            for (const item of listResult.items) {
+                try {
+                    const url = await item.getDownloadURL();
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    
+                    if (data.username && data.username.toLowerCase().includes(query.toLowerCase())) {
+                        searchResults.push({
+                            username: data.username,
+                            email: data.email,
+                            createdAt: data.createdAt,
+                            updatedAt: data.updatedAt
+                        });
+                    }
+                } catch (error) {
+                    console.warn('Error reading file:', item.name, error);
+                }
+            }
+            
+            return searchResults;
+        } catch (error) {
+            console.error('Error searching users:', error);
+            throw error;
+        }
+    }
+
+    // Get username for a user
+    async getUsername(email) {
+        try {
+            const filename = this.generateFilename(email);
+            const fileRef = this.storageRef.child(filename);
+            
+            const url = await fileRef.getDownloadURL();
+            const response = await fetch(url);
+            const data = await response.json();
+            
+            return data.username || null;
+        } catch (error) {
+            if (error.code === 'storage/object-not-found') {
+                return null;
+            }
+            console.error('Error getting username:', error);
+            throw error;
+        }
+    }
+}
+
+// Initialize username manager
+const usernameManager = new UsernameManager();
+
+// Update profile display
+async function updateProfileDisplay(user) {
+    const profileAvatar = document.getElementById('profile-avatar');
+    const profileName = document.getElementById('profile-name');
+    const profileEmail = document.getElementById('profile-email');
+    
+    if (user) {
+        try {
+            const username = await usernameManager.getUsername(user.email);
+            const displayName = username || user.displayName || user.email.split('@')[0];
+            const initial = displayName.charAt(0).toUpperCase();
+            
+            profileName.textContent = displayName;
+            profileEmail.textContent = user.email;
+            profileAvatar.textContent = initial;
+            
+            if (user.photoURL) {
+                profileAvatar.innerHTML = `<img src="${user.photoURL}" alt="Profile">`;
+            }
+        } catch (error) {
+            console.error('Error updating profile display:', error);
+            const fallbackName = user.displayName || user.email.split('@')[0];
+            profileName.textContent = fallbackName;
+            profileEmail.textContent = user.email;
+            profileAvatar.textContent = fallbackName.charAt(0).toUpperCase();
+        }
+    } else {
+        profileName.textContent = 'Guest User';
+        profileEmail.textContent = 'Not logged in';
+        profileAvatar.textContent = 'G';
+    }
+}
+
+// Perform search
+async function performSearch(query) {
+    const searchResults = document.getElementById('search-results');
+    
+    if (!query.trim()) {
+        searchResults.innerHTML = `
+            <div class="empty-state">
+                <svg class="empty-icon" viewBox="0 0 24 24">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="M21 21l-4.35-4.35"></path>
+                </svg>
+                <h3 class="empty-title">Search for Users</h3>
+                <p class="empty-description">Use the search bar above to find other users on the Treron platform. You can search by username to discover and connect with other gamers.</p>
+            </div>
+        `;
+        return;
+    }
+    
+    searchResults.innerHTML = `
+        <div class="empty-state">
+            <svg class="empty-icon" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+            <h3 class="empty-title">Searching...</h3>
+            <p class="empty-description">Looking for users matching "${query}"</p>
+        </div>
+    `;
+    
+    try {
+        const users = await usernameManager.searchUsers(query);
+        
+        if (users.length === 0) {
+            searchResults.innerHTML = `
+                <div class="empty-state">
+                    <svg class="empty-icon" viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="M21 21l-4.35-4.35"></path>
+                    </svg>
+                    <h3 class="empty-title">No Users Found</h3>
+                    <p class="empty-description">No users match your search query "${query}". Try searching with different keywords.</p>
+                </div>
+            `;
+            return;
+        }
+        
+        searchResults.innerHTML = users.map(user => `
+            <div class="user-result">
+                <div class="user-result-avatar">${user.username.charAt(0).toUpperCase()}</div>
+                <div class="user-result-info">
+                    <div class="user-result-name">${user.username}</div>
+                    <div class="user-result-email">${user.email}</div>
+                    <div class="user-result-date">Joined ${new Date(user.createdAt).toLocaleDateString()}</div>
+                </div>
+            </div>
+        `).join('');
+        
+    } catch (error) {
+        console.error('Search error:', error);
+        searchResults.innerHTML = `
+            <div class="empty-state">
+                <svg class="empty-icon" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <h3 class="empty-title">Search Error</h3>
+                <p class="empty-description">There was an error searching for users. Please try again.</p>
+            </div>
+        `;
+    }
+}
+
+// Event listeners
+document.addEventListener('DOMContentLoaded', function() {
+    // Search functionality
+    const searchInput = document.getElementById('search-input');
+    let searchTimeout;
+    
+    searchInput.addEventListener('input', function() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            performSearch(this.value);
+        }, 500);
+    });
+    
+    // Logout functionality
+    document.getElementById('logout-btn').addEventListener('click', async function() {
+        try {
+            await auth.signOut();
+            window.close();
+        } catch (error) {
+            console.error('Error signing out:', error);
+        }
+    });
+});
+
+// Auth state observer
+auth.onAuthStateChanged(function(user) {
+    updateProfileDisplay(user);
+});
+</script>
+
+</body>
+</html>
