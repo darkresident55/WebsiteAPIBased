@@ -217,92 +217,7 @@ body {
     color: hsl(var(--primary));
 }
 
-/* Navigation and User Section */
-.nav-user-section {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-}
-
-.nav-tabs {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: rgba(0, 0, 0, 0.2);
-    padding: 0.5rem;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.nav-tab {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.25rem;
-    padding: 0.75rem;
-    background: transparent;
-    border: none;
-    color: #94a3b8;
-    cursor: pointer;
-    border-radius: 12px;
-    transition: all var(--anim-normal) var(--anim-smooth);
-    text-decoration: none;
-    min-width: 50px;
-}
-
-.nav-tab:hover {
-    color: #f1f5f9;
-    background: rgba(255, 255, 255, 0.05);
-    transform: translateY(-2px);
-}
-
-.nav-tab.active {
-    color: hsl(var(--primary));
-    background: hsla(var(--primary), 0.15);
-    border: 1px solid hsla(var(--primary), 0.3);
-    box-shadow: 0 2px 8px hsla(var(--primary), 0.2);
-}
-
-.nav-icon {
-    width: 20px;
-    height: 20px;
-    stroke-width: 2;
-    stroke: currentColor;
-    fill: none;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    transition: all var(--anim-normal) var(--anim-smooth);
-}
-
-.nav-tab:hover .nav-icon {
-    transform: scale(1.1);
-}
-
-.nav-label {
-    font-size: 0.7rem;
-    font-weight: 500;
-    opacity: 0;
-    transform: translateY(-5px);
-    transition: all var(--anim-normal) var(--anim-smooth);
-    white-space: nowrap;
-    position: absolute;
-    bottom: 8px;
-}
-
-.nav-tab:hover .nav-label,
-.nav-tab.active .nav-label {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* User Section */
-.user-section {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
+/* Language Selector */
 .language-selector {
     position: relative;
 }
@@ -367,49 +282,6 @@ body {
     background: hsla(var(--primary), 0.2);
 }
 
-.user-info {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.5rem 1rem;
-    background: rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all var(--anim-normal) var(--anim-smooth);
-}
-
-.user-info:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateY(-2px);
-}
-
-.user-avatar {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-h), var(--primary-s), calc(var(--primary-l) - 15%)));
-    color: white;
-    font-size: 0.8rem;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-
-.user-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.user-name {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #f1f5f9;
-}
-
 /* Main Content */
 .main-content {
     margin-top: 80px;
@@ -420,6 +292,7 @@ body {
     justify-content: center;
     padding: 2rem;
     text-align: center;
+    padding-bottom: 120px; /* Space for floating menu */
 }
 
 .content-section {
@@ -935,6 +808,140 @@ body {
     line-height: 1.6;
 }
 
+/* Enhanced Menu Bar */
+.menu-bar-container {
+    position: fixed;
+    bottom: 25px;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    animation: slide-in-up 1s var(--anim-bounce);
+    animation-delay: 1s;
+    animation-fill-mode: both;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0 1rem;
+    pointer-events: none;
+}
+
+.menu-bar {
+    padding: 10px;
+    border-radius: 20px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    transition: all var(--anim-normal) var(--anim-smooth);
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    max-width: calc(100vw - 2rem);
+    width: auto;
+    pointer-events: auto;
+}
+
+.menu-bar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+    opacity: 0;
+    transition: opacity var(--anim-normal) ease;
+}
+
+.menu-bar:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+}
+
+.menu-bar:hover::before {
+    opacity: 1;
+}
+
+.menu-list {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    list-style: none;
+    position: relative;
+    z-index: 2;
+}
+
+.menu-item {
+    position: relative;
+}
+
+.menu-link-wrapper {
+    display: block;
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+    transition: all var(--anim-normal) var(--anim-bounce);
+}
+
+.menu-link-front {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px;
+    color: #94a3b8;
+    transition: all var(--anim-normal) var(--anim-smooth);
+    border-radius: 14px;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.menu-link-front::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: hsla(var(--primary), 0.2);
+    opacity: 0;
+    transition: opacity var(--anim-normal) ease;
+    border-radius: 14px;
+}
+
+.menu-link-wrapper:hover .menu-link-front {
+    color: #f1f5f9;
+    transform: translateY(-2px);
+}
+
+.menu-link-wrapper:hover .menu-link-front::before {
+    opacity: 1;
+}
+
+.menu-link-wrapper:active {
+    transform: scale(0.95);
+}
+
+.menu-icon {
+    width: 22px;
+    height: 22px;
+    stroke-width: 2;
+    stroke: currentColor;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: all var(--anim-normal) var(--anim-smooth);
+}
+
+.menu-link-wrapper:hover .menu-icon {
+    transform: scale(1.1);
+    filter: drop-shadow(0 2px 8px hsla(var(--primary), 0.5));
+}
+
 /* Modal Styles */
 .modal-overlay {
     position: fixed;
@@ -1227,10 +1234,383 @@ body {
     border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
+/* Enhanced Profile Modal with Sidebar Design */
+.profile-modal {
+    max-width: 900px;
+    max-height: 90vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background: rgba(15, 18, 30, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 0;
+}
+
+.profile-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.profile-modal-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: hsl(var(--primary));
+    margin: 0;
+}
+
+.profile-modal-close {
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    color: #94a3b8;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--anim-normal) var(--anim-bounce);
+}
+
+.profile-modal-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.profile-modal-body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Profile Header Section */
+.profile-header {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    gap: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    flex-direction: row;
+    align-items: center;
+}
+
+.profile-avatar-large {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-h), var(--primary-s), calc(var(--primary-l) - 15%)));
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px hsla(var(--primary), 0.4);
+    transition: all var(--anim-normal) var(--anim-smooth);
+    overflow: hidden;
+    flex-shrink: 0;
+    flex-direction: row;
+}
+
+.profile-avatar-large img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.profile-user-info {
+    flex: 0;
+}
+
+.profile-username {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #f1f5f9;
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-direction: row;
+}
+
+.profile-email {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin: 0;
+}
+
+.username-edit-btn {
+    background: hsla(var(--primary), 0.15);
+    color: hsl(var(--primary));
+    border: 1px solid hsla(var(--primary), 0.3);
+    border-radius: 6px;
+    padding: 6px 15px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all var(--anim-normal) ease;
+    font-weight: 500;
+    margin-left: 1rem;
+}
+
+.username-edit-btn:hover {
+    background: hsla(var(--primary), 0.25);
+    transform: translateY(-1px);
+}
+
+/* Sidebar Navigation */
+.profile-sidebar {
+    width: 200px;
+    background: rgba(0, 0, 0, 0.3);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 1.5rem 0;
+    flex-shrink: 0;
+}
+
+.profile-nav {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.profile-nav-item {
+    margin-bottom: 0.5rem;
+}
+
+.profile-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all var(--anim-normal) var(--anim-smooth);
+    border-left: 3px solid transparent;
+    position: relative;
+}
+
+.profile-nav-link:hover {
+    color: #f1f5f9;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.profile-nav-link.active {
+    color: hsl(var(--primary));
+    background: hsla(var(--primary), 0.1);
+    border-left-color: hsl(var(--primary));
+}
+
+.profile-nav-icon {
+    width: 16px;
+    height: 16px;
+    stroke-width: 2;
+    stroke: currentColor;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+}
+
+/* Main Content Area */
+.profile-main {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.profile-section {
+    margin-bottom: 2rem;
+}
+
+.profile-section-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: hsl(var(--primary));
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.profile-section-content {
+    display: grid;
+    gap: 1rem;
+}
+
+/* Content Cards */
+.info-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all var(--anim-normal) var(--anim-smooth);
+}
+
+.info-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.12);
+    transform: translateY(-2px);
+}
+
+.info-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+}
+
+.info-card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #f1f5f9;
+    margin: 0;
+}
+
+.info-card-value {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    margin: 0;
+}
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-active {
+    background: rgba(16, 185, 129, 0.2);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+/* Activity Summary */
+.activity-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+}
+
+.activity-stat {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    transition: all var(--anim-normal) ease;
+}
+
+.activity-stat:hover {
+    background: rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.activity-stat-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: hsl(var(--primary));
+    margin-bottom: 0.25rem;
+}
+
+.activity-stat-label {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+}
+
+/* Logout Button */
+.logout-section {
+    margin-top: auto;
+    padding: 1rem 2rem 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.logout-button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--anim-normal) var(--anim-bounce);
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.logout-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+}
+
+/* Username Edit Modal */
+.username-modal {
+    max-width: 400px;
+}
+
+.username-input {
+    width: 100%;
+    padding: 12px 16px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    color: #e2e8f0;
+    font-size: 1rem;
+    transition: all var(--anim-normal) ease;
+    margin-bottom: 1rem;
+}
+
+.username-input:focus {
+    outline: none;
+    border-color: hsla(var(--primary), 0.7);
+    box-shadow: 0 0 0 2px hsla(var(--primary), 0.2);
+}
+
+.username-availability {
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    padding: 8px 12px;
+    border-radius: 6px;
+    display: none;
+}
+
+.username-availability.available {
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    display: block;
+}
+
+.username-availability.taken {
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    display: block;
+}
+
+.username-availability.checking {
+    background: rgba(245, 158, 11, 0.15);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    display: block;
+}
+
 /* Toast Notification */
 .toast {
     position: fixed;
-    bottom: 30px;
+    bottom: 120px;
     left: 50%;
     transform: translateX(-50%) translateY(30px);
     opacity: 0;
@@ -1280,18 +1660,6 @@ footer {
         gap: 1rem;
     }
     
-    .nav-user-section {
-        order: 3;
-        width: 100%;
-        justify-content: center;
-    }
-    
-    .nav-tabs {
-        flex: 1;
-        justify-content: center;
-        max-width: 400px;
-    }
-    
     .welcome-title {
         font-size: 2.5rem;
     }
@@ -1318,24 +1686,70 @@ footer {
     .friends-sidebar {
         order: 2;
     }
+    
+    .menu-bar-container {
+        padding: 0 0.75rem;
+    }
+
+    .menu-bar {
+        padding: 8px;
+        max-width: calc(100vw - 1.5rem);
+    }
+
+    .menu-link-front {
+        padding: 10px 14px;
+    }
+
+    .profile-modal {
+        max-width: calc(100vw - 2rem);
+        max-height: 85vh;
+    }
+
+    .profile-modal-body {
+        flex-direction: column;
+    }
+
+    .profile-sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 1rem 0;
+    }
+
+    .profile-nav {
+        display: flex;
+        overflow-x: auto;
+        gap: 0.5rem;
+        padding: 0 1rem;
+    }
+
+    .profile-nav-item {
+        margin-bottom: 0;
+        flex-shrink: 0;
+    }
+
+    .profile-nav-link {
+        padding: 0.5rem 1rem;
+        border-left: none;
+        border-bottom: 2px solid transparent;
+    }
+
+    .profile-nav-link.active {
+        border-bottom-color: hsl(var(--primary));
+    }
+
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .activity-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    }
 }
 
 @media (max-width: 480px) {
-    .nav-tabs {
-        gap: 0.25rem;
-        padding: 0.25rem;
-    }
-    
-    .nav-tab {
-        padding: 0.5rem;
-        min-width: 40px;
-    }
-    
-    .nav-icon {
-        width: 18px;
-        height: 18px;
-    }
-    
     .welcome-title {
         font-size: 2rem;
     }
@@ -1350,6 +1764,42 @@ footer {
     
     .games-card-description {
         font-size: 1rem;
+    }
+    
+    .menu-bar-container {
+        padding: 0 0.5rem;
+        bottom: 20px;
+    }
+
+    .menu-bar {
+        padding: 6px;
+        max-width: calc(100vw - 1rem);
+    }
+
+    .menu-link-front span {
+        display: none;
+    }
+
+    .menu-link-front {
+        padding: 10px;
+    }
+
+    .menu-list {
+        gap: 4px;
+    }
+
+    .profile-avatar-large {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+
+    .profile-username {
+        font-size: 1.2rem;
+    }
+
+    .profile-main {
+        padding: 1rem;
     }
 }
 
@@ -1392,74 +1842,23 @@ footer {
         <span class="logo-text">Treron LLC</span>
     </div>
 
-    <div class="nav-user-section">
-        <nav class="nav-tabs">
-            <a href="#" class="nav-tab active" data-tab="games">
-                <svg class="nav-icon" viewBox="0 0 24 24">
-                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                    <line x1="8" y1="21" x2="16" y2="21"></line>
-                    <line x1="12" y1="17" x2="12" y2="21"></line>
-                </svg>
-                <span class="nav-label">Games</span>
-            </a>
-            <a href="#" class="nav-tab" data-tab="community">
-                <svg class="nav-icon" viewBox="0 0 24 24">
-                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="9" cy="7" r="4"></circle>
-                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                </svg>
-                <span class="nav-label">Community</span>
-            </a>
-            <a href="#" class="nav-tab" data-tab="mods">
-                <svg class="nav-icon" viewBox="0 0 24 24">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                    <polyline points="14 2 14 8 20 8"></polyline>
-                </svg>
-                <span class="nav-label">Mods</span>
-            </a>
-            <a href="#" class="nav-tab" data-tab="store">
-                <svg class="nav-icon" viewBox="0 0 24 24">
-                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <path d="M16 10a4 4 0 0 1-8 0"></path>
-                </svg>
-                <span class="nav-label">Store</span>
-            </a>
-            <a href="#" class="nav-tab" data-tab="settings">
-                <svg class="nav-icon" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="3"></circle>
-                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                </svg>
-                <span class="nav-label">Settings</span>
-            </a>
-        </nav>
-
-        <div class="user-section">
-            <div class="language-selector">
-                <button class="language-button" id="language-toggle">
-                    <img src="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/flags/en.png" alt="English" class="language-flag" id="current-language-flag">
-                    <span id="current-language-name">EN</span>
-                </button>
-                <div class="language-options" id="language-options">
-                    <div class="language-option" data-lang="en">
-                        <img src="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/flags/en.png" alt="English" class="language-flag">
-                        <span>English</span>
-                    </div>
-                    <div class="language-option" data-lang="ja">
-                        <img src="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/flags/jp.png" alt="日本語" class="language-flag">
-                        <span>日本語</span>
-                    </div>
-                    <div class="language-option" data-lang="de">
-                        <img src="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/flags/de.png" alt="Deutsch" class="language-flag">
-                        <span>Deutsch</span>
-                    </div>
-                </div>
+    <div class="language-selector">
+        <button class="language-button" id="language-toggle">
+            <img src="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/flags/en.png" alt="English" class="language-flag" id="current-language-flag">
+            <span id="current-language-name">EN</span>
+        </button>
+        <div class="language-options" id="language-options">
+            <div class="language-option" data-lang="en">
+                <img src="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/flags/en.png" alt="English" class="language-flag">
+                <span>English</span>
             </div>
-
-            <div class="user-info" id="user-info">
-                <div class="user-avatar" id="user-avatar">G</div>
-                <span class="user-name" id="user-name">Guest</span>
+            <div class="language-option" data-lang="ja">
+                <img src="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/flags/jp.png" alt="日本語" class="language-flag">
+                <span>日本語</span>
+            </div>
+            <div class="language-option" data-lang="de">
+                <img src="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/flags/de.png" alt="Deutsch" class="language-flag">
+                <span>Deutsch</span>
             </div>
         </div>
     </div>
@@ -1667,68 +2066,286 @@ footer {
     </section>
 </main>
 
+<!-- Floating Menu Bar -->
+<div class="menu-bar-container">
+    <nav class="menu-bar">
+        <ul class="menu-list">
+            <li class="menu-item">
+                <div class="menu-link-wrapper">
+                    <a href="#" class="menu-link-front" data-tab="games">
+                        <svg class="menu-icon" viewBox="0 0 24 24">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>
+                        <span>Games</span>
+                    </a>
+                </div>
+            </li>
+            <li class="menu-item">
+                <div class="menu-link-wrapper">
+                    <a href="#" class="menu-link-front" data-tab="community">
+                        <svg class="menu-icon" viewBox="0 0 24 24">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                        <span>Community</span>
+                    </a>
+                </div>
+            </li>
+            <li class="menu-item">
+                <div class="menu-link-wrapper">
+                    <a href="#" class="menu-link-front" data-tab="mods">
+                        <svg class="menu-icon" viewBox="0 0 24 24">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                        </svg>
+                        <span>Mods</span>
+                    </a>
+                </div>
+            </li>
+            <li class="menu-item">
+                <div class="menu-link-wrapper">
+                    <a href="#" class="menu-link-front" data-tab="store">
+                        <svg class="menu-icon" viewBox="0 0 24 24">
+                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <path d="M16 10a4 4 0 0 1-8 0"></path>
+                        </svg>
+                        <span>Store</span>
+                    </a>
+                </div>
+            </li>
+            <li class="menu-item">
+                <div class="menu-link-wrapper">
+                    <a href="#" class="menu-link-front" id="profile-button">
+                        <svg class="menu-icon" viewBox="0 0 24 24">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        <span>Profile</span>
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+</div>
+
 <!-- Login Modal -->
 <div class="modal-overlay" id="login-modal">
     <div class="modal">
-        <div class="modal-header">
-            <h2 class="modal-title">Log in</h2>
-            <button class="modal-close" id="login-modal-close">
-                <svg viewBox="0 0 24 24" width="16" height="16">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
+        <div id="login-view">
+            <div class="modal-header">
+                <h2 class="modal-title">Log in</h2>
+                <button class="modal-close" id="login-modal-close">
+                    <svg viewBox="0 0 24 24" width="16" height="16">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div id="login-error" class="message error"></div>
+            <p class="modal-subtitle">Enter your credentials to continue</p>
+            <span class="modal-link" id="show-signup">Create account</span>
+            
+            <button class="google-button" id="google-signin-btn">
+                <svg class="google-icon" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                 </svg>
+                <span>Continue with Google</span>
             </button>
+
+            <div class="auth-divider">
+                <span>or</span>
+            </div>
+
+            <form id="login-form">
+                <div class="form-group">
+                    <div class="input-with-icon">
+                        <input type="email" id="email" placeholder="Username or Email" required>
+                        <svg class="input-icon" viewBox="0 0 24 24">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-with-icon">
+                        <input type="password" id="password" placeholder="Password" required>
+                        <svg class="input-icon" viewBox="0 0 24 24">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="form-options">
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="remember-me">
+                        <span>Remember me</span>
+                    </label>
+                    <a href="#" class="form-link" id="forgot-password">Forgot Password?</a>
+                </div>
+                <button type="submit" class="primary-button">
+                    <span>LOGIN</span>
+                </button>
+            </form>
+            <div class="modal-footer">
+                <p>By logging in, you agree to the <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</p>
+            </div>
         </div>
-        <div id="login-error" class="message error"></div>
-        <p class="modal-subtitle">Enter your credentials to continue</p>
-        <span class="modal-link" id="show-signup">Create account</span>
         
-        <button class="google-button" id="google-signin-btn">
-            <svg class="google-icon" viewBox="0 0 24 24">
-                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-            </svg>
-            <span>Continue with Google</span>
-        </button>
+        <div id="profile-view" style="display: none;">
+            <div class="modal profile-modal">
+                <div class="profile-modal-header">
+                    <h2 class="profile-modal-title">Your Profile</h2>
+                    <button class="profile-modal-close" id="profile-close">
+                        <svg viewBox="0 0 24 24" width="16" height="16">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
 
-        <div class="auth-divider">
-            <span>or</span>
-        </div>
+                <!-- Profile Header -->
+                <div class="profile-header">
+                    <div class="profile-avatar-large" id="profile-avatar">G</div>
+                    <div class="profile-user-info">
+                        <div class="profile-username">
+                            <span id="profile-display-name">Guest</span>
+                            <button class="username-edit-btn" id="username-edit-btn">Edit</button>
+                        </div>
+                        <p class="profile-email" id="profile-email">guest@example.com</p>
+                    </div>
+                </div>
 
-        <form id="login-form">
-            <div class="form-group">
-                <div class="input-with-icon">
-                    <input type="email" id="email" placeholder="Username or Email" required>
-                    <svg class="input-icon" viewBox="0 0 24 24">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                        <polyline points="22,6 12,13 2,6"></polyline>
-                    </svg>
+                <div class="profile-modal-body">
+                    <!-- Sidebar Navigation -->
+                    <div class="profile-sidebar">
+                        <nav>
+                            <ul class="profile-nav">
+                                <li class="profile-nav-item">
+                                    <a href="#" class="profile-nav-link active" data-tab="overview">
+                                        <svg class="profile-nav-icon" viewBox="0 0 24 24">
+                                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                        </svg>
+                                        <span>Account Overview</span>
+                                    </a>
+                                </li>
+                                <li class="profile-nav-item">
+                                    <a href="#" class="profile-nav-link" data-tab="mods">
+                                        <svg class="profile-nav-icon" viewBox="0 0 24 24">
+                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                            <polyline points="14 2 14 8 20 8"></polyline>
+                                        </svg>
+                                        <span>Created Mods</span>
+                                    </a>
+                                </li>
+                                <li class="profile-nav-item">
+                                    <a href="#" class="profile-nav-link" data-tab="extensions">
+                                        <svg class="profile-nav-icon" viewBox="0 0 24 24">
+                                            <polyline points="16 18 22 12 16 6"></polyline>
+                                            <polyline points="8 6 2 12 8 18"></polyline>
+                                        </svg>
+                                        <span>SCL Extensions</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+
+                    <!-- Main Content -->
+                    <div class="profile-main">
+                        <!-- Account Overview Panel -->
+                        <div class="profile-tab-panel active" id="overview-panel">
+                            <div class="profile-section">
+                                <h3 class="profile-section-title">Account Information</h3>
+                                <div class="profile-section-content">
+                                    <div class="info-card">
+                                        <div class="info-card-header">
+                                            <div>
+                                                <h4 class="info-card-title">Member Since</h4>
+                                                <p class="info-card-value" id="member-since-date">January 2025</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="info-card">
+                                        <div class="info-card-header">
+                                            <div>
+                                                <h4 class="info-card-title">Account Type</h4>
+                                                <p class="info-card-value">Free Account</p>
+                                            </div>
+                                            <span class="status-badge status-active">ACTIVE</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="profile-section">
+                                <h3 class="profile-section-title">Activity Summary</h3>
+                                <div class="activity-grid">
+                                    <div class="activity-stat">
+                                        <div class="activity-stat-number" id="mods-count">0</div>
+                                        <div class="activity-stat-label">Mods</div>
+                                    </div>
+                                    <div class="activity-stat">
+                                        <div class="activity-stat-number" id="extensions-count">0</div>
+                                        <div class="activity-stat-label">Extensions</div>
+                                    </div>
+                                    <div class="activity-stat">
+                                        <div class="activity-stat-number" id="downloads-count">0</div>
+                                        <div class="activity-stat-label">Downloads</div>
+                                    </div>
+                                    <div class="activity-stat">
+                                        <div class="activity-stat-number" id="friends-count">0</div>
+                                        <div class="activity-stat-label">Friends</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Created Mods Panel -->
+                        <div class="profile-tab-panel" id="mods-panel">
+                            <div class="profile-section">
+                                <h3 class="profile-section-title">Your Mods</h3>
+                                <div class="empty-state">
+                                    <svg class="empty-icon" viewBox="0 0 24 24">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                        <polyline points="14 2 14 8 20 8"></polyline>
+                                    </svg>
+                                    <h4 class="empty-title">No Mods Created Yet</h4>
+                                    <p class="empty-description">You haven't created any mods yet. Start building something amazing!</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SCL Extensions Panel -->
+                        <div class="profile-tab-panel" id="extensions-panel">
+                            <div class="profile-section">
+                                <h3 class="profile-section-title">Your SCL Extensions</h3>
+                                <div class="empty-state">
+                                    <svg class="empty-icon" viewBox="0 0 24 24">
+                                        <polyline points="16 18 22 12 16 6"></polyline>
+                                        <polyline points="8 6 2 12 8 18"></polyline>
+                                    </svg>
+                                    <h4 class="empty-title">No Extensions Created Yet</h4>
+                                    <p class="empty-description">You haven't created any SCL extensions yet. Extend the platform's functionality!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Logout Section -->
+                <div class="logout-section">
+                    <button class="logout-button" id="logout-button">Log out</button>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="input-with-icon">
-                    <input type="password" id="password" placeholder="Password" required>
-                    <svg class="input-icon" viewBox="0 0 24 24">
-                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                    </svg>
-                </div>
-            </div>
-            <div class="form-options">
-                <label class="checkbox-wrapper">
-                    <input type="checkbox" id="remember-me">
-                    <span>Remember me</span>
-                </label>
-                <a href="#" class="form-link" id="forgot-password">Forgot Password?</a>
-            </div>
-            <button type="submit" class="primary-button">
-                <span>LOGIN</span>
-            </button>
-        </form>
-        <div class="modal-footer">
-            <p>By logging in, you agree to the <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</p>
         </div>
     </div>
 </div>
@@ -1797,6 +2414,35 @@ footer {
         </form>
         <div class="modal-footer">
             <p>By signing up, you agree to the <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Username Edit Modal -->
+<div class="modal-overlay" id="username-modal">
+    <div class="modal username-modal">
+        <div class="modal-header">
+            <h2 class="modal-title">Set Username</h2>
+            <button class="modal-close" id="username-modal-close">
+                <svg viewBox="0 0 24 24" width="16" height="16">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <div id="username-error" class="message error"></div>
+        <p class="modal-subtitle">Choose a unique username for your profile</p>
+        <form id="username-form">
+            <div class="form-group">
+                <input type="text" id="username-input" class="username-input" placeholder="Enter username" required minlength="3" maxlength="20">
+                <div id="username-availability" class="username-availability"></div>
+            </div>
+            <button type="submit" class="primary-button" id="username-save-btn" disabled>
+                <span>Save Username</span>
+            </button>
+        </form>
+        <div class="modal-footer">
+            <p>Username must be 3-20 characters long and contain only letters, numbers, and underscores.</p>
         </div>
     </div>
 </div>
@@ -1959,6 +2605,66 @@ class UsernameManager {
             return true;
         } catch (error) {
             console.error('Error saving username:', error);
+            throw error;
+        }
+    }
+
+    async checkUsernameAvailability(username) {
+        try {
+            const listResult = await this.storageRef.listAll();
+            
+            for (const item of listResult.items) {
+                try {
+                    const url = await item.getDownloadURL();
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    
+                    if (data.username && data.username.toLowerCase() === username.toLowerCase()) {
+                        return false; // Username is taken
+                    }
+                } catch (error) {
+                    console.warn('Error checking file:', item.name, error);
+                }
+            }
+            
+            return true; // Username is available
+        } catch (error) {
+            console.error('Error checking username availability:', error);
+            throw error;
+        }
+    }
+
+    async updateUsername(email, newUsername) {
+        try {
+            const filename = this.generateFilename(email);
+            const fileRef = this.storageRef.child(filename);
+            
+            // Get existing data
+            let existingData = {};
+            try {
+                const url = await fileRef.getDownloadURL();
+                const response = await fetch(url);
+                existingData = await response.json();
+            } catch (error) {
+                // File doesn't exist, create new
+            }
+            
+            const userData = {
+                ...existingData,
+                email: email,
+                username: newUsername,
+                updatedAt: new Date().toISOString(),
+                createdAt: existingData.createdAt || new Date().toISOString()
+            };
+            
+            const blob = new Blob([JSON.stringify(userData, null, 2)], {
+                type: 'application/json'
+            });
+            
+            await fileRef.put(blob);
+            return true;
+        } catch (error) {
+            console.error('Error updating username:', error);
             throw error;
         }
     }
@@ -2253,6 +2959,7 @@ function createParticles() {
 const modals = {
     login: document.getElementById('login-modal'),
     signup: document.getElementById('signup-modal'),
+    username: document.getElementById('username-modal'),
     profile: document.getElementById('profile-modal')
 };
 
@@ -2280,21 +2987,13 @@ function closeAllModals() {
 
 // Navigation functionality
 function switchTab(tabName) {
-    // Remove active class from all tabs
-    document.querySelectorAll('.nav-tab').forEach(tab => {
-        tab.classList.remove('active');
-    });
-    
-    // Hide all content sections
+    // Remove active class from all content sections
     document.querySelectorAll('.content-section').forEach(section => {
         section.classList.remove('active');
     });
     
-    // Activate the selected tab and section
-    const activeTab = document.querySelector(`[data-tab="${tabName}"]`);
+    // Activate the selected section
     const activeSection = document.getElementById(`${tabName}-section`);
-    
-    if (activeTab) activeTab.classList.add('active');
     if (activeSection) activeSection.classList.add('active');
 }
 
@@ -2312,6 +3011,26 @@ function switchCommunityTab(tabName) {
     const activePanel = document.getElementById(`${tabName}-panel`);
     
     if (activeTab) activeTab.classList.add('active');
+    if (activePanel) activePanel.classList.add('active');
+}
+
+// Profile tab functionality
+function switchProfileTab(tabName) {
+    // Remove active class from all nav links
+    document.querySelectorAll('.profile-nav-link').forEach(link => {
+        link.classList.remove('active');
+    });
+    
+    // Hide all tab panels
+    document.querySelectorAll('.profile-tab-panel').forEach(panel => {
+        panel.classList.remove('active');
+    });
+    
+    // Activate the selected tab
+    const activeLink = document.querySelector(`[data-tab="${tabName}"]`);
+    const activePanel = document.getElementById(`${tabName}-panel`);
+    
+    if (activeLink) activeLink.classList.add('active');
     if (activePanel) activePanel.classList.add('active');
 }
 
@@ -2342,9 +3061,10 @@ function showError(elementId, message) {
 
 // Update user display
 async function updateUserDisplay(user) {
-    const userAvatar = document.getElementById('user-avatar');
-    const userName = document.getElementById('user-name');
     const welcomeTitle = document.getElementById('welcome-title');
+    const profileDisplayName = document.getElementById('profile-display-name');
+    const profileEmail = document.getElementById('profile-email');
+    const profileAvatar = document.getElementById('profile-avatar');
     
     if (user) {
         try {
@@ -2352,12 +3072,13 @@ async function updateUserDisplay(user) {
             const displayName = username || user.displayName || user.email.split('@')[0];
             const initial = displayName.charAt(0).toUpperCase();
             
-            userName.textContent = displayName;
-            userAvatar.textContent = initial;
             welcomeTitle.textContent = `Welcome Back ${displayName}!`;
+            profileDisplayName.textContent = displayName;
+            profileEmail.textContent = user.email;
+            profileAvatar.textContent = initial;
             
             if (user.photoURL) {
-                userAvatar.innerHTML = `<img src="${user.photoURL}" alt="Profile">`;
+                profileAvatar.innerHTML = `<img src="${user.photoURL}" alt="Profile">`;
             }
             
             // Load friend data
@@ -2365,14 +3086,16 @@ async function updateUserDisplay(user) {
         } catch (error) {
             console.error('Error updating user display:', error);
             const fallbackName = user.displayName || user.email.split('@')[0];
-            userName.textContent = fallbackName;
-            userAvatar.textContent = fallbackName.charAt(0).toUpperCase();
             welcomeTitle.textContent = `Welcome Back ${fallbackName}!`;
+            profileDisplayName.textContent = fallbackName;
+            profileEmail.textContent = user.email;
+            profileAvatar.textContent = fallbackName.charAt(0).toUpperCase();
         }
     } else {
-        userName.textContent = 'Guest';
-        userAvatar.textContent = 'G';
         welcomeTitle.textContent = 'Welcome Back [Username]!';
+        profileDisplayName.textContent = 'Guest';
+        profileEmail.textContent = 'guest@example.com';
+        profileAvatar.textContent = 'G';
     }
 }
 
@@ -2389,6 +3112,12 @@ async function loadFriendData(userEmail) {
         
         // Update blocked users
         updateBlockedUsers(friendData.blocked);
+        
+        // Update friends count in profile
+        const friendsCount = document.getElementById('friends-count');
+        if (friendsCount) {
+            friendsCount.textContent = friendData.friends.length;
+        }
         
     } catch (error) {
         console.error('Error loading friend data:', error);
@@ -2420,7 +3149,6 @@ function updateFriendsList(friends) {
             <div class="friend-avatar">${friend.username.charAt(0).toUpperCase()}</div>
             <div class="friend-info">
                 <div class="friend-name">${friend.username}</div>
-                
                 <div class="friend-status online">Online</div>
             </div>
         </div>
@@ -2507,28 +3235,27 @@ function updateBlockedUsers(blocked) {
                 <p class="empty-description">You haven't blocked any users</p>
             </div>
         `;
-    } else {
-        blockedContainer.innerHTML = blocked.map(user => `
-            <div class="user-result">
-                <div class="user-result-avatar">${user.username.charAt(0).toUpperCase()}</div>
-                <div class="user-result-info">
-                    <div class="user-result-name">${user.username}</div>
-                    <div class="user-result-email">Blocked ${new Date(user.blockedAt).toLocaleDateString()}</div>
-                </div>
-                <div class="user-result-actions">
-                    <button class="action-btn friend-request-btn" onclick="unblockUser('${user.email}')">Unblock</button>
-                </div>
-            </div>
-        `).join('');
+        return;
     }
+    
+    blockedContainer.innerHTML = blocked.map(user => `
+        <div class="user-result">
+            <div class="user-result-avatar">${user.username.charAt(0).toUpperCase()}</div>
+            <div class="user-result-info">
+                <div class="user-result-name">${user.username}</div>
+                <div class="user-result-email">Blocked ${new Date(user.blockedAt).toLocaleDateString()}</div>
+            </div>
+            <div class="user-result-actions">
+                <button class="action-btn view-profile-btn" onclick="unblockUser('${user.email}')">Unblock</button>
+            </div>
+        </div>
+    `).join('');
 }
 
 // Search users
 async function searchUsers(query) {
-    const searchResults = document.getElementById('search-results');
-    
-    if (!query.trim()) {
-        searchResults.innerHTML = `
+    if (query.length < 2) {
+        document.getElementById('search-results').innerHTML = `
             <div class="empty-state">
                 <svg class="empty-icon" viewBox="0 0 24 24">
                     <circle cx="11" cy="11" r="8"></circle>
@@ -2542,33 +3269,32 @@ async function searchUsers(query) {
     }
     
     try {
-        const users = await usernameManager.searchUsers(query);
+        const results = await usernameManager.searchUsers(query);
         const currentUser = auth.currentUser;
         
-        if (users.length === 0) {
-            searchResults.innerHTML = `
+        if (results.length === 0) {
+            document.getElementById('search-results').innerHTML = `
                 <div class="empty-state">
                     <svg class="empty-icon" viewBox="0 0 24 24">
                         <circle cx="11" cy="11" r="8"></circle>
                         <path d="M21 21l-4.35-4.35"></path>
                     </svg>
                     <h4 class="empty-title">No Users Found</h4>
-                    <p class="empty-description">No users match your search query "${query}"</p>
+                    <p class="empty-description">No users found matching "${query}"</p>
                 </div>
             `;
             return;
         }
         
         // Filter out current user
-        const filteredUsers = users.filter(user => user.email !== currentUser?.email);
+        const filteredResults = results.filter(user => user.email !== currentUser?.email);
         
-        searchResults.innerHTML = filteredUsers.map(user => `
+        document.getElementById('search-results').innerHTML = filteredResults.map(user => `
             <div class="user-result">
                 <div class="user-result-avatar">${user.username.charAt(0).toUpperCase()}</div>
                 <div class="user-result-info">
                     <div class="user-result-name">${user.username}</div>
                     <div class="user-result-email">${user.email}</div>
-                    <div style="font-size: 0.8rem; color: #64748b;">Joined ${new Date(user.createdAt).toLocaleDateString()}</div>
                 </div>
                 <div class="user-result-actions">
                     <button class="action-btn friend-request-btn" onclick="sendFriendRequest('${user.email}', '${user.username}')">Add Friend</button>
@@ -2579,18 +3305,93 @@ async function searchUsers(query) {
         `).join('');
         
     } catch (error) {
-        console.error('Search error:', error);
-        searchResults.innerHTML = `
-            <div class="empty-state">
-                <svg class="empty-icon" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="12" y1="8" x2="12" y2="12"></line>
-                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                </svg>
-                <h4 class="empty-title">Search Error</h4>
-                <p class="empty-description">There was an error searching for users. Please try again.</p>
-            </div>
-        `;
+        console.error('Error searching users:', error);
+        showToast('Error searching users');
+    }
+}
+
+// Friend management functions
+async function sendFriendRequest(toEmail, toUsername) {
+    const currentUser = auth.currentUser;
+    if (!currentUser) return;
+    
+    try {
+        await friendManager.sendFriendRequest(currentUser.email, toEmail, toUsername);
+        showToast('Friend request sent!');
+        await loadFriendData(currentUser.email);
+    } catch (error) {
+        console.error('Error sending friend request:', error);
+        showToast(error.message || 'Error sending friend request');
+    }
+}
+
+async function acceptFriendRequest(friendEmail) {
+    const currentUser = auth.currentUser;
+    if (!currentUser) return;
+    
+    try {
+        await friendManager.acceptFriendRequest(currentUser.email, friendEmail);
+        showToast('Friend request accepted!');
+        await loadFriendData(currentUser.email);
+    } catch (error) {
+        console.error('Error accepting friend request:', error);
+        showToast('Error accepting friend request');
+    }
+}
+
+async function declineFriendRequest(friendEmail) {
+    const currentUser = auth.currentUser;
+    if (!currentUser) return;
+    
+    try {
+        await friendManager.declineFriendRequest(currentUser.email, friendEmail);
+        showToast('Friend request declined');
+        await loadFriendData(currentUser.email);
+    } catch (error) {
+        console.error('Error declining friend request:', error);
+        showToast('Error declining friend request');
+    }
+}
+
+async function cancelFriendRequest(targetEmail) {
+    const currentUser = auth.currentUser;
+    if (!currentUser) return;
+    
+    try {
+        await friendManager.cancelFriendRequest(currentUser.email, targetEmail);
+        showToast('Friend request canceled');
+        await loadFriendData(currentUser.email);
+    } catch (error) {
+        console.error('Error canceling friend request:', error);
+        showToast('Error canceling friend request');
+    }
+}
+
+async function blockUser(blockEmail) {
+    const currentUser = auth.currentUser;
+    if (!currentUser) return;
+    
+    try {
+        await friendManager.blockUser(currentUser.email, blockEmail);
+        showToast('User blocked');
+        await loadFriendData(currentUser.email);
+    } catch (error) {
+        console.error('Error blocking user:', error);
+        showToast('Error blocking user');
+    }
+}
+
+async function unblockUser(unblockEmail) {
+    const currentUser = auth.currentUser;
+    if (!currentUser) return;
+    
+    try {
+        await friendManager.unblockUser(currentUser.email, unblockEmail);
+        showToast('User unblocked');
+        await loadFriendData(currentUser.email);
+    } catch (error) {
+        console.error('Error unblocking user:', error);
+        showToast('Error unblocking user');
     }
 }
 
@@ -2612,108 +3413,51 @@ function showUserProfile(email, username) {
     
     // Add action buttons
     actionsEl.innerHTML = `
-        <button class="action-btn friend-request-btn" onclick="sendFriendRequest('${email}', '${username}')">Add Friend</button>
-        <button class="action-btn block-btn" onclick="blockUser('${email}')">Block User</button>
+        <button class="action-btn friend-request-btn" onclick="sendFriendRequest('${email}', '${username}'); closeModal('profile')">Add Friend</button>
+        <button class="action-btn block-btn" onclick="blockUser('${email}'); closeModal('profile')">Block User</button>
     `;
     
     openModal('profile');
 }
 
-// Friend request functions
-async function sendFriendRequest(toEmail, toUsername) {
-    const currentUser = auth.currentUser;
-    if (!currentUser) {
-        showToast('Please log in to send friend requests');
+// Username validation and availability checking
+async function checkUsernameAvailability(username) {
+    const availabilityDiv = document.getElementById('username-availability');
+    const saveBtn = document.getElementById('username-save-btn');
+    
+    if (username.length < 3) {
+        availabilityDiv.className = 'username-availability';
+        saveBtn.disabled = true;
         return;
     }
     
-    try {
-        await friendManager.sendFriendRequest(currentUser.email, toEmail, toUsername);
-        showToast('Friend request sent!');
-        await loadFriendData(currentUser.email);
-    } catch (error) {
-        console.error('Error sending friend request:', error);
-        showToast(error.message || 'Failed to send friend request');
-    }
-}
-
-async function acceptFriendRequest(friendEmail) {
-    const currentUser = auth.currentUser;
-    if (!currentUser) return;
+    // Show checking state
+    availabilityDiv.className = 'username-availability checking';
+    availabilityDiv.textContent = 'Checking availability...';
+    saveBtn.disabled = true;
     
     try {
-        await friendManager.acceptFriendRequest(currentUser.email, friendEmail);
-        showToast('Friend request accepted!');
-        await loadFriendData(currentUser.email);
+        const isAvailable = await usernameManager.checkUsernameAvailability(username);
+        
+        if (isAvailable) {
+            availabilityDiv.className = 'username-availability available';
+            availabilityDiv.textContent = 'Username is available!';
+            saveBtn.disabled = false;
+        } else {
+            availabilityDiv.className = 'username-availability taken';
+            availabilityDiv.textContent = 'Username is already taken';
+            saveBtn.disabled = true;
+        }
     } catch (error) {
-        console.error('Error accepting friend request:', error);
-        showToast('Failed to accept friend request');
+        console.error('Error checking username availability:', error);
+        availabilityDiv.className = 'username-availability taken';
+        availabilityDiv.textContent = 'Error checking availability';
+        saveBtn.disabled = true;
     }
 }
 
-async function declineFriendRequest(friendEmail) {
-    const currentUser = auth.currentUser;
-    if (!currentUser) return;
-    
-    try {
-        await friendManager.declineFriendRequest(currentUser.email, friendEmail);
-        showToast('Friend request declined');
-        await loadFriendData(currentUser.email);
-    } catch (error) {
-        console.error('Error declining friend request:', error);
-        showToast('Failed to decline friend request');
-    }
-}
-
-async function blockUser(blockEmail) {
-    const currentUser = auth.currentUser;
-    if (!currentUser) return;
-    
-    try {
-        await friendManager.blockUser(currentUser.email, blockEmail);
-        showToast('User blocked');
-        await loadFriendData(currentUser.email);
-        closeAllModals();
-    } catch (error) {
-        console.error('Error blocking user:', error);
-        showToast('Failed to block user');
-    }
-}
-
-async function unblockUser(unblockEmail) {
-    const currentUser = auth.currentUser;
-    if (!currentUser) return;
-    
-    try {
-        await friendManager.unblockUser(currentUser.email, unblockEmail);
-        showToast('User unblocked');
-        await loadFriendData(currentUser.email);
-    } catch (error) {
-        console.error('Error unblocking user:', error);
-        showToast('Failed to unblock user');
-    }
-}
-
-async function cancelFriendRequest(targetEmail) {
-    const currentUser = auth.currentUser;
-    if (!currentUser) return;
-    
-    try {
-        await friendManager.cancelFriendRequest(currentUser.email, targetEmail);
-        showToast('Friend request canceled');
-        await loadFriendData(currentUser.email);
-    } catch (error) {
-        console.error('Error canceling friend request:', error);
-        showToast('Failed to cancel friend request');
-    }
-}
-
-// Initialize particles
-createParticles();
-
-// Event listeners
+// Language selector functionality
 document.addEventListener('DOMContentLoaded', function() {
-    // Language selector
     const languageToggle = document.getElementById('language-toggle');
     const languageOptions = document.getElementById('language-options');
 
@@ -2736,46 +3480,18 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('current-language-name').textContent = langName.substring(0, 2).toUpperCase();
             
             languageOptions.classList.remove('active');
-            showToast('Language changed');
+            showToast(`Language changed to ${langName}`);
         });
     });
-    
-    // Navigation tabs
-    document.querySelectorAll('.nav-tab').forEach(tab => {
-        tab.addEventListener('click', function(e) {
-            e.preventDefault();
-            const tabName = this.getAttribute('data-tab');
-            switchTab(tabName);
-        });
-    });
-    
-    // Community tabs
-    document.querySelectorAll('.community-tab').forEach(tab => {
-        tab.addEventListener('click', function() {
-            const tabName = this.getAttribute('data-tab');
-            switchCommunityTab(tabName);
-        });
-    });
-    
-    // User info click
-    document.getElementById('user-info').addEventListener('click', function() {
-        const user = auth.currentUser;
-        if (user) {
-            // Could open user's own profile or settings
-            showToast('Profile settings coming soon!');
-        } else {
-            openModal('login');
-        }
-    });
-    
-    // Get notified button
-    document.getElementById('get-notified-btn').addEventListener('click', function(e) {
-        e.preventDefault();
-        showToast('You will be notified when games are available!');
-    });
-    
+});
+
+// Initialize particles
+createParticles();
+
+// Event listeners
+document.addEventListener('DOMContentLoaded', function() {
     // Modal close buttons
-    document.querySelectorAll('.modal-close').forEach(button => {
+    document.querySelectorAll('.modal-close, .profile-modal-close').forEach(button => {
         button.addEventListener('click', function() {
             closeAllModals();
         });
@@ -2790,6 +3506,47 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
+    // Navigation menu clicks
+    document.querySelectorAll('.menu-link-front').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const tabName = this.getAttribute('data-tab');
+            if (tabName) {
+                switchTab(tabName);
+            }
+        });
+    });
+    
+    // Profile button
+    document.getElementById('profile-button').addEventListener('click', function(e) {
+        e.preventDefault();
+        const user = auth.currentUser;
+        if (user) {
+            openModal('login');
+            document.getElementById('login-view').style.display = 'none';
+            document.getElementById('profile-view').style.display = 'block';
+        } else {
+            openModal('login');
+        }
+    });
+    
+    // Community tabs
+    document.querySelectorAll('.community-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            const tabName = this.getAttribute('data-tab');
+            switchCommunityTab(tabName);
+        });
+    });
+    
+    // Profile navigation
+    document.querySelectorAll('.profile-nav-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const tabName = this.getAttribute('data-tab');
+            switchProfileTab(tabName);
+        });
+    });
+    
     // Auth form switches
     document.getElementById('show-signup').addEventListener('click', function() {
         closeModal('login');
@@ -2801,15 +3558,74 @@ document.addEventListener('DOMContentLoaded', function() {
         openModal('login');
     });
     
-    // User search
-    const searchInput = document.getElementById('user-search-input');
-    let searchTimeout;
+    // Username edit functionality
+    document.getElementById('username-edit-btn').addEventListener('click', function() {
+        openModal('username');
+        const currentUsername = document.getElementById('profile-display-name').textContent;
+        document.getElementById('username-input').value = currentUsername;
+    });
     
-    searchInput.addEventListener('input', function() {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(() => {
-            searchUsers(this.value);
-        }, 500);
+    // Username input validation
+    document.getElementById('username-input').addEventListener('input', function() {
+        const username = this.value.trim();
+        const regex = /^[a-zA-Z0-9_]{3,20}$/;
+        
+        if (username.length >= 3 && regex.test(username)) {
+            checkUsernameAvailability(username);
+        } else {
+            const availabilityDiv = document.getElementById('username-availability');
+            const saveBtn = document.getElementById('username-save-btn');
+            availabilityDiv.className = 'username-availability';
+            saveBtn.disabled = true;
+        }
+    });
+    
+    // Username form submission
+    document.getElementById('username-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const user = auth.currentUser;
+        const username = document.getElementById('username-input').value.trim();
+        
+        if (!user) return;
+        
+        try {
+            const saveBtn = document.getElementById('username-save-btn');
+            saveBtn.classList.add('loading');
+            saveBtn.disabled = true;
+            
+            await usernameManager.updateUsername(user.email, username);
+            
+            // Update profile display
+            document.getElementById('profile-display-name').textContent = username;
+            document.getElementById('welcome-title').textContent = `Welcome Back ${username}!`;
+            
+            showToast('Username saved successfully!');
+            closeModal('username');
+            
+        } catch (error) {
+            console.error('Error saving username:', error);
+            showError('username-error', 'Failed to save username. Please try again.');
+        } finally {
+            const saveBtn = document.getElementById('username-save-btn');
+            saveBtn.classList.remove('loading');
+        }
+    });
+    
+    // User search
+    document.getElementById('user-search-input').addEventListener('input', function() {
+        const query = this.value.trim();
+        searchUsers(query);
+    });
+    
+    // Logout functionality
+    document.getElementById('logout-button').addEventListener('click', async function() {
+        try {
+            await auth.signOut();
+            closeAllModals();
+            showToast('Logged out successfully');
+        } catch (error) {
+            console.error('Error signing out:', error);
+        }
     });
     
     // Google Sign-In
@@ -2820,6 +3636,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             showToast('Successfully signed in with Google');
             closeModal('login');
+            
             await updateUserDisplay(user);
             
         } catch (error) {
@@ -2836,6 +3653,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             showToast('Account created successfully with Google');
             closeModal('signup');
+            
             await updateUserDisplay(user);
             
         } catch (error) {
@@ -2857,6 +3675,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             showToast('Logged in successfully');
             closeModal('login');
+            
             await updateUserDisplay(user);
             
         } catch (error) {
@@ -2884,6 +3703,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             showToast('Account created successfully');
             closeModal('signup');
+            
             await updateUserDisplay(user);
             
         } catch (error) {
@@ -2897,6 +3717,15 @@ document.addEventListener('DOMContentLoaded', function() {
 auth.onAuthStateChanged(async function(user) {
     await updateUserDisplay(user);
 });
+
+// Make functions globally available
+window.sendFriendRequest = sendFriendRequest;
+window.acceptFriendRequest = acceptFriendRequest;
+window.declineFriendRequest = declineFriendRequest;
+window.cancelFriendRequest = cancelFriendRequest;
+window.blockUser = blockUser;
+window.unblockUser = unblockUser;
+window.showUserProfile = showUserProfile;
 </script>
 
 </body>
