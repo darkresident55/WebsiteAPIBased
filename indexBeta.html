@@ -1985,8 +1985,9 @@ class FriendManager {
             
             return data;
         } catch (error) {
-            if (error.code === 'storage/object-not-found') {
-                return {
+            if (error.code === 'storage/object-not-found' || error.code === 'storage/unauthorized') {
+                // Create default friend data structure for new users
+                const defaultData = {
                     email: email,
                     friends: [],
                     friendRequests: {
@@ -1997,6 +1998,10 @@ class FriendManager {
                     createdAt: new Date().toISOString(),
                     updatedAt: new Date().toISOString()
                 };
+                
+                // Save the default data to create the file
+                await this.saveFriendData(email, defaultData);
+                return defaultData;
             }
             console.error('Error getting friend data:', error);
             throw error;
@@ -2022,14 +2027,37 @@ class FriendManager {
         }
     }
 
+    async initializeFriendData(email) {
+        try {
+            // Check if friend data already exists
+            const existingData = await this.getFriendData(email);
+            return existingData;
+        } catch (error) {
+            // If there's any error, create new friend data
+            const defaultData = {
+                email: email,
+                friends: [],
+                friendRequests: {
+                    incoming: [],
+                    sent: []
+                },
+                blocked: [],
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            };
+            
+            await this.saveFriendData(email, defaultData);
+            return defaultData;
+        }
+    }
+
     async sendFriendRequest(fromEmail, toEmail, toUsername) {
         try {
-            // Get sender's data
-            const senderData = await this.getFriendData(fromEmail);
-            const senderUsername = await usernameManager.getUsername(fromEmail);
+            // Initialize friend data for both users if they don't exist
+            const senderData = await this.initializeFriendData(fromEmail);
+            const receiverData = await this.initializeFriendData(toEmail);
             
-            // Get receiver's data
-            const receiverData = await this.getFriendData(toEmail);
+            const senderUsername = await usernameManager.getUsername(fromEmail);
             
             // Check if already friends or request exists
             if (senderData.friends.some(f => f.email === toEmail)) {
@@ -2042,6 +2070,11 @@ class FriendManager {
             
             if (receiverData.friendRequests.incoming.some(r => r.email === fromEmail)) {
                 throw new Error('Friend request already exists');
+            }
+            
+            // Check if the receiver has blocked the sender
+            if (receiverData.blocked.some(b => b.email === fromEmail)) {
+                throw new Error('Cannot send friend request to this user');
             }
             
             // Add to sender's sent requests
@@ -2071,8 +2104,8 @@ class FriendManager {
 
     async acceptFriendRequest(userEmail, friendEmail) {
         try {
-            const userData = await this.getFriendData(userEmail);
-            const friendData = await this.getFriendData(friendEmail);
+            const userData = await this.initializeFriendData(userEmail);
+            const friendData = await this.initializeFriendData(friendEmail);
             
             const friendUsername = await usernameManager.getUsername(friendEmail);
             const userUsername = await usernameManager.getUsername(userEmail);
@@ -2109,8 +2142,8 @@ class FriendManager {
 
     async declineFriendRequest(userEmail, friendEmail) {
         try {
-            const userData = await this.getFriendData(userEmail);
-            const friendData = await this.getFriendData(friendEmail);
+            const userData = await this.initializeFriendData(userEmail);
+            const friendData = await this.initializeFriendData(friendEmail);
             
             // Remove from incoming requests
             userData.friendRequests.incoming = userData.friendRequests.incoming.filter(r => r.email !== friendEmail);
@@ -2131,7 +2164,7 @@ class FriendManager {
 
     async blockUser(userEmail, blockEmail) {
         try {
-            const userData = await this.getFriendData(userEmail);
+            const userData = await this.initializeFriendData(userEmail);
             const blockUsername = await usernameManager.getUsername(blockEmail);
             
             // Remove from friends if they are friends
@@ -2141,7 +2174,7 @@ class FriendManager {
             userData.friendRequests.incoming = userData.friendRequests.incoming.filter(r => r.email !== blockEmail);
             userData.friendRequests.sent = userData.friendRequests.sent.filter(r => r.email !== blockEmail);
             
-            // Add to blocked list
+            // Add to blocked list if not already blocked
             if (!userData.blocked.some(b => b.email === blockEmail)) {
                 userData.blocked.push({
                     email: blockEmail,
@@ -2158,9 +2191,9 @@ class FriendManager {
         }
     }
 
-    async unblockUser(unblockEmail) {
+    async unblockUser(userEmail, unblockEmail) {
         try {
-            const userData = await this.getFriendData(userEmail);
+            const userData = await this.initializeFriendData(userEmail);
             
             // Remove from blocked list
             userData.blocked = userData.blocked.filter(b => b.email !== unblockEmail);
@@ -2169,6 +2202,28 @@ class FriendManager {
             return true;
         } catch (error) {
             console.error('Error unblocking user:', error);
+            throw error;
+        }
+    }
+
+    async cancelFriendRequest(userEmail, targetEmail) {
+        try {
+            const userData = await this.initializeFriendData(userEmail);
+            const targetData = await this.initializeFriendData(targetEmail);
+            
+            // Remove from user's sent requests
+            userData.friendRequests.sent = userData.friendRequests.sent.filter(r => r.email !== targetEmail);
+            
+            // Remove from target's incoming requests
+            targetData.friendRequests.incoming = targetData.friendRequests.incoming.filter(r => r.email !== userEmail);
+            
+            // Save both
+            await this.saveFriendData(userEmail, userData);
+            await this.saveFriendData(targetEmail, targetData);
+            
+            return true;
+        } catch (error) {
+            console.error('Error canceling friend request:', error);
             throw error;
         }
     }
@@ -2366,7 +2421,6 @@ function updateFriendsList(friends) {
             <div class="friend-info">
                 <div class="friend-name">${friend.username}</div>
                 
-</cut_off_point>
                 <div class="friend-status online">Online</div>
             </div>
         </div>
@@ -2637,6 +2691,20 @@ async function unblockUser(unblockEmail) {
     } catch (error) {
         console.error('Error unblocking user:', error);
         showToast('Failed to unblock user');
+    }
+}
+
+async function cancelFriendRequest(targetEmail) {
+    const currentUser = auth.currentUser;
+    if (!currentUser) return;
+    
+    try {
+        await friendManager.cancelFriendRequest(currentUser.email, targetEmail);
+        showToast('Friend request canceled');
+        await loadFriendData(currentUser.email);
+    } catch (error) {
+        console.error('Error canceling friend request:', error);
+        showToast('Failed to cancel friend request');
     }
 }
 
