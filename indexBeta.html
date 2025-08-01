@@ -102,6 +102,10 @@
     to { opacity: 1; transform: translateX(0); }
 }
 
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     line-height: 1.6;
@@ -419,11 +423,11 @@ body {
 
 .community-grid {
     display: grid;
-    grid-template-columns: 300px 1fr;
+    grid-template-columns: 280px 1fr;
     gap: 2rem;
     max-width: 1200px;
     margin: 0 auto;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .friends-sidebar {
@@ -676,6 +680,7 @@ body {
 
 .user-result-info {
     flex: 1;
+    text-align: left;
 }
 
 .user-result-name {
@@ -765,6 +770,7 @@ body {
 
 .friend-request-info {
     flex: 1;
+    text-align: left;
 }
 
 .friend-request-name {
@@ -804,8 +810,8 @@ body {
     background: rgba(239, 68, 68, 0.3);
 }
 
-/* Empty States */
-.empty-state {
+/* Empty States & Loading States */
+.empty-state, .search-loading {
     text-align: center;
     padding: 4rem 2rem;
     color: #64748b;
@@ -831,6 +837,21 @@ body {
     max-width: 400px;
     margin: 0 auto;
     line-height: 1.6;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-top-color: hsl(var(--primary));
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+}
+
+.search-loading p {
+    font-size: 1.1rem;
+    color: #94a3b8;
 }
 
 /* Enhanced Menu Bar */
@@ -996,12 +1017,12 @@ body {
     border: 1px solid var(--glass-border);
     border-radius: 20px;
     width: 100%;
-    max-width: 900px;
+    max-width: 500px;
     box-shadow: var(--glass-shadow);
     transform: scale(0.9) translateY(20px);
     opacity: 0;
     transition: all var(--anim-slow) var(--anim-bounce);
-    padding: 0rem;
+    padding: 2rem;
     color: #e2e8f0;
     position: relative;
     overflow: hidden;
@@ -1275,8 +1296,9 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 1rem 1rem;
+    padding: 1rem 1.5rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    flex-shrink: 0;
 }
 
 .profile-modal-title {
@@ -1313,12 +1335,11 @@ body {
 
 /* Profile Header Section */
 .profile-header {
-    padding: 1rem;
+    padding: 1.5rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     display: flex;
-    gap: 1rem;
+    gap: 1.5rem;
     background: rgba(0, 0, 0, 0.2);
-    flex-direction: row;
     align-items: center;
 }
 
@@ -1337,7 +1358,6 @@ body {
     transition: all var(--anim-normal) var(--anim-smooth);
     overflow: hidden;
     flex-shrink: 0;
-    flex-direction: row;
 }
 
 .profile-avatar-large img {
@@ -1348,18 +1368,18 @@ body {
 }
 
 .profile-user-info {
-    flex: 0;
+    flex: 1;
+    text-align: left;
 }
 
 .profile-username {
     font-size: 1.5rem;
-    font-weight: 400;
+    font-weight: 600;
     color: #f1f5f9;
-    margin-bottom: 0;
+    margin-bottom: 0.25rem;
     display: flex;
     align-items: center;
-    gap: 0;
-    flex-direction: row;
+    gap: 1rem;
 }
 
 .profile-email {
@@ -1378,7 +1398,6 @@ body {
     cursor: pointer;
     transition: all var(--anim-normal) ease;
     font-weight: 500;
-    margin-left: 1rem;
 }
 
 .username-edit-btn:hover {
@@ -1388,11 +1407,13 @@ body {
 
 /* Sidebar Navigation */
 .profile-sidebar {
-    width: 200px;
+    width: 220px;
     background: rgba(0, 0, 0, 0.3);
     border-right: 1px solid rgba(255, 255, 255, 0.08);
     padding: 1.5rem 0;
     flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .profile-nav {
@@ -1461,6 +1482,7 @@ body {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    text-align: left;
 }
 
 .profile-section-content {
@@ -1475,6 +1497,7 @@ body {
     border-radius: 12px;
     padding: 1.5rem;
     transition: all var(--anim-normal) var(--anim-smooth);
+    text-align: left;
 }
 
 .info-card:hover {
@@ -1557,7 +1580,7 @@ body {
 /* Logout Button */
 .logout-section {
     margin-top: auto;
-    padding: 1rem 2rem 2rem;
+    padding: 1.5rem;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -1859,11 +1882,6 @@ footer {
     border-top: 2px solid currentColor;
     border-radius: 50%;
     animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
 }
 
 svg {
@@ -2197,216 +2215,65 @@ svg {
 <!-- Login Modal -->
 <div class="modal-overlay" id="login-modal">
     <div class="modal">
-        <div id="login-view">
-            <div class="modal-header">
-                <h2 class="modal-title" data-translate="log_in">Log in</h2>
-                <button class="modal-close" id="login-modal-close">
-                    <svg viewBox="0 0 24 24" width="16" height="16">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                </button>
-            </div>
-            <div id="login-error" class="message error"></div>
-            <p class="modal-subtitle" data-translate="enter_credentials">Enter your credentials to continue</p>
-            <span class="modal-link" id="show-signup" data-translate="create_account">Create account</span>
-            
-            <button class="google-button" id="google-signin-btn">
-                <svg class="google-icon" viewBox="0 0 24 24">
-                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+        <div class="modal-header">
+            <h2 class="modal-title" data-translate="log_in">Log in</h2>
+            <button class="modal-close" id="login-modal-close">
+                <svg viewBox="0 0 24 24" width="16" height="16">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
-                <span data-translate="continue_with_google">Continue with Google</span>
             </button>
-
-            <div class="auth-divider">
-                <span data-translate="or">or</span>
-            </div>
-
-            <form id="login-form">
-                <div class="form-group">
-                    <div class="input-with-icon">
-                        <input type="email" id="email" data-translate-placeholder="username_or_email" placeholder="Username or Email" required>
-                        <svg class="input-icon" viewBox="0 0 24 24">
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                            <polyline points="22,6 12,13 2,6"></polyline>
-                        </svg>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="input-with-icon">
-                        <input type="password" id="password" data-translate-placeholder="password" placeholder="Password" required>
-                        <svg class="input-icon" viewBox="0 0 24 24">
-                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                        </svg>
-                    </div>
-                </div>
-                <div class="form-options">
-                    <label class="checkbox-wrapper">
-                        <input type="checkbox" id="remember-me">
-                        <span data-translate="remember_me">Remember me</span>
-                    </label>
-                    <a href="#" class="form-link" id="forgot-password" data-translate="forgot_password">Forgot Password?</a>
-                </div>
-                <button type="submit" class="primary-button">
-                    <span data-translate="login">LOGIN</span>
-                </button>
-            </form>
-            <div class="modal-footer">
-                <p data-translate="login_agreement">By logging in, you agree to the <a href="https://trerondevelopment.xyz/privacyandsafety" target="_blank">Terms</a> and <a href="https://trerondevelopment.xyz/privacyandsafety" target="_blank">Privacy Policy</a>.</p>
-            </div>
         </div>
+        <div id="login-error" class="message error"></div>
+        <p class="modal-subtitle" data-translate="enter_credentials">Enter your credentials to continue</p>
+        <span class="modal-link" id="show-signup" data-translate="create_account">Create account</span>
         
-        <div id="profile-view" style="display: none;">
-            <div class="modal profile-modal">
-                <div class="profile-modal-header">
-                    <h2 class="profile-modal-title" data-translate="your_profile">Your Profile</h2>
-                    <button class="profile-modal-close" id="profile-close">
-                        <svg viewBox="0 0 24 24" width="16" height="16">
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                    </button>
-                </div>
+        <button class="google-button" id="google-signin-btn">
+            <svg class="google-icon" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+            </svg>
+            <span data-translate="continue_with_google">Continue with Google</span>
+        </button>
 
-                <!-- Profile Header -->
-                <div class="profile-header">
-                    <div class="profile-avatar-large" id="profile-avatar">G</div>
-                    <div class="profile-user-info">
-                        <div class="profile-username">
-                            <span id="profile-display-name">Guest</span>
-                            <button class="username-edit-btn" id="username-edit-btn" data-translate="edit">Edit</button>
-                        </div>
-                        <p class="profile-email" id="profile-email">guest@example.com</p>
-                    </div>
-                </div>
+        <div class="auth-divider">
+            <span data-translate="or">or</span>
+        </div>
 
-                <div class="profile-modal-body">
-                    <!-- Sidebar Navigation -->
-                    <div class="profile-sidebar">
-                        <nav>
-                            <ul class="profile-nav">
-                                <li class="profile-nav-item">
-                                    <a href="#" class="profile-nav-link active" data-tab="overview">
-                                        <svg class="profile-nav-icon" viewBox="0 0 24 24">
-                                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                                        </svg>
-                                        <span data-translate="account_overview">Account Overview</span>
-                                    </a>
-                                </li>
-                                <li class="profile-nav-item">
-                                    <a href="#" class="profile-nav-link" data-tab="mods">
-                                        <svg class="profile-nav-icon" viewBox="0 0 24 24">
-                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                            <polyline points="14 2 14 8 20 8"></polyline>
-                                        </svg>
-                                        <span data-translate="created_mods">Created Mods</span>
-                                    </a>
-                                </li>
-                                <li class="profile-nav-item">
-                                    <a href="#" class="profile-nav-link" data-tab="extensions">
-                                        <svg class="profile-nav-icon" viewBox="0 0 24 24">
-                                            <polyline points="16 18 22 12 16 6"></polyline>
-                                            <polyline points="8 6 2 12 8 18"></polyline>
-                                        </svg>
-                                        <span data-translate="scl_extensions">SCL Extensions</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-
-                    <!-- Main Content -->
-                    <div class="profile-main">
-                        <!-- Account Overview Panel -->
-                        <div class="profile-tab-panel active" id="overview-panel">
-                            <div class="profile-section">
-                                <h3 class="profile-section-title" data-translate="account_information">Account Information</h3>
-                                <div class="profile-section-content">
-                                    <div class="info-card">
-                                        <div class="info-card-header">
-                                            <div>
-                                                <h4 class="info-card-title" data-translate="member_since">Member Since</h4>
-                                                <p class="info-card-value" id="member-since-date">Loading...</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="info-card">
-                                        <div class="info-card-header">
-                                            <div>
-                                                <h4 class="info-card-title" data-translate="account_type">Account Type</h4>
-                                                <p class="info-card-value" data-translate="free_account">Free Account</p>
-                                            </div>
-                                            <span class="status-badge status-active" data-translate="active">ACTIVE</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="profile-section">
-                                <h3 class="profile-section-title" data-translate="activity_summary">Activity Summary</h3>
-                                <div class="activity-grid">
-                                    <div class="activity-stat">
-                                        <div class="activity-stat-number" id="mods-count">0</div>
-                                        <div class="activity-stat-label" data-translate="mods">Mods</div>
-                                    </div>
-                                    <div class="activity-stat">
-                                        <div class="activity-stat-number" id="extensions-count">0</div>
-                                        <div class="activity-stat-label" data-translate="extensions">Extensions</div>
-                                    </div>
-                                    <div class="activity-stat">
-                                        <div class="activity-stat-number" id="downloads-count">0</div>
-                                        <div class="activity-stat-label" data-translate="downloads">Downloads</div>
-                                    </div>
-                                    <div class="activity-stat">
-                                        <div class="activity-stat-number" id="friends-count">0</div>
-                                        <div class="activity-stat-label" data-translate="friends">Friends</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Created Mods Panel -->
-                        <div class="profile-tab-panel" id="mods-panel">
-                            <div class="profile-section">
-                                <h3 class="profile-section-title" data-translate="your_mods">Your Mods</h3>
-                                <div class="empty-state">
-                                    <svg class="empty-icon" viewBox="0 0 24 24">
-                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                        <polyline points="14 2 14 8 20 8"></polyline>
-                                    </svg>
-                                    <h4 class="empty-title" data-translate="no_mods_created">No Mods Created Yet</h4>
-                                    <p class="empty-description" data-translate="no_mods_description">You haven't created any mods yet. Start building something amazing!</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- SCL Extensions Panel -->
-                        <div class="profile-tab-panel" id="extensions-panel">
-                            <div class="profile-section">
-                                <h3 class="profile-section-title" data-translate="your_scl_extensions">Your SCL Extensions</h3>
-                                <div class="empty-state">
-                                    <svg class="empty-icon" viewBox="0 0 24 24">
-                                        <polyline points="16 18 22 12 16 6"></polyline>
-                                        <polyline points="8 6 2 12 8 18"></polyline>
-                                    </svg>
-                                    <h4 class="empty-title" data-translate="no_extensions_created">No Extensions Created Yet</h4>
-                                    <p class="empty-description" data-translate="no_extensions_description">You haven't created any SCL extensions yet. Extend the platform's functionality!</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Logout Section -->
-                <div class="logout-section">
-                    <button class="logout-button" id="logout-button" data-translate="log_out">Log out</button>
+        <form id="login-form">
+            <div class="form-group">
+                <div class="input-with-icon">
+                    <input type="email" id="email" data-translate-placeholder="username_or_email" placeholder="Username or Email" required>
+                    <svg class="input-icon" viewBox="0 0 24 24">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
                 </div>
             </div>
+            <div class="form-group">
+                <div class="input-with-icon">
+                    <input type="password" id="password" data-translate-placeholder="password" placeholder="Password" required>
+                    <svg class="input-icon" viewBox="0 0 24 24">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                </div>
+            </div>
+            <div class="form-options">
+                <label class="checkbox-wrapper">
+                    <input type="checkbox" id="remember-me">
+                    <span data-translate="remember_me">Remember me</span>
+                </label>
+                <a href="#" class="form-link" id="forgot-password" data-translate="forgot_password">Forgot Password?</a>
+            </div>
+            <button type="submit" class="primary-button">
+                <span data-translate="login">LOGIN</span>
+            </button>
+        </form>
+        <div class="modal-footer">
+            <p data-translate="login_agreement">By logging in, you agree to the <a href="https://trerondevelopment.xyz/privacyandsafety" target="_blank">Terms</a> and <a href="https://trerondevelopment.xyz/privacyandsafety" target="_blank">Privacy Policy</a>.</p>
         </div>
     </div>
 </div>
@@ -2508,11 +2375,11 @@ svg {
     </div>
 </div>
 
-<!-- User Profile Modal -->
-<div class="modal-overlay" id="profile-modal">
-    <div class="modal" style="max-width: 600px;">
-        <div class="modal-header">
-            <h2 class="modal-title" id="profile-modal-title" data-translate="user_profile">User Profile</h2>
+<!-- Universal Profile Modal -->
+<div class="modal-overlay" id="profile-modal-container">
+    <div class="modal profile-modal">
+        <div class="profile-modal-header">
+            <h2 class="profile-modal-title" id="profile-modal-title">Profile</h2>
             <button class="modal-close" id="profile-modal-close">
                 <svg viewBox="0 0 24 24" width="16" height="16">
                     <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -2520,35 +2387,9 @@ svg {
                 </svg>
             </button>
         </div>
-        
-        <div id="profile-content">
-            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
-                <div id="profile-modal-avatar" style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-h), var(--primary-s), calc(var(--primary-l) - 15%))); color: white; font-size: 2rem; font-weight: bold; display: flex; align-items: center; justify-content: center; overflow: hidden;">U</div>
-                <div>
-                    <h3 id="profile-modal-username" style="font-size: 1.5rem; font-weight: 600; color: #f1f5f9; margin-bottom: 0.5rem;">Username</h3>
-                    <p id="profile-modal-email" style="color: #94a3b8; margin-bottom: 0.5rem;">email@example.com</p>
-                    <p id="profile-modal-joined" style="color: #64748b; font-size: 0.9rem;" data-translate="joined">Joined: Loading...</p>
-                </div>
-            </div>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
-                <div style="text-align: center; padding: 1rem; background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px;">
-                    <div style="font-size: 1.5rem; font-weight: 700; color: hsl(var(--primary)); margin-bottom: 0.25rem;">0</div>
-                    <div style="font-size: 0.8rem; color: #94a3b8;" data-translate="friends">Friends</div>
-                </div>
-                <div style="text-align: center; padding: 1rem; background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px;">
-                    <div style="font-size: 1.5rem; font-weight: 700; color: hsl(var(--primary)); margin-bottom: 0.25rem;">0</div>
-                    <div style="font-size: 0.8rem; color: #94a3b8;" data-translate="games">Games</div>
-                </div>
-                <div style="text-align: center; padding: 1rem; background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px;">
-                    <div style="font-size: 1.5rem; font-weight: 700; color: hsl(var(--primary)); margin-bottom: 0.25rem;">0</div>
-                    <div style="font-size: 0.8rem; color: #94a3b8;" data-translate="mods">Mods</div>
-                </div>
-            </div>
-            
-            <div id="profile-actions" style="display: flex; gap: 1rem; justify-content: center;">
-                <!-- Action buttons will be inserted here -->
-            </div>
+
+        <div id="profile-modal-content">
+            <!-- Profile content will be dynamically inserted here -->
         </div>
     </div>
 </div>
@@ -2676,7 +2517,30 @@ const translations = {
         username_requirements: "Username must be 3-20 characters long and contain only letters, numbers, and underscores.",
         user_profile: "User Profile",
         joined: "Joined:",
-        language_changed: "Language changed to"
+        language_changed: "Language changed to",
+        searching_for: "Searching for",
+        view_profile: "View Profile",
+        block_user: "Block User",
+        unblock: "Unblock",
+        accept: "Accept",
+        decline: "Decline",
+        cancel: "Cancel",
+        friend_request_sent: "Friend request sent!",
+        friend_request_accepted: "Friend request accepted!",
+        friend_request_declined: "Friend request declined",
+        friend_request_canceled: "Friend request canceled",
+        user_blocked: "User blocked",
+        user_unblocked: "User unblocked",
+        username_saved: "Username saved successfully!",
+        logged_out: "Logged out successfully",
+        signed_in_google: "Successfully signed in with Google",
+        account_created_google: "Account created successfully with Google",
+        logged_in_success: "Logged in successfully",
+        account_created_success: "Account created successfully",
+        checking_availability: "Checking availability...",
+        username_available: "Username is available!",
+        username_taken: "Username is already taken",
+        error_checking: "Error checking availability"
     },
     ja: {
         privacy_policy: "プライバシーポリシー",
@@ -2766,7 +2630,30 @@ const translations = {
         username_requirements: "ユーザー名は3-20文字で、文字、数字、アンダースコアのみ使用できます。",
         user_profile: "ユーザープロフィール",
         joined: "参加日:",
-        language_changed: "言語が変更されました："
+        language_changed: "言語が変更されました：",
+        searching_for: "検索中",
+        view_profile: "プロフィールを見る",
+        block_user: "ユーザーをブロック",
+        unblock: "ブロック解除",
+        accept: "承認",
+        decline: "拒否",
+        cancel: "キャンセル",
+        friend_request_sent: "フレンドリクエストを送信しました！",
+        friend_request_accepted: "フレンドリクエストを承認しました！",
+        friend_request_declined: "フレンドリクエストを拒否しました",
+        friend_request_canceled: "フレンドリクエストをキャンセルしました",
+        user_blocked: "ユーザーをブロックしました",
+        user_unblocked: "ユーザーのブロックを解除しました",
+        username_saved: "ユーザー名を保存しました！",
+        logged_out: "正常にログアウトしました",
+        signed_in_google: "Googleで正常にサインインしました",
+        account_created_google: "Googleでアカウントが正常に作成されました",
+        logged_in_success: "正常にログインしました",
+        account_created_success: "アカウントが正常に作成されました",
+        checking_availability: "利用可能か確認中...",
+        username_available: "ユーザー名は利用可能です！",
+        username_taken: "このユーザー名は既に使用されています",
+        error_checking: "利用可能性の確認中にエラーが発生しました"
     },
     de: {
         privacy_policy: "Datenschutzrichtlinie",
@@ -2856,7 +2743,30 @@ const translations = {
         username_requirements: "Der Benutzername muss 3-20 Zeichen lang sein und darf nur Buchstaben, Zahlen und Unterstriche enthalten.",
         user_profile: "Benutzerprofil",
         joined: "Beigetreten:",
-        language_changed: "Sprache geändert zu"
+        language_changed: "Sprache geändert zu",
+        searching_for: "Suche nach",
+        view_profile: "Profil ansehen",
+        block_user: "Benutzer blockieren",
+        unblock: "Entblocken",
+        accept: "Akzeptieren",
+        decline: "Ablehnen",
+        cancel: "Abbrechen",
+        friend_request_sent: "Freundschaftsanfrage gesendet!",
+        friend_request_accepted: "Freundschaftsanfrage akzeptiert!",
+        friend_request_declined: "Freundschaftsanfrage abgelehnt",
+        friend_request_canceled: "Freundschaftsanfrage abgebrochen",
+        user_blocked: "Benutzer blockiert",
+        user_unblocked: "Benutzer entblockt",
+        username_saved: "Benutzername erfolgreich gespeichert!",
+        logged_out: "Erfolgreich abgemeldet",
+        signed_in_google: "Erfolgreich mit Google angemeldet",
+        account_created_google: "Konto erfolgreich mit Google erstellt",
+        logged_in_success: "Erfolgreich angemeldet",
+        account_created_success: "Konto erfolgreich erstellt",
+        checking_availability: "Verfügbarkeit wird geprüft...",
+        username_available: "Benutzername ist verfügbar!",
+        username_taken: "Benutzername ist bereits vergeben",
+        error_checking: "Fehler bei der Verfügbarkeitsprüfung"
     },
     es: {
         privacy_policy: "Política de Privacidad",
@@ -2946,7 +2856,30 @@ const translations = {
         username_requirements: "El nombre de usuario debe tener 3-20 caracteres y contener solo letras, números y guiones bajos.",
         user_profile: "Perfil de Usuario",
         joined: "Se unió:",
-        language_changed: "Idioma cambiado a"
+        language_changed: "Idioma cambiado a",
+        searching_for: "Buscando a",
+        view_profile: "Ver Perfil",
+        block_user: "Bloquear Usuario",
+        unblock: "Desbloquear",
+        accept: "Aceptar",
+        decline: "Rechazar",
+        cancel: "Cancelar",
+        friend_request_sent: "¡Solicitud de amistad enviada!",
+        friend_request_accepted: "¡Solicitud de amistad aceptada!",
+        friend_request_declined: "Solicitud de amistad rechazada",
+        friend_request_canceled: "Solicitud de amistad cancelada",
+        user_blocked: "Usuario bloqueado",
+        user_unblocked: "Usuario desbloqueado",
+        username_saved: "¡Nombre de usuario guardado con éxito!",
+        logged_out: "Sesión cerrada con éxito",
+        signed_in_google: "Se ha iniciado sesión con Google correctamente",
+        account_created_google: "Cuenta creada con Google correctamente",
+        logged_in_success: "Se ha iniciado sesión correctamente",
+        account_created_success: "Cuenta creada con éxito",
+        checking_availability: "Comprobando disponibilidad...",
+        username_available: "¡El nombre de usuario está disponible!",
+        username_taken: "El nombre de usuario ya está en uso",
+        error_checking: "Error al comprobar la disponibilidad"
     },
     fr: {
         privacy_policy: "Politique de Confidentialité",
@@ -3036,7 +2969,30 @@ const translations = {
         username_requirements: "Le nom d'utilisateur doit contenir 3-20 caractères et ne peut contenir que des lettres, chiffres et traits de soulignement.",
         user_profile: "Profil Utilisateur",
         joined: "Rejoint :",
-        language_changed: "Langue changée en"
+        language_changed: "Langue changée en",
+        searching_for: "Recherche de",
+        view_profile: "Voir le Profil",
+        block_user: "Bloquer l'Utilisateur",
+        unblock: "Débloquer",
+        accept: "Accepter",
+        decline: "Refuser",
+        cancel: "Annuler",
+        friend_request_sent: "Demande d'ami envoyée !",
+        friend_request_accepted: "Demande d'ami acceptée !",
+        friend_request_declined: "Demande d'ami refusée",
+        friend_request_canceled: "Demande d'ami annulée",
+        user_blocked: "Utilisateur bloqué",
+        user_unblocked: "Utilisateur débloqué",
+        username_saved: "Nom d'utilisateur enregistré avec succès !",
+        logged_out: "Déconnexion réussie",
+        signed_in_google: "Connexion avec Google réussie",
+        account_created_google: "Compte créé avec Google avec succès",
+        logged_in_success: "Connexion réussie",
+        account_created_success: "Compte créé avec succès",
+        checking_availability: "Vérification de la disponibilité...",
+        username_available: "Le nom d'utilisateur est disponible !",
+        username_taken: "Le nom d'utilisateur est déjà pris",
+        error_checking: "Erreur lors de la vérification de la disponibilité"
     }
 };
 
@@ -3060,14 +3016,14 @@ function applyTranslations(language = currentLanguage) {
             if (currentUser) {
                 // Keep the existing username replacement logic
                 const currentText = element.textContent;
-                const usernameMatch = currentText.match(/\[(.*?)\]/);
+                const usernameMatch = currentText.match(/Welcome Back (.*)!/);
                 if (usernameMatch) {
                     element.textContent = translatedText.replace('[Username]', usernameMatch[1]);
                 } else {
-                    element.textContent = translatedText;
+                    element.textContent = translatedText.replace('[Username]', '...');
                 }
             } else {
-                element.textContent = translatedText;
+                element.textContent = translatedText.replace(' [Username]!', '');
             }
         } else {
             element.textContent = translatedText;
@@ -3557,7 +3513,7 @@ const modals = {
     login: document.getElementById('login-modal'),
     signup: document.getElementById('signup-modal'),
     username: document.getElementById('username-modal'),
-    profile: document.getElementById('profile-modal')
+    profile: document.getElementById('profile-modal-container')
 };
 
 function openModal(modalName) {
@@ -3624,7 +3580,7 @@ function switchProfileTab(tabName) {
     });
     
     // Activate the selected tab
-    const activeLink = document.querySelector(`[data-tab="${tabName}"]`);
+    const activeLink = document.querySelector(`.profile-nav-link[data-tab="${tabName}"]`);
     const activePanel = document.getElementById(`${tabName}-panel`);
     
     if (activeLink) activeLink.classList.add('active');
@@ -3659,55 +3615,22 @@ function showError(elementId, message) {
 // Update user display
 async function updateUserDisplay(user) {
     const welcomeTitle = document.getElementById('welcome-title');
-    const profileDisplayName = document.getElementById('profile-display-name');
-    const profileEmail = document.getElementById('profile-email');
-    const profileAvatar = document.getElementById('profile-avatar');
-    const memberSinceDate = document.getElementById('member-since-date');
     
     if (user) {
         try {
-            const userData = await usernameManager.getUserData(user.email);
-            const username = userData?.username || user.displayName || user.email.split('@')[0];
-            const initial = username.charAt(0).toUpperCase();
-            
-            // Update welcome message with translation
+            const username = await usernameManager.getUsername(user.email) || user.displayName || user.email.split('@')[0];
             const welcomeText = translateText('welcome_back', currentLanguage);
             welcomeTitle.textContent = welcomeText.replace('[Username]', username);
-            
-            profileDisplayName.textContent = username;
-            profileEmail.textContent = user.email;
-            profileAvatar.textContent = initial;
-            
-            // Update member since date with actual creation date
-            if (userData?.createdAt) {
-                memberSinceDate.textContent = formatDate(userData.createdAt);
-            } else {
-                memberSinceDate.textContent = 'Unknown';
-            }
-            
-            if (user.photoURL) {
-                profileAvatar.innerHTML = `<img src="${user.photoURL}" alt="Profile">`;
-            }
-            
-            // Load friend data
             await loadFriendData(user.email);
         } catch (error) {
             console.error('Error updating user display:', error);
             const fallbackName = user.displayName || user.email.split('@')[0];
             const welcomeText = translateText('welcome_back', currentLanguage);
             welcomeTitle.textContent = welcomeText.replace('[Username]', fallbackName);
-            profileDisplayName.textContent = fallbackName;
-            profileEmail.textContent = user.email;
-            profileAvatar.textContent = fallbackName.charAt(0).toUpperCase();
-            memberSinceDate.textContent = 'Unknown';
         }
     } else {
         const welcomeText = translateText('welcome_back', currentLanguage);
-        welcomeTitle.textContent = welcomeText;
-        profileDisplayName.textContent = 'Guest';
-        profileEmail.textContent = 'guest@example.com';
-        profileAvatar.textContent = 'G';
-        memberSinceDate.textContent = 'Unknown';
+        welcomeTitle.textContent = welcomeText.replace(' [Username]!', '');
     }
 }
 
@@ -3715,22 +3638,9 @@ async function updateUserDisplay(user) {
 async function loadFriendData(userEmail) {
     try {
         const friendData = await friendManager.getFriendData(userEmail);
-        
-        // Update friends list
         updateFriendsList(friendData.friends);
-        
-        // Update friend requests
         updateFriendRequests(friendData.friendRequests);
-        
-        // Update blocked users
         updateBlockedUsers(friendData.blocked);
-        
-        // Update friends count in profile
-        const friendsCount = document.getElementById('friends-count');
-        if (friendsCount) {
-            friendsCount.textContent = friendData.friends.length;
-        }
-        
     } catch (error) {
         console.error('Error loading friend data:', error);
     }
@@ -3757,7 +3667,7 @@ function updateFriendsList(friends) {
     }
     
     friendsList.innerHTML = friends.map(friend => `
-        <div class="friend-item" onclick="showUserProfile('${friend.email}', '${friend.username}')">
+        <div class="friend-item" onclick="showUserProfile('${friend.email}')">
             <div class="friend-avatar">${friend.username.charAt(0).toUpperCase()}</div>
             <div class="friend-info">
                 <div class="friend-name">${friend.username}</div>
@@ -3776,12 +3686,7 @@ function updateFriendRequests(requests) {
     if (requests.incoming.length === 0) {
         incomingContainer.innerHTML = `
             <div class="empty-state">
-                <svg class="empty-icon" viewBox="0 0 24 24">
-                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="9" cy="7" r="4"></circle>
-                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                </svg>
+                <svg class="empty-icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                 <h4 class="empty-title">${translateText('no_friend_requests')}</h4>
                 <p class="empty-description">${translateText('no_pending_requests')}</p>
             </div>
@@ -3795,8 +3700,8 @@ function updateFriendRequests(requests) {
                     <div class="friend-request-time">${formatDate(request.receivedAt)}</div>
                 </div>
                 <div class="friend-request-actions">
-                    <button class="action-btn accept-btn" onclick="acceptFriendRequest('${request.email}')">${translateText('accept', currentLanguage) || 'Accept'}</button>
-                    <button class="action-btn decline-btn" onclick="declineFriendRequest('${request.email}')">${translateText('decline', currentLanguage) || 'Decline'}</button>
+                    <button class="action-btn accept-btn" onclick="acceptFriendRequest('${request.email}')">${translateText('accept')}</button>
+                    <button class="action-btn decline-btn" onclick="declineFriendRequest('${request.email}')">${translateText('decline')}</button>
                 </div>
             </div>
         `).join('');
@@ -3806,12 +3711,7 @@ function updateFriendRequests(requests) {
     if (requests.sent.length === 0) {
         sentContainer.innerHTML = `
             <div class="empty-state">
-                <svg class="empty-icon" viewBox="0 0 24 24">
-                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="9" cy="7" r="4"></circle>
-                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                </svg>
+                <svg class="empty-icon" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                 <h4 class="empty-title">${translateText('no_sent_requests')}</h4>
                 <p class="empty-description">${translateText('no_sent_requests_description')}</p>
             </div>
@@ -3825,7 +3725,7 @@ function updateFriendRequests(requests) {
                     <div class="friend-request-time">Sent ${formatDate(request.sentAt)}</div>
                 </div>
                 <div class="friend-request-actions">
-                    <button class="action-btn decline-btn" onclick="cancelFriendRequest('${request.email}')">${translateText('cancel', currentLanguage) || 'Cancel'}</button>
+                    <button class="action-btn decline-btn" onclick="cancelFriendRequest('${request.email}')">${translateText('cancel')}</button>
                 </div>
             </div>
         `).join('');
@@ -3839,10 +3739,7 @@ function updateBlockedUsers(blocked) {
     if (blocked.length === 0) {
         blockedContainer.innerHTML = `
             <div class="empty-state">
-                <svg class="empty-icon" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
-                </svg>
+                <svg class="empty-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
                 <h4 class="empty-title">${translateText('no_blocked_users')}</h4>
                 <p class="empty-description">${translateText('no_blocked_description')}</p>
             </div>
@@ -3858,7 +3755,7 @@ function updateBlockedUsers(blocked) {
                 <div class="user-result-email">Blocked ${formatDate(user.blockedAt)}</div>
             </div>
             <div class="user-result-actions">
-                <button class="action-btn view-profile-btn" onclick="unblockUser('${user.email}')">${translateText('unblock', currentLanguage) || 'Unblock'}</button>
+                <button class="action-btn view-profile-btn" onclick="unblockUser('${user.email}')">${translateText('unblock')}</button>
             </div>
         </div>
     `).join('');
@@ -3866,13 +3763,11 @@ function updateBlockedUsers(blocked) {
 
 // Search users
 async function searchUsers(query) {
+    const searchResultsEl = document.getElementById('search-results');
     if (query.length < 2) {
-        document.getElementById('search-results').innerHTML = `
+        searchResultsEl.innerHTML = `
             <div class="empty-state">
-                <svg class="empty-icon" viewBox="0 0 24 24">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <path d="M21 21l-4.35-4.35"></path>
-                </svg>
+                <svg class="empty-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4.35-4.35"></path></svg>
                 <h4 class="empty-title">${translateText('search_for_users')}</h4>
                 <p class="empty-description">${translateText('search_description')}</p>
             </div>
@@ -3880,17 +3775,21 @@ async function searchUsers(query) {
         return;
     }
     
+    searchResultsEl.innerHTML = `
+        <div class="search-loading">
+            <div class="spinner"></div>
+            <p>${translateText('searching_for')} "<strong>${query}</strong>"...</p>
+        </div>
+    `;
+    
     try {
         const results = await usernameManager.searchUsers(query);
         const currentUser = auth.currentUser;
         
         if (results.length === 0) {
-            document.getElementById('search-results').innerHTML = `
+            searchResultsEl.innerHTML = `
                 <div class="empty-state">
-                    <svg class="empty-icon" viewBox="0 0 24 24">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <path d="M21 21l-4.35-4.35"></path>
-                    </svg>
+                    <svg class="empty-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4.35-4.35"></path></svg>
                     <h4 class="empty-title">No Users Found</h4>
                     <p class="empty-description">No users found matching "${query}"</p>
                 </div>
@@ -3898,10 +3797,9 @@ async function searchUsers(query) {
             return;
         }
         
-        // Filter out current user
         const filteredResults = results.filter(user => user.email !== currentUser?.email);
         
-        document.getElementById('search-results').innerHTML = filteredResults.map(user => `
+        searchResultsEl.innerHTML = filteredResults.map(user => `
             <div class="user-result">
                 <div class="user-result-avatar">${user.username.charAt(0).toUpperCase()}</div>
                 <div class="user-result-info">
@@ -3910,8 +3808,8 @@ async function searchUsers(query) {
                 </div>
                 <div class="user-result-actions">
                     <button class="action-btn friend-request-btn" onclick="sendFriendRequest('${user.email}', '${user.username}')">${translateText('add_friend')}</button>
-                    <button class="action-btn view-profile-btn" onclick="showUserProfile('${user.email}', '${user.username}')">${translateText('view_profile', currentLanguage) || 'View Profile'}</button>
-                    <button class="action-btn block-btn" onclick="blockUser('${user.email}')">${translateText('block', currentLanguage) || 'Block'}</button>
+                    <button class="action-btn view-profile-btn" onclick="showUserProfile('${user.email}')">${translateText('view_profile')}</button>
+                    <button class="action-btn block-btn" onclick="blockUser('${user.email}')">${translateText('block_user')}</button>
                 </div>
             </div>
         `).join('');
@@ -3929,7 +3827,7 @@ async function sendFriendRequest(toEmail, toUsername) {
     
     try {
         await friendManager.sendFriendRequest(currentUser.email, toEmail, toUsername);
-        showToast(translateText('friend_request_sent', currentLanguage) || 'Friend request sent!');
+        showToast(translateText('friend_request_sent'));
         await loadFriendData(currentUser.email);
     } catch (error) {
         console.error('Error sending friend request:', error);
@@ -3943,7 +3841,7 @@ async function acceptFriendRequest(friendEmail) {
     
     try {
         await friendManager.acceptFriendRequest(currentUser.email, friendEmail);
-        showToast(translateText('friend_request_accepted', currentLanguage) || 'Friend request accepted!');
+        showToast(translateText('friend_request_accepted'));
         await loadFriendData(currentUser.email);
     } catch (error) {
         console.error('Error accepting friend request:', error);
@@ -3957,7 +3855,7 @@ async function declineFriendRequest(friendEmail) {
     
     try {
         await friendManager.declineFriendRequest(currentUser.email, friendEmail);
-        showToast(translateText('friend_request_declined', currentLanguage) || 'Friend request declined');
+        showToast(translateText('friend_request_declined'));
         await loadFriendData(currentUser.email);
     } catch (error) {
         console.error('Error declining friend request:', error);
@@ -3971,7 +3869,7 @@ async function cancelFriendRequest(targetEmail) {
     
     try {
         await friendManager.cancelFriendRequest(currentUser.email, targetEmail);
-        showToast(translateText('friend_request_canceled', currentLanguage) || 'Friend request canceled');
+        showToast(translateText('friend_request_canceled'));
         await loadFriendData(currentUser.email);
     } catch (error) {
         console.error('Error canceling friend request:', error);
@@ -3985,7 +3883,7 @@ async function blockUser(blockEmail) {
     
     try {
         await friendManager.blockUser(currentUser.email, blockEmail);
-        showToast(translateText('user_blocked', currentLanguage) || 'User blocked');
+        showToast(translateText('user_blocked'));
         await loadFriendData(currentUser.email);
     } catch (error) {
         console.error('Error blocking user:', error);
@@ -3999,7 +3897,7 @@ async function unblockUser(unblockEmail) {
     
     try {
         await friendManager.unblockUser(currentUser.email, unblockEmail);
-        showToast(translateText('user_unblocked', currentLanguage) || 'User unblocked');
+        showToast(translateText('user_unblocked'));
         await loadFriendData(currentUser.email);
     } catch (error) {
         console.error('Error unblocking user:', error);
@@ -4008,40 +3906,88 @@ async function unblockUser(unblockEmail) {
 }
 
 // Show user profile
-async function showUserProfile(email, username) {
-    const modal = document.getElementById('profile-modal');
-    const title = document.getElementById('profile-modal-title');
-    const avatar = document.getElementById('profile-modal-avatar');
-    const usernameEl = document.getElementById('profile-modal-username');
-    const emailEl = document.getElementById('profile-modal-email');
-    const joinedEl = document.getElementById('profile-modal-joined');
-    const actionsEl = document.getElementById('profile-actions');
+async function showUserProfile(email) {
+    const currentUser = auth.currentUser;
+    const isOwnProfile = currentUser && currentUser.email === email;
     
-    title.textContent = `${username}'s Profile`;
-    avatar.textContent = username.charAt(0).toUpperCase();
-    usernameEl.textContent = username;
-    emailEl.textContent = email;
-    
-    try {
-        // Get user data to show actual join date
-        const userData = await usernameManager.getUserData(email);
-        if (userData?.createdAt) {
-            joinedEl.textContent = `${translateText('joined')}: ${formatDate(userData.createdAt)}`;
-        } else {
-            joinedEl.textContent = `${translateText('joined')}: Unknown`;
-        }
-    } catch (error) {
-        console.error('Error getting user data:', error);
-        joinedEl.textContent = `${translateText('joined')}: Unknown`;
+    const userData = await usernameManager.getUserData(email);
+    if (!userData) {
+        showToast("Could not load user profile.");
+        return;
     }
     
-    // Add action buttons
-    actionsEl.innerHTML = `
-        <button class="action-btn friend-request-btn" onclick="sendFriendRequest('${email}', '${username}'); closeModal('profile')">${translateText('add_friend')}</button>
-        <button class="action-btn block-btn" onclick="blockUser('${email}'); closeModal('profile')">${translateText('block_user', currentLanguage) || 'Block User'}</button>
+    const friendData = await friendManager.getFriendData(email);
+    
+    const profileContent = document.getElementById('profile-modal-content');
+    const profileTitle = document.getElementById('profile-modal-title');
+    
+    profileTitle.textContent = isOwnProfile ? translateText('your_profile') : `${userData.username}'s Profile`;
+    
+    profileContent.innerHTML = `
+        <div class="profile-header">
+            <div class="profile-avatar-large">${userData.username.charAt(0).toUpperCase()}</div>
+            <div class="profile-user-info">
+                <div class="profile-username">
+                    <span>${userData.username}</span>
+                    ${isOwnProfile ? `<button class="username-edit-btn" onclick="openModal('username')">${translateText('edit')}</button>` : ''}
+                </div>
+                <p class="profile-email">${userData.email}</p>
+            </div>
+        </div>
+        <div class="profile-modal-body">
+            <div class="profile-sidebar">
+                <nav>
+                    <ul class="profile-nav">
+                        <li class="profile-nav-item"><a href="#" class="profile-nav-link active" data-tab="overview"><svg class="profile-nav-icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg><span>${translateText('account_overview')}</span></a></li>
+                        <li class="profile-nav-item"><a href="#" class="profile-nav-link" data-tab="mods"><svg class="profile-nav-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg><span>${translateText('created_mods')}</span></a></li>
+                    </ul>
+                </nav>
+                ${isOwnProfile ? `<div class="logout-section"><button class="logout-button" id="logout-button">${translateText('log_out')}</button></div>` : ''}
+            </div>
+            <div class="profile-main">
+                <div class="profile-tab-panel active" id="overview-panel">
+                    <div class="profile-section">
+                        <h3 class="profile-section-title">${translateText('account_information')}</h3>
+                        <div class="profile-section-content">
+                            <div class="info-card"><div class="info-card-header"><div><h4 class="info-card-title">${translateText('member_since')}</h4><p class="info-card-value">${formatDate(userData.createdAt)}</p></div></div></div>
+                            <div class="info-card"><div class="info-card-header"><div><h4 class="info-card-title">${translateText('account_type')}</h4><p class="info-card-value">${translateText('free_account')}</p></div><span class="status-badge status-active">${translateText('active')}</span></div></div>
+                        </div>
+                    </div>
+                    <div class="profile-section">
+                        <h3 class="profile-section-title">${translateText('activity_summary')}</h3>
+                        <div class="activity-grid">
+                            <div class="activity-stat"><div class="activity-stat-number">0</div><div class="activity-stat-label">${translateText('mods')}</div></div>
+                            <div class="activity-stat"><div class="activity-stat-number">${friendData.friends.length}</div><div class="activity-stat-label">${translateText('friends')}</div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-tab-panel" id="mods-panel">
+                    <div class="profile-section">
+                        <h3 class="profile-section-title">${translateText('your_mods')}</h3>
+                        <div class="empty-state"><svg class="empty-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg><h4 class="empty-title">${translateText('no_mods_created')}</h4><p class="empty-description">${translateText('no_mods_description')}</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     `;
     
     openModal('profile');
+    
+    // Add event listeners for the new dynamic elements
+    if (isOwnProfile) {
+        document.getElementById('logout-button').addEventListener('click', async () => {
+            await auth.signOut();
+            closeAllModals();
+            showToast(translateText('logged_out'));
+        });
+    }
+    
+    document.querySelectorAll('.profile-nav-link').forEach(link => {
+        link.addEventListener('click', e => {
+            e.preventDefault();
+            switchProfileTab(link.dataset.tab);
+        });
+    });
 }
 
 // Username validation and availability checking
@@ -4055,9 +4001,8 @@ async function checkUsernameAvailability(username) {
         return;
     }
     
-    // Show checking state
     availabilityDiv.className = 'username-availability checking';
-    availabilityDiv.textContent = translateText('checking_availability', currentLanguage) || 'Checking availability...';
+    availabilityDiv.textContent = translateText('checking_availability');
     saveBtn.disabled = true;
     
     try {
@@ -4065,17 +4010,17 @@ async function checkUsernameAvailability(username) {
         
         if (isAvailable) {
             availabilityDiv.className = 'username-availability available';
-            availabilityDiv.textContent = translateText('username_available', currentLanguage) || 'Username is available!';
+            availabilityDiv.textContent = translateText('username_available');
             saveBtn.disabled = false;
         } else {
             availabilityDiv.className = 'username-availability taken';
-            availabilityDiv.textContent = translateText('username_taken', currentLanguage) || 'Username is already taken';
+            availabilityDiv.textContent = translateText('username_taken');
             saveBtn.disabled = true;
         }
     } catch (error) {
         console.error('Error checking username availability:', error);
         availabilityDiv.className = 'username-availability taken';
-        availabilityDiv.textContent = translateText('error_checking', currentLanguage) || 'Error checking availability';
+        availabilityDiv.textContent = translateText('error_checking');
         saveBtn.disabled = true;
     }
 }
@@ -4100,17 +4045,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const flagSrc = this.querySelector('.language-flag').src;
             const langName = this.querySelector('span').textContent;
             
-            // Update current language
             currentLanguage = lang;
             
-            // Update language selector display
             document.getElementById('current-language-flag').src = flagSrc;
             document.getElementById('current-language-name').textContent = langName.substring(0, 2).toUpperCase();
             
-            // Apply translations
             applyTranslations(lang);
             
-            // Update user display if logged in
             const currentUser = auth.currentUser;
             if (currentUser) {
                 updateUserDisplay(currentUser);
@@ -4127,226 +4068,127 @@ createParticles();
 
 // Event listeners
 document.addEventListener('DOMContentLoaded', function() {
-    // Apply initial translations
     applyTranslations();
     
-    // Modal close buttons
-    document.querySelectorAll('.modal-close, .profile-modal-close').forEach(button => {
-        button.addEventListener('click', function() {
-            closeAllModals();
-        });
+    document.querySelectorAll('.modal-close').forEach(button => {
+        button.addEventListener('click', () => closeAllModals());
     });
     
-    // Modal overlay clicks
     document.querySelectorAll('.modal-overlay').forEach(overlay => {
-        overlay.addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeAllModals();
-            }
+        overlay.addEventListener('click', e => {
+            if (e.target === overlay) closeAllModals();
         });
     });
     
-    // Navigation menu clicks
     document.querySelectorAll('.menu-link-front').forEach(link => {
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', e => {
             e.preventDefault();
-            const tabName = this.getAttribute('data-tab');
-            if (tabName) {
+            const tabName = link.dataset.tab;
+            if (tabName === 'profile') {
+                const user = auth.currentUser;
+                if (user) {
+                    showUserProfile(user.email);
+                } else {
+                    openModal('login');
+                }
+            } else if (tabName) {
                 switchTab(tabName);
             }
         });
     });
     
-    // Profile button
-    document.getElementById('profile-button').addEventListener('click', function(e) {
-        e.preventDefault();
-        const user = auth.currentUser;
-        if (user) {
-            openModal('login');
-            document.getElementById('login-view').style.display = 'none';
-            document.getElementById('profile-view').style.display = 'block';
-        } else {
-            openModal('login');
-        }
-    });
-    
-    // Community tabs
     document.querySelectorAll('.community-tab').forEach(tab => {
-        tab.addEventListener('click', function() {
-            const tabName = this.getAttribute('data-tab');
-            switchCommunityTab(tabName);
-        });
+        tab.addEventListener('click', () => switchCommunityTab(tab.dataset.tab));
     });
     
-    // Profile navigation
-    document.querySelectorAll('.profile-nav-link').forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const tabName = this.getAttribute('data-tab');
-            switchProfileTab(tabName);
-        });
-    });
+    document.getElementById('show-signup').addEventListener('click', () => { closeModal('login'); openModal('signup'); });
+    document.getElementById('show-login').addEventListener('click', () => { closeModal('signup'); openModal('login'); });
     
-    // Auth form switches
-    document.getElementById('show-signup').addEventListener('click', function() {
-        closeModal('login');
-        openModal('signup');
-    });
-    
-    document.getElementById('show-login').addEventListener('click', function() {
-        closeModal('signup');
-        openModal('login');
-    });
-    
-    // Username edit functionality
-    document.getElementById('username-edit-btn').addEventListener('click', function() {
-        openModal('username');
-        const currentUsername = document.getElementById('profile-display-name').textContent;
-        document.getElementById('username-input').value = currentUsername;
-    });
-    
-    // Username input validation
-    document.getElementById('username-input').addEventListener('input', function() {
-        const username = this.value.trim();
+    document.getElementById('username-input').addEventListener('input', e => {
+        const username = e.target.value.trim();
         const regex = /^[a-zA-Z0-9_]{3,20}$/;
-        
         if (username.length >= 3 && regex.test(username)) {
             checkUsernameAvailability(username);
         } else {
-            const availabilityDiv = document.getElementById('username-availability');
-            const saveBtn = document.getElementById('username-save-btn');
-            availabilityDiv.className = 'username-availability';
-            saveBtn.disabled = true;
+            document.getElementById('username-availability').className = 'username-availability';
+            document.getElementById('username-save-btn').disabled = true;
         }
     });
     
-    // Username form submission
-    document.getElementById('username-form').addEventListener('submit', async function(e) {
+    document.getElementById('username-form').addEventListener('submit', async e => {
         e.preventDefault();
         const user = auth.currentUser;
         const username = document.getElementById('username-input').value.trim();
-        
         if (!user) return;
         
+        const saveBtn = document.getElementById('username-save-btn');
+        saveBtn.classList.add('loading');
+        saveBtn.disabled = true;
+        
         try {
-            const saveBtn = document.getElementById('username-save-btn');
-            saveBtn.classList.add('loading');
-            saveBtn.disabled = true;
-            
             await usernameManager.updateUsername(user.email, username);
-            
-            // Update profile display
-            document.getElementById('profile-display-name').textContent = username;
-            const welcomeText = translateText('welcome_back', currentLanguage);
-            document.getElementById('welcome-title').textContent = welcomeText.replace('[Username]', username);
-            
-            showToast(translateText('username_saved', currentLanguage) || 'Username saved successfully!');
+            await updateUserDisplay(user);
+            showToast(translateText('username_saved'));
             closeModal('username');
-            
         } catch (error) {
             console.error('Error saving username:', error);
-            showError('username-error', 'Failed to save username. Please try again.');
+            showError('username-error', 'Failed to save username.');
         } finally {
-            const saveBtn = document.getElementById('username-save-btn');
             saveBtn.classList.remove('loading');
         }
     });
     
-    // User search
-    document.getElementById('user-search-input').addEventListener('input', function() {
-        const query = this.value.trim();
-        searchUsers(query);
-    });
+    document.getElementById('user-search-input').addEventListener('input', e => searchUsers(e.target.value.trim()));
     
-    // Logout functionality
-    document.getElementById('logout-button').addEventListener('click', async function() {
+    document.getElementById('google-signin-btn').addEventListener('click', async () => {
         try {
-            await auth.signOut();
-            closeAllModals();
-            showToast(translateText('logged_out', currentLanguage) || 'Logged out successfully');
-        } catch (error) {
-            console.error('Error signing out:', error);
-        }
-    });
-    
-    // Google Sign-In
-    document.getElementById('google-signin-btn').addEventListener('click', async function() {
-        try {
-            const result = await auth.signInWithPopup(googleProvider);
-            const user = result.user;
-            
-            showToast(translateText('signed_in_google', currentLanguage) || 'Successfully signed in with Google');
+            await auth.signInWithPopup(googleProvider);
+            showToast(translateText('signed_in_google'));
             closeModal('login');
-            
-            await updateUserDisplay(user);
-            
         } catch (error) {
             console.error('Google sign-in error:', error);
-            showError('login-error', 'Google sign-in failed. Please try again.');
+            showError('login-error', 'Google sign-in failed.');
         }
     });
     
-    // Google Sign-Up
-    document.getElementById('google-signup-btn').addEventListener('click', async function() {
+    document.getElementById('google-signup-btn').addEventListener('click', async () => {
         try {
-            const result = await auth.signInWithPopup(googleProvider);
-            const user = result.user;
-            
-            showToast(translateText('account_created_google', currentLanguage) || 'Account created successfully with Google');
+            await auth.signInWithPopup(googleProvider);
+            showToast(translateText('account_created_google'));
             closeModal('signup');
-            
-            await updateUserDisplay(user);
-            
         } catch (error) {
             console.error('Google sign-up error:', error);
-            showError('signup-error', 'Google sign-up failed. Please try again.');
+            showError('signup-error', 'Google sign-up failed.');
         }
     });
     
-    // Regular login form
-    document.getElementById('login-form').addEventListener('submit', async function(e) {
+    document.getElementById('login-form').addEventListener('submit', async e => {
         e.preventDefault();
-        
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
-        
         try {
-            const userCredential = await auth.signInWithEmailAndPassword(email, password);
-            const user = userCredential.user;
-            
-            showToast(translateText('logged_in_success', currentLanguage) || 'Logged in successfully');
+            await auth.signInWithEmailAndPassword(email, password);
+            showToast(translateText('logged_in_success'));
             closeModal('login');
-            
-            await updateUserDisplay(user);
-            
         } catch (error) {
             console.error('Login error:', error);
             showError('login-error', 'Invalid email or password');
         }
     });
     
-    // Regular signup form
-    document.getElementById('signup-form').addEventListener('submit', async function(e) {
+    document.getElementById('signup-form').addEventListener('submit', async e => {
         e.preventDefault();
-        
         const email = document.getElementById('signup-email').value;
         const password = document.getElementById('signup-password').value;
         const confirmPassword = document.getElementById('confirm-password').value;
-        
         if (password !== confirmPassword) {
             showError('signup-error', 'Passwords do not match');
             return;
         }
-        
         try {
-            const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-            const user = userCredential.user;
-            
-            showToast(translateText('account_created_success', currentLanguage) || 'Account created successfully');
+            await auth.createUserWithEmailAndPassword(email, password);
+            showToast(translateText('account_created_success'));
             closeModal('signup');
-            
-            await updateUserDisplay(user);
-            
         } catch (error) {
             console.error('Signup error:', error);
             showError('signup-error', error.message);
@@ -4355,7 +4197,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Auth state observer
-auth.onAuthStateChanged(async function(user) {
+auth.onAuthStateChanged(async user => {
     await updateUserDisplay(user);
 });
 
@@ -4367,6 +4209,7 @@ window.cancelFriendRequest = cancelFriendRequest;
 window.blockUser = blockUser;
 window.unblockUser = unblockUser;
 window.showUserProfile = showUserProfile;
+window.openModal = openModal;
 </script>
 
 <script
