@@ -102,6 +102,17 @@
     to { opacity: 1; transform: translateX(0); }
 }
 
+@keyframes announcement-pulse {
+    0%, 100% { 
+        box-shadow: 0 4px 20px rgba(255, 193, 7, 0.3);
+        border-color: rgba(255, 193, 7, 0.6);
+    }
+    50% { 
+        box-shadow: 0 6px 30px rgba(255, 193, 7, 0.5);
+        border-color: rgba(255, 193, 7, 0.8);
+    }
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     line-height: 1.6;
@@ -166,6 +177,83 @@ body {
     animation: float-gentle 8s ease-in-out infinite;
 }
 
+/* Announcement Banner */
+.announcement-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.95), rgba(255, 152, 0, 0.95));
+    backdrop-filter: blur(15px);
+    border-bottom: 2px solid rgba(255, 193, 7, 0.6);
+    padding: 1rem 2rem;
+    z-index: 200;
+    animation: announcement-pulse 3s ease-in-out infinite;
+    box-shadow: 0 4px 20px rgba(255, 193, 7, 0.3);
+}
+
+.announcement-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: #1a1a1a;
+    font-weight: 600;
+}
+
+.announcement-icon {
+    width: 24px;
+    height: 24px;
+    color: #d97706;
+    flex-shrink: 0;
+}
+
+.announcement-text {
+    flex: 1;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.announcement-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #d97706;
+    margin-bottom: 0.25rem;
+}
+
+.discord-link {
+    color: #5865f2;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all var(--anim-normal) ease;
+}
+
+.discord-link:hover {
+    color: #4752c4;
+    text-decoration: underline;
+}
+
+.announcement-close {
+    background: rgba(0, 0, 0, 0.1);
+    border: none;
+    color: #d97706;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--anim-normal) ease;
+    flex-shrink: 0;
+}
+
+.announcement-close:hover {
+    background: rgba(0, 0, 0, 0.2);
+    transform: scale(1.1);
+}
+
 /* Header with Navigation */
 .header {
     position: fixed;
@@ -181,6 +269,11 @@ body {
     backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     animation: slide-in-down 0.8s var(--anim-smooth);
+    transition: top var(--anim-normal) ease;
+}
+
+.header.with-announcement {
+    top: 80px;
 }
 
 .logo-container {
@@ -317,6 +410,12 @@ body {
     padding: 2rem;
     text-align: center;
     padding-bottom: 120px; /* Space for floating menu */
+    transition: margin-top var(--anim-normal) ease;
+}
+
+.main-content.with-announcement {
+    margin-top: 160px;
+    min-height: calc(100vh - 160px);
 }
 
 .content-section {
@@ -1679,10 +1778,37 @@ footer {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .announcement-banner {
+        padding: 0.75rem 1rem;
+    }
+    
+    .announcement-content {
+        flex-direction: column;
+        gap: 0.75rem;
+        text-align: left;
+    }
+    
+    .announcement-text {
+        font-size: 0.85rem;
+    }
+    
+    .announcement-title {
+        font-size: 1rem;
+    }
+    
     .header {
         padding: 1rem;
         flex-wrap: wrap;
         gap: 1rem;
+    }
+    
+    .header.with-announcement {
+        top: 120px;
+    }
+    
+    .main-content.with-announcement {
+        margin-top: 200px;
+        min-height: calc(100vh - 200px);
     }
     
     .welcome-title {
@@ -1781,6 +1907,27 @@ footer {
 }
 
 @media (max-width: 480px) {
+    .announcement-banner {
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .announcement-text {
+        font-size: 0.8rem;
+    }
+    
+    .announcement-title {
+        font-size: 0.9rem;
+    }
+    
+    .header.with-announcement {
+        top: 140px;
+    }
+    
+    .main-content.with-announcement {
+        margin-top: 220px;
+        min-height: calc(100vh - 220px);
+    }
+    
     .welcome-title {
         font-size: 2rem;
     }
@@ -1883,13 +2030,32 @@ svg {
 
 <div class="particles" id="particles"></div>
 
+<!-- Announcement Banner -->
+<div class="announcement-banner" id="announcement-banner">
+    <div class="announcement-content">
+        <svg class="announcement-icon" viewBox="0 0 24 24">
+            <path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>
+        </svg>
+        <div class="announcement-text">
+            <div class="announcement-title">Heads up!</div>
+            We've got some big changes ahead, Treron Development is packing up and moving from sunny Florida to North Carolina! Starting September 16, 2025, our website will go down for some serious TLC while we relocate and give it a fresh redesign. It might be a while before we're back online, we're expecting to wrap up the relocation somewhere between August 13, 2030, and August 22, 2031, but we're not going anywhere! Hang out with us in the meantime on our official Discord: <a href="https://discord.gg/bhRB8m74gG" class="discord-link" target="_blank">https://discord.gg/bhRB8m74gG</a>
+        </div>
+        <button class="announcement-close" id="announcement-close" aria-label="Close announcement">
+            <svg viewBox="0 0 24 24" width="16" height="16">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+    </div>
+</div>
+
 <!-- Privacy Policy Link -->
 <a href="https://trerondevelopment.xyz/privacyandsafety" target="_blank" class="privacy-link" data-translate="privacy_policy">
     Privacy Policy
 </a>
 
 <!-- Header with Navigation -->
-<header class="header">
+<header class="header" id="header">
     <div class="logo-container">
         <img src="https://raw.githubusercontent.com/darkresident55/Public-Assets/main/Treron%20Logo.png" alt="Treron Logo" class="logo">
         <span class="logo-text">Treron LLC</span>
@@ -1926,7 +2092,7 @@ svg {
 </header>
 
 <!-- Main Content -->
-<main class="main-content">
+<main class="main-content" id="main-content">
     <!-- Games Section -->
     <section class="content-section active" id="games-section">
         <div class="games-section">
@@ -1952,7 +2118,6 @@ svg {
                 <aside class="friends-sidebar">
                     <div class="friends-header">
                         <h3 class="friends-title" data-translate="friends">Friends</h3>
-                        <button class="add-friend-btn" id="add-friend-btn" data-translate="add_friend">Add Friend</button>
                     </div>
                     
                     <div class="friends-list" id="friends-list">
@@ -2828,7 +2993,7 @@ const translations = {
         scl_extensions: "SCL-Erweiterungen",
         account_information: "Kontoinformationen",
         member_since: "Mitglied seit",
-        account_type: "Kontotyp",
+        account_type: "Kostenloses Konto",
         free_account: "Kostenloses Konto",
         active: "AKTIV",
         activity_summary: "Aktivitätszusammenfassung",
