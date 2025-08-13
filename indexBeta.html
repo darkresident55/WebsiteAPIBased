@@ -183,22 +183,31 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    background: linear-gradient(135deg, rgba(255, 193, 7, 0.95), rgba(255, 152, 0, 0.95));
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.486), rgba(255, 153, 0, 0.473));
     backdrop-filter: blur(15px);
     border-bottom: 2px solid rgba(255, 193, 7, 0.6);
     padding: 1rem 2rem;
     z-index: 200;
     animation: announcement-pulse 3s ease-in-out infinite;
+    animation: slide-in-down 0.5s var(--anim-smooth);
     box-shadow: 0 4px 20px rgba(255, 193, 7, 0.3);
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.announcement-banner.hidden {
+    opacity: 0;
+    pointer-events: none;
 }
 
 .announcement-content {
     max-width: 1200px;
     margin: 0 auto;
     display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 1rem;
-    color: #1a1a1a;
+    color: #ffffff;
     font-weight: 600;
 }
 
@@ -235,9 +244,9 @@ body {
 }
 
 .announcement-close {
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.1);
     border: none;
-    color: #d97706;
+    color: #ffffff;
     cursor: pointer;
     width: 32px;
     height: 32px;
@@ -2046,6 +2055,7 @@ svg {
                 <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
         </button>
+        
     </div>
 </div>
 
@@ -4545,6 +4555,18 @@ data-color="#BD5FFF"
 data-position="Right"
 data-x_margin="18"
 data-y_margin="18">
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const closeBtn = document.getElementById("announcement-close");
+    const banner = document.getElementById("announcement-banner");
+
+    closeBtn.addEventListener("click", () => {
+        banner.classList.add("hidden");
+        setTimeout(() => banner.style.display = "none", 300);
+    });
+});
 </script>
 
 </body>
